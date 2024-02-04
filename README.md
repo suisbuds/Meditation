@@ -1,1 +1,1 @@
-# Mediation
+# Meditation
