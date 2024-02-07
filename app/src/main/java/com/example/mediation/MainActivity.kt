@@ -1,4 +1,4 @@
-package com.example.mediation.ui
+package com.example.mediation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
