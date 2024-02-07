@@ -1,9 +1,10 @@
 package com.example.mediation.ui.screen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
@@ -18,20 +19,26 @@ import androidx.compose.ui.unit.dp
 import com.example.mediation.R
 import com.example.mediation.data.model.BOTTOM_ICON_LIST
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
 @Composable
-fun HomeScreen() {
-    Scaffold(
-        topBar = { TopAppBar() },
-        bottomBar = { BottomNavigationBar() }
-    ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
-            Image(
-                painter = painterResource(id = R.drawable.home_screen),
-                contentDescription = "",
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier.matchParentSize()
-            )
+fun HomeScreen(modifier: Modifier = Modifier) {
+    Surface(modifier = modifier.fillMaxSize()) {
+        Scaffold(
+            topBar = { TopNavigationBar() },
+            bottomBar = { BottomNavigationBar() },
+            containerColor = Color.Transparent
+        ) {
+            Box(
+                modifier = modifier.fillMaxSize()
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.home_screen),
+                    contentDescription = "",
+                    contentScale = ContentScale.FillBounds,
+                    modifier = modifier.matchParentSize()
+                )
+            }
         }
     }
 }
@@ -39,17 +46,20 @@ fun HomeScreen() {
 
 @Composable
 fun BottomNavigationBar(
+    modifier: Modifier = Modifier,
 ) {
     var selectedItem by remember {
         mutableIntStateOf(0)
     }
-    NavigationBar(modifier = Modifier.fillMaxWidth(), containerColor = Color.Transparent, tonalElevation = 0.dp) {
+    NavigationBar(modifier = modifier.fillMaxWidth(), containerColor = Color.Transparent, tonalElevation = 0.dp) {
         BOTTOM_ICON_LIST.forEachIndexed() { index, item ->
             NavigationBarItem(
                 selected = selectedItem == index,
                 onClick = { selectedItem = index },
                 icon = { Icon(imageVector = item.selectedIcon, contentDescription = stringResource(id = item.iconId)) },
-                label = { Text(text = item.name) })
+                label = { Text(text = item.name) },
+                colors = NavigationBarItemDefaults.colors(indicatorColor = MaterialTheme.colorScheme.secondaryContainer)
+            )
         }
     }
 }
@@ -57,8 +67,8 @@ fun BottomNavigationBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBar() {
-    CenterAlignedTopAppBar(
+fun TopNavigationBar() {
+    TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent,
             titleContentColor = Color.Transparent
@@ -67,7 +77,6 @@ fun TopAppBar() {
             IconButton(onClick = { /* navigate to setting */ }) {
                 Icon(imageVector = Icons.Default.Menu, contentDescription = "navigate to setting")
             }
-        },
-        scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+        }
     )
 }

@@ -10,7 +10,7 @@ import com.example.mediation.R
 
 object Name {
     const val HOME = "首页"
-    const val FRIENDS = "朋友圈"
+    const val FRIENDS = "禅友圈"
     const val ME = "我的"
 }
 
@@ -20,6 +20,7 @@ data class BottomIcon(
     val unselectedIcon: ImageVector,
     val iconId: Int
 )
+
 
 val BOTTOM_ICON_LIST = listOf(
     BottomIcon(name = Name.HOME, selectedIcon = Icons.Default.Home, unselectedIcon = Icons.Default.Home, R.string.home),
