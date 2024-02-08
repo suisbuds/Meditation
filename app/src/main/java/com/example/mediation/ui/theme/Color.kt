@@ -66,9 +66,10 @@ val md_theme_dark_scrim = Color(0xFF000000)
 
 
 val seed = Color(0xFF8B9668)
-val md_theme_light_gold = Color(0xFFFCF1D7)
-val md_theme_orange = Color(0xFFFAE5C6)
-val md_theme_light_brown = Color(0xFFAA830D)
+val md_theme_light_gold = Color(0xFFF9EEE4)
+val md_theme_orange = Color(0xFFF4E1CF)
+val md_theme_light_brown = Color(0xFFC3A589)
+val md_theme_gray = Color(0xFF8C909C)
 
 val icon_color = Color(156, 142, 135)
 val icon_dark_color = Color(123, 104, 97)
