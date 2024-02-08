@@ -20,10 +20,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.mediation.R
 import com.example.mediation.ui.theme.MediationTheme
+import com.example.mediation.ui.theme.md_theme_gray
 import com.example.mediation.ui.theme.md_theme_light_brown
 import com.example.mediation.ui.theme.md_theme_light_gold
 import com.example.mediation.ui.theme.md_theme_orange
@@ -34,16 +38,15 @@ fun MusicCard(
     music: Music,
 ) {
     Row(modifier = modifier) {
-        Spacer(modifier = modifier.width(25.dp))
         Image(
             painter = painterResource(id = music.imageId),
             contentDescription = null,
             contentScale = ContentScale.FillWidth,
             modifier = Modifier
-                .size(100.dp)
-                .clip(RoundedCornerShape(16.dp))
+                .size(50.dp)
+                .clip(RoundedCornerShape(10.dp))
         )
-        Spacer(modifier = modifier.width(15.dp))
+        Spacer(modifier = modifier.width(5.dp))
         Description(
             modifier = modifier,
             title = music.title,
@@ -61,27 +64,28 @@ fun Description(
     tag: String
 ) {
     Column {
-        Spacer(modifier = modifier.height(5.dp))
+        Spacer(modifier = modifier.height(1.dp))
         Text(
             text = title,
-            style = MaterialTheme.typography.headlineMedium
+            style = TextStyle(fontSize = 15.sp),
+            fontWeight = FontWeight.ExtraLight
         )
-        Spacer(modifier = modifier.height(10.dp))
+        Spacer(modifier = modifier.height(4.dp))
         Row(modifier = modifier) {
             Surface(
                 color = md_theme_light_gold,
                 border = BorderStroke(1.5.dp, md_theme_orange),
-                shape = RoundedCornerShape(8.dp),
+                shape = RoundedCornerShape(5.dp),
             ) {
                 Text(
                     text = tag,
-                    modifier = Modifier.padding(4.dp),
+                    modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.5.dp),
                     color = md_theme_light_brown,
-                    style = MaterialTheme.typography.bodySmall
+                    style = TextStyle(fontSize = 6.sp)
                 )
             }
-            Spacer(modifier = modifier.width(8.dp))
-            Text(text = subtitle, color = Color.Gray)
+            Spacer(modifier = modifier.width(5.dp))
+            Text(text = subtitle, color = md_theme_gray, style = TextStyle(fontSize = 10.sp))
         }
     }
 }
