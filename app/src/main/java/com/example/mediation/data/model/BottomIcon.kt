@@ -1,10 +1,5 @@
 package com.example.mediation.data.model
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.mediation.R
 
 
@@ -16,19 +11,24 @@ object Name {
 
 data class BottomIcon(
     val name: String,
-    val selectedIcon: ImageVector,
-    val unselectedIcon: ImageVector,
+    val selectedIcon: Int,
+    val unselectedIcon: Int,
     val iconId: Int
 )
 
 
 val BOTTOM_ICON_LIST = listOf(
-    BottomIcon(name = Name.HOME, selectedIcon = Icons.Default.Home, unselectedIcon = Icons.Default.Home, R.string.home),
+    BottomIcon(
+        name = Name.HOME,
+        selectedIcon = R.drawable.home_icon,
+        unselectedIcon = R.drawable.home_icon,
+        R.string.home
+    ),
     BottomIcon(
         name = Name.FRIENDS,
-        selectedIcon = Icons.Default.Face,
-        unselectedIcon = Icons.Default.Face,
+        selectedIcon = R.drawable.chat_icon,
+        unselectedIcon = R.drawable.chat_icon,
         R.string.friends
     ),
-    BottomIcon(name = Name.ME, selectedIcon = Icons.Default.Person, unselectedIcon = Icons.Default.Person, R.string.me),
+    BottomIcon(name = Name.ME, selectedIcon = R.drawable.me_icon, unselectedIcon = R.drawable.me_icon, R.string.me),
 )

@@ -1,4 +1,5 @@
 package com.example.mediation.ui.theme
+
 import androidx.compose.ui.graphics.Color
 
 val md_theme_light_primary = Color(0xFF516600)
@@ -68,3 +69,6 @@ val seed = Color(0xFF8B9668)
 val md_theme_light_gold = Color(0xFFFCF1D7)
 val md_theme_orange = Color(0xFFFAE5C6)
 val md_theme_light_brown = Color(0xFFAA830D)
+
+val icon_color = Color(156, 142, 135)
+val icon_dark_color = Color(123, 104, 97)

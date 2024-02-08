@@ -11,13 +11,16 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.mediation.R
 import com.example.mediation.data.model.BOTTOM_ICON_LIST
+import com.example.mediation.ui.theme.icon_dark_color
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
@@ -56,9 +59,9 @@ fun BottomNavigationBar(
             NavigationBarItem(
                 selected = selectedItem == index,
                 onClick = { selectedItem = index },
-                icon = { Icon(imageVector = item.selectedIcon, contentDescription = stringResource(id = item.iconId)) },
-                label = { Text(text = item.name) },
-                colors = NavigationBarItemDefaults.colors(indicatorColor = MaterialTheme.colorScheme.secondaryContainer)
+                icon = { Icon(imageVector = ImageVector.vectorResource(id = item.selectedIcon), contentDescription = stringResource(id = item.iconId), tint = icon_dark_color) },
+                label = { Text(text = item.name, color = icon_dark_color) },
+                colors = NavigationBarItemDefaults.colors(indicatorColor = Color(239,236,235))
             )
         }
     }
@@ -75,7 +78,7 @@ fun TopNavigationBar() {
         ), title = { Text(text = "") },
         actions = {
             IconButton(onClick = { /* navigate to setting */ }) {
-                Icon(imageVector = Icons.Default.Menu, contentDescription = "navigate to setting")
+                Icon(imageVector = Icons.Default.Menu, contentDescription = "navigate to setting", tint = icon_dark_color)
             }
         }
     )
