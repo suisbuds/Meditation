@@ -15,19 +15,23 @@ object Destinations {
 }
 
 @Composable
-fun Navigation(
+fun AppNavHost(
     modifier: Modifier = Modifier,
     startDestination: String = Destinations.HOME_ROUTE,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
 ) {
     NavHost(
         navController = navController, startDestination = startDestination, modifier = modifier
     ) {
         composable(route = Destinations.HOME_ROUTE) {
-            HomeScreen()
+            HomeScreen(navigateToSetting = {
+                navController.navigate(Destinations.SETTING_ROUTE)
+            })
         }
         composable(route = Destinations.SETTING_ROUTE) {
-            SettingScreen()
+            SettingScreen(backToHome = { navController.popBackStack() })
         }
     }
 }
+
+

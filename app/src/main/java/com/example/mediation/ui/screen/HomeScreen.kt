@@ -25,10 +25,13 @@ import com.example.mediation.ui.theme.icon_dark_color
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    navigateToSetting: () -> Unit,
+) {
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(
-            topBar = { TopNavigationBar() },
+            topBar = { TopNavigationBar(navigateToSetting) },
             bottomBar = { BottomNavigationBar() },
             containerColor = Color.Transparent
         ) {
@@ -59,9 +62,17 @@ fun BottomNavigationBar(
             NavigationBarItem(
                 selected = selectedItem == index,
                 onClick = { selectedItem = index },
-                icon = { Icon(imageVector = ImageVector.vectorResource(id = item.selectedIcon), contentDescription = stringResource(id = item.iconId), tint = icon_dark_color) },
-                label = { Text(text = item.name, color = icon_dark_color) },
-                colors = NavigationBarItemDefaults.colors(indicatorColor = Color(239,236,235))
+                icon = {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = item.selectedIcon),
+                        contentDescription = stringResource(id = item.iconId),
+                        tint = icon_dark_color
+                    )
+                },
+                label = {
+                    Text(text = item.name, color = icon_dark_color)
+                },
+                colors = NavigationBarItemDefaults.colors(indicatorColor = Color(239, 236, 235))
             )
         }
     }
@@ -70,15 +81,19 @@ fun BottomNavigationBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopNavigationBar() {
+fun TopNavigationBar(navigateToSetting: () -> Unit) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent,
             titleContentColor = Color.Transparent
         ), title = { Text(text = "") },
         actions = {
-            IconButton(onClick = { /* navigate to setting */ }) {
-                Icon(imageVector = Icons.Default.Menu, contentDescription = "navigate to setting", tint = icon_dark_color)
+            IconButton(onClick = navigateToSetting) {
+                Icon(
+                    imageVector = Icons.Default.Menu,
+                    contentDescription = "navigate to setting",
+                    tint = icon_dark_color
+                )
             }
         }
     )

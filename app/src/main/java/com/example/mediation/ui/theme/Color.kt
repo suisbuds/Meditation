@@ -73,3 +73,4 @@ val md_theme_gray = Color(0xFF8C909C)
 
 val icon_color = Color(156, 142, 135)
 val icon_dark_color = Color(123, 104, 97)
+val background_color=Color(215, 206, 198 )
