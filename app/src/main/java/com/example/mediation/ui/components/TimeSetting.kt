@@ -1,4 +1,4 @@
-package com.example.mediation.ui.component
+package com.example.mediation.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mediation.ui.theme.MediationTheme
 import com.example.mediation.ui.theme.icon_dark_color
-import com.example.mediation.ui.theme.md_theme_light_brown
 
 @Composable
 fun TimeSetting(

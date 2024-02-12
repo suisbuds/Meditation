@@ -12,6 +12,9 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.mediation.ui.components.MusicList
+import com.example.mediation.ui.components.TimeSetting
+import com.example.mediation.ui.components.musicList
 import com.example.mediation.ui.theme.background_color
 import com.example.mediation.ui.theme.icon_dark_color
 
@@ -22,8 +25,18 @@ fun SettingScreen(modifier: Modifier = Modifier, backToHome: () -> Unit) {
         Scaffold(
             topBar = { TopBackHandlerBar(backToHome = backToHome) },
             bottomBar = { BottomNavigationBar() },
-            containerColor = Color.Transparent
+            containerColor = Color.Transparent,
         ) {
+            innerPadding->
+            Column(modifier = modifier.padding(innerPadding), horizontalAlignment = Alignment.CenterHorizontally) {
+                TimeSetting(
+                    onHourChange = { _ -> },
+                    onMinuteChange = { _ -> },
+                    onSecondChange = { _ -> })
+                MusicList(
+                    musicList = musicList
+                )
+            }
         }
     }
 }

@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.example.mediation.R
 import com.example.mediation.data.model.BOTTOM_ICON_LIST
 import com.example.mediation.ui.theme.icon_dark_color
+import com.example.mediation.ui.viewmodel.HomeViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
@@ -28,7 +29,10 @@ import com.example.mediation.ui.theme.icon_dark_color
 fun HomeScreen(
     modifier: Modifier = Modifier,
     navigateToSetting: () -> Unit,
+    homeViewModel: HomeViewModel
 ) {
+    val timeValue by homeViewModel.timer.collectAsState()
+
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(
             topBar = { TopNavigationBar(navigateToSetting) },
@@ -58,7 +62,7 @@ fun BottomNavigationBar(
         mutableIntStateOf(0)
     }
     NavigationBar(modifier = modifier.fillMaxWidth(), containerColor = Color.Transparent, tonalElevation = 0.dp) {
-        BOTTOM_ICON_LIST.forEachIndexed() { index, item ->
+        BOTTOM_ICON_LIST.forEachIndexed{ index, item ->
             NavigationBarItem(
                 selected = selectedItem == index,
                 onClick = { selectedItem = index },
