@@ -8,18 +8,33 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val endTime: Long = 20L) : ViewModel() {
-    private val _timer = MutableStateFlow(0L)
-    val timer = _timer.asStateFlow()
+class HomeViewModel() : ViewModel() {
+
+    private val _endTime = MutableStateFlow(100L)
+    val endTime = _endTime.asStateFlow()
+
+    private val _currentTime = MutableStateFlow(0L)
+    val currentTime = _currentTime.asStateFlow()
+
+    private val _isRunning = MutableStateFlow(false)
+    val isRunning = _isRunning.asStateFlow()
+
+    private val _hasStarted = MutableStateFlow(false)
+    val hasStarted = _hasStarted.asStateFlow()
+
     private var timeJob: Job? = null
 
     //计时开始
     fun startTimer() {
-        timeJob?.cancel()
+        _hasStarted.value = true
+        _isRunning.value = true
         timeJob = viewModelScope.launch {
-            while (_timer.value <= endTime) {
+            while (_hasStarted.value) {
                 delay(1000)
-                _timer.value++
+                _currentTime.value++
+                if (_currentTime.value == _endTime.value) {
+                    endTimer()
+                }
             }
         }
     }
@@ -27,6 +42,15 @@ class HomeViewModel(private val endTime: Long = 20L) : ViewModel() {
     //计时暂停
     fun pauseTimer() {
         timeJob?.cancel()
+        _isRunning.value = false
+    }
+
+    //计时结束,重置
+    private fun endTimer() {
+        timeJob?.cancel()
+        _currentTime.value = 0
+        _isRunning.value = false
+        _hasStarted.value = false
     }
 
     override fun onCleared() {
