@@ -1,10 +1,7 @@
 package com.example.mediation.ui.components
 
-import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +28,7 @@ import com.example.mediation.ui.theme.icon_dark_color
 
 
 //怎样使文字初始为开始
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun Timer(
     isRunning: Boolean,
@@ -77,9 +75,14 @@ fun Timer(
         }
         AnimatedContent(
             targetState = hasStarted, transitionSpec = {
-                fadeIn(
-                    animationSpec = tween(0)
-                ) togetherWith fadeOut(animationSpec = tween(0))
+                slideInVertically(
+                    animationSpec = tween(100), initialOffsetY = { fullHeight -> fullHeight }
+                ) + fadeIn(animationSpec = tween(100)) with slideOutVertically(
+                    animationSpec = tween(100),
+                    targetOffsetY = { fullHeight -> fullHeight }) + fadeOut(
+                    animationSpec =
+                    tween(100)
+                )
             },
             modifier = Modifier.clickable(
                 interactionSource = remember { MutableInteractionSource() },
@@ -101,6 +104,7 @@ fun Timer(
                         fontWeight = FontWeight.SemiBold
                     )
                 }
+
                 false -> {
                     Text(text = "开始", color = icon_dark_color, fontWeight = FontWeight.SemiBold)
                 }
