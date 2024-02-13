@@ -73,7 +73,7 @@ fun TopBackHandlerBar(modifier: Modifier = Modifier, backToHome: () -> Unit) {
             Row(
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(horizontal = 8.dp, vertical = 48.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = backToHome) {

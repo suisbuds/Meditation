@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -113,7 +111,7 @@ fun BottomNavigationBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopNavigationBar(navigateToSetting: () -> Unit) {
+fun TopNavigationBar(navigateToSetting: () -> Unit,modifier: Modifier=Modifier) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent,
@@ -122,9 +120,9 @@ fun TopNavigationBar(navigateToSetting: () -> Unit) {
         actions = {
             IconButton(onClick = navigateToSetting) {
                 Icon(
-                    imageVector = Icons.Default.Menu,
+                    imageVector = ImageVector.vectorResource(id = R.drawable.menu_icon),
                     contentDescription = "navigate to setting",
-                    tint = icon_dark_color
+                    tint = icon_dark_color,
                 )
             }
         }
