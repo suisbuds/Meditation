@@ -22,8 +22,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.mediation.R
 import com.example.mediation.data.model.BOTTOM_ICON_LIST
-import com.example.mediation.ui.components.TimeControl
+import com.example.mediation.ui.components.Timer
+import com.example.mediation.ui.theme.icon_color
 import com.example.mediation.ui.theme.icon_dark_color
+import com.example.mediation.ui.theme.indicator_color
 import com.example.mediation.ui.utils.timeParser
 import com.example.mediation.ui.viewmodel.HomeViewModel
 
@@ -55,8 +57,12 @@ fun HomeScreen(
                     contentScale = ContentScale.FillBounds,
                     modifier = modifier.matchParentSize()
                 )
-                Box(modifier = modifier.align(Alignment.BottomCenter).padding(128.dp)) {
-                    TimeControl(
+                Box(
+                    modifier = modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(vertical = 144.dp)
+                ) {
+                    Timer(
                         isRunning = isRunning,
                         onStart = { homeViewModel.startTimer() },
                         onPause = { homeViewModel.pauseTimer() },
@@ -87,13 +93,18 @@ fun BottomNavigationBar(
                     Icon(
                         imageVector = ImageVector.vectorResource(id = item.selectedIcon),
                         contentDescription = stringResource(id = item.iconId),
-                        tint = icon_dark_color
                     )
                 },
                 label = {
-                    Text(text = item.name, color = icon_dark_color)
+                    Text(text = item.name)
                 },
-                colors = NavigationBarItemDefaults.colors(indicatorColor = Color(239, 236, 235))
+                colors = NavigationBarItemDefaults.colors(
+                    indicatorColor = indicator_color,
+                    unselectedIconColor = icon_color,
+                    unselectedTextColor = icon_color,
+                    selectedIconColor = icon_dark_color,
+                    selectedTextColor = icon_dark_color
+                )
             )
         }
     }

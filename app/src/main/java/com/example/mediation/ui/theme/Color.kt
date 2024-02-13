@@ -73,6 +73,7 @@ val md_theme_gray = Color(0xFF8C909C)
 
 
 //自定义颜色
-val icon_color = Color(156, 142, 135)
-val icon_dark_color = Color(123, 104, 97)
-val background_color=Color(215, 206, 198 )
+val icon_color = Color(0xFF9C8E87)
+val icon_dark_color = Color(0xFF7B6861)
+val background_color = Color(0xD7CEC6)
+val indicator_color = Color(0xEFECEB)

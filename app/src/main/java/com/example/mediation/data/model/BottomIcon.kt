@@ -17,7 +17,6 @@ data class BottomIcon(
 )
 
 
-
 val BOTTOM_ICON_LIST = listOf(
     BottomIcon(
         name = Name.HOME,

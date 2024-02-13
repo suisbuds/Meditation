@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel() : ViewModel() {
 
-    private val _endTime = MutableStateFlow(10L)
+    private val _endTime = MutableStateFlow(3600L)
     val endTime = _endTime.asStateFlow()
 
     private val _currentTime = MutableStateFlow(0L)

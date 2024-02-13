@@ -1,6 +1,6 @@
 package com.example.mediation.ui.utils
 
-fun Long.timeParser():String {
+fun Long.timeParser(): String {
     val hours = this / 3600
     val minutes = (this % 3600) / 60
     val seconds = this % 60
