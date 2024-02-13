@@ -29,11 +29,10 @@ class HomeViewModel() : ViewModel() {
         _hasStarted.value = true
         _isRunning.value = true
         timeJob = viewModelScope.launch {
-            while (_hasStarted.value) {
+            while (_isRunning.value) {
                 delay(1000)
                 _currentTime.value++
-                if (_currentTime.value == _endTime.value) {
-                    delay(1000)
+                if (_currentTime.value > _endTime.value) {
                     endTimer()
                 }
             }
