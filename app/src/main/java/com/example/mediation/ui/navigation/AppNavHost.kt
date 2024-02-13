@@ -1,5 +1,12 @@
 package com.example.mediation.ui.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -30,7 +37,26 @@ fun AppNavHost(
                 navController.navigate(Destinations.SETTING_ROUTE)
             }, homeViewModel = homeViewModel)
         }
-        composable(route = Destinations.SETTING_ROUTE) {
+        composable(route = Destinations.SETTING_ROUTE, enterTransition = {
+            fadeIn(
+                animationSpec = tween(
+                    250, easing = LinearEasing
+                )
+            ) + slideIntoContainer(
+                animationSpec = tween(250, easing = EaseIn),
+                towards = AnimatedContentTransitionScope.SlideDirection.Start
+            )
+        },
+            exitTransition = {
+                fadeOut(
+                    animationSpec = tween(
+                        250, easing = LinearEasing
+                    )
+                ) + slideOutOfContainer(
+                    animationSpec = tween(250, easing = EaseOut),
+                    towards = AnimatedContentTransitionScope.SlideDirection.End
+                )
+            }) {
             SettingScreen(backToHome = { navController.popBackStack() })
         }
     }
