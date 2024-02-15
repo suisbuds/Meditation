@@ -55,6 +55,14 @@ fun HomeScreen(
                     contentScale = ContentScale.FillBounds,
                     modifier = modifier.matchParentSize()
                 )
+                /*Box(
+                    modifier = modifier
+                        .padding(
+                            horizontal = 36.dp, vertical = 144.dp).padding(bottom = 48.dp)
+                        .align(Alignment.Center).background(Color.Transparent)
+                ) {
+                    MessageCard()
+                }*/
                 Box(
                     modifier = modifier
                         .align(Alignment.BottomCenter)
@@ -111,7 +119,7 @@ fun BottomNavigationBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopNavigationBar(navigateToSetting: () -> Unit,modifier: Modifier=Modifier) {
+fun TopNavigationBar(navigateToSetting: () -> Unit, modifier: Modifier = Modifier) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent,
