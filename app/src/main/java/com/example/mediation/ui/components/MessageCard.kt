@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.mediation.R
 import com.example.mediation.ui.theme.icon_dark_color
 
@@ -32,10 +31,12 @@ fun MessageCard(modifier: Modifier = Modifier) {
             .background(Color.White)
             .alpha(0.5f), contentAlignment = Alignment.Center
     ) {
+        CardHeader(onClose = {})
+        CardContent()
     }
 }
 
-@Preview
+
 @Composable
 fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit) {
     var text by remember {
