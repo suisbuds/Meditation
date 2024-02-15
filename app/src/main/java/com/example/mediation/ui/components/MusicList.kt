@@ -1,11 +1,6 @@
 package com.example.mediation.ui.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
@@ -40,7 +35,7 @@ fun MusicList(
             .padding(15.dp),
         shape = RoundedCornerShape(5.dp)
     ) {
-        LazyColumn(modifier = modifier) {
+        LazyColumn(modifier = modifier.padding(8.dp)) {
             item {
                 MusicListHeader(modifier = modifier)
                 Spacer(modifier = modifier.height(8.dp))
@@ -92,10 +87,10 @@ val musicList: List<Music> = listOf(
     Music(R.drawable.shou_tan, "手谈", "专注", "竹林清脆，落子闻音"),
     Music(R.drawable.lin_feng, "林风", "冥想", "穿林而过的风"),
     Music(R.drawable.guang_yun, "光蕴", "情绪", "点点喜悦，束束希望"),
-    Music(R.drawable.shou_tan, "", "", ""),
-    Music(R.drawable.lin_feng, "", "", ""),
-    Music(R.drawable.guang_yun, "", "", ""),
-)
+    Music(R.drawable.shou_tan, "手谈", "专注", "竹林清脆，落子闻音"),
+    Music(R.drawable.lin_feng, "林风", "冥想", "穿林而过的风"),
+    Music(R.drawable.guang_yun, "光蕴", "情绪", "点点喜悦，束束希望"),
+    )
 
 @Preview
 @Composable

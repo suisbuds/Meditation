@@ -3,13 +3,7 @@ package com.example.mediation.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,11 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mediation.R
-import com.example.mediation.ui.theme.MediationTheme
-import com.example.mediation.ui.theme.md_theme_gray
-import com.example.mediation.ui.theme.md_theme_light_brown
-import com.example.mediation.ui.theme.md_theme_light_gold
-import com.example.mediation.ui.theme.md_theme_orange
+import com.example.mediation.ui.theme.*
 
 @Composable
 fun MusicCard(
@@ -66,7 +56,7 @@ fun Description(
         Text(
             text = title,
             style = TextStyle(fontSize = 15.sp),
-            fontWeight = FontWeight.ExtraLight
+            fontWeight = FontWeight.SemiBold
         )
         Spacer(modifier = modifier.height(4.dp))
         Row(modifier = modifier) {
@@ -79,11 +69,17 @@ fun Description(
                     text = tag,
                     modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.5.dp),
                     color = md_theme_light_brown,
-                    style = TextStyle(fontSize = 6.sp)
+                    style = TextStyle(fontSize = 6.sp),
+                    fontWeight = FontWeight.SemiBold
                 )
             }
             Spacer(modifier = modifier.width(5.dp))
-            Text(text = subtitle, color = md_theme_gray, style = TextStyle(fontSize = 10.sp))
+            Text(
+                text = subtitle,
+                color = md_theme_gray,
+                style = TextStyle(fontSize = 10.sp),
+                fontWeight = FontWeight.SemiBold
+            )
         }
     }
 }
