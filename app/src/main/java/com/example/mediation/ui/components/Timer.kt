@@ -41,7 +41,8 @@ fun Timer(
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
     ) {
         FloatingActionButton(
             onClick = {

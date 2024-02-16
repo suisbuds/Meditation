@@ -33,7 +33,7 @@ import com.example.mediation.ui.theme.message_icon_color
 import java.time.LocalDate
 
 //alpha值：透明度
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MessageCard(
     modifier: Modifier = Modifier,
@@ -55,7 +55,7 @@ fun MessageCard(
 }
 
 
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit) {
     var text by remember {
@@ -174,7 +174,7 @@ fun CardContent(modifier: Modifier = Modifier, onShare: () -> Unit, navigateToHi
                 ),
                 textStyle = TextStyle(
                     fontFamily = NunitoFontFamily,
-                    fontWeight = FontWeight.SemiBold,
+                    fontWeight = FontWeight.Medium,
                     color = message_icon_color
                 ),
                 modifier = modifier
@@ -184,7 +184,7 @@ fun CardContent(modifier: Modifier = Modifier, onShare: () -> Unit, navigateToHi
                         Text(
                             text = "留言",
                             color = icon_dark_color,
-                            fontWeight = FontWeight.SemiBold,
+                            fontWeight = FontWeight.Medium,
                             fontFamily = NunitoFontFamily,
                         )
                     }

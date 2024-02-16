@@ -1,8 +1,9 @@
 package com.example.mediation.ui.screen
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,11 +23,14 @@ import androidx.compose.ui.unit.dp
 import com.example.mediation.R
 import com.example.mediation.data.model.BOTTOM_ICON_LIST
 import com.example.mediation.ui.components.MessageCard
+import com.example.mediation.ui.components.Timer
 import com.example.mediation.ui.theme.icon_color
 import com.example.mediation.ui.theme.icon_dark_color
 import com.example.mediation.ui.theme.indicator_color
+import com.example.mediation.ui.utils.timeParser
 import com.example.mediation.ui.viewmodel.HomeViewModel
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
 @Composable
@@ -55,33 +59,29 @@ fun HomeScreen(
                     contentScale = ContentScale.FillBounds,
                     modifier = modifier.matchParentSize()
                 )
-                Box(
-                    modifier = modifier
-                        .padding(
-                            horizontal = 36.dp, vertical = 144.dp
-                        )
-                        .padding(bottom = 48.dp)
-                        .align(Alignment.Center)
-                        .background(Color.Transparent)
-                ) {
-                    MessageCard()
-                }
-/*
-                Box(
-                    modifier = modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(vertical = 144.dp)
-                ) {
+                Box(modifier = modifier.fillMaxSize()) {
+                    Box(
+                        modifier = modifier
+                            .padding(
+                                horizontal = 36.dp, vertical = 128.dp
+                            )
+                            .padding(bottom = 36.dp)
+                            .align(Alignment.Center)
+                    ) {
+                        MessageCard()
+                    }
                     Timer(
                         isRunning = isRunning,
                         onStart = { homeViewModel.startTimer() },
                         onPause = { homeViewModel.pauseTimer() },
                         currentTime = currentTime.timeParser(),
                         endTime = endTime.timeParser(),
-                        hasStarted = hasStarted
+                        hasStarted = hasStarted,
+                        modifier = modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(vertical = 144.dp)
                     )
                 }
-*/
             }
         }
     }

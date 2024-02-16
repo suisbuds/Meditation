@@ -22,6 +22,9 @@ class HomeViewModel() : ViewModel() {
     private val _hasStarted = MutableStateFlow(false)
     val hasStarted = _hasStarted.asStateFlow()
 
+    private val _enableWriteMessage = MutableStateFlow(false)
+    val enableWriteMessage = _enableWriteMessage.asStateFlow()
+
     private var timeJob: Job? = null
 
     //计时开始
