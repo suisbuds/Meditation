@@ -2,6 +2,7 @@ package com.example.mediation.ui.screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,11 +21,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.mediation.R
 import com.example.mediation.data.model.BOTTOM_ICON_LIST
-import com.example.mediation.ui.components.Timer
+import com.example.mediation.ui.components.MessageCard
 import com.example.mediation.ui.theme.icon_color
 import com.example.mediation.ui.theme.icon_dark_color
 import com.example.mediation.ui.theme.indicator_color
-import com.example.mediation.ui.utils.timeParser
 import com.example.mediation.ui.viewmodel.HomeViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -55,14 +55,18 @@ fun HomeScreen(
                     contentScale = ContentScale.FillBounds,
                     modifier = modifier.matchParentSize()
                 )
-                /*Box(
+                Box(
                     modifier = modifier
                         .padding(
-                            horizontal = 36.dp, vertical = 144.dp).padding(bottom = 48.dp)
-                        .align(Alignment.Center).background(Color.Transparent)
+                            horizontal = 36.dp, vertical = 144.dp
+                        )
+                        .padding(bottom = 48.dp)
+                        .align(Alignment.Center)
+                        .background(Color.Transparent)
                 ) {
                     MessageCard()
-                }*/
+                }
+/*
                 Box(
                     modifier = modifier
                         .align(Alignment.BottomCenter)
@@ -77,6 +81,7 @@ fun HomeScreen(
                         hasStarted = hasStarted
                     )
                 }
+*/
             }
         }
     }

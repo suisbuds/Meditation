@@ -2,11 +2,41 @@ package com.example.mediation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.googlefonts.Font
+import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.unit.sp
+import com.example.mediation.R
 
-// Set of Material typography styles to start with
+val provider = GoogleFont.Provider(
+    providerAuthority = "com.google.android.gms.fonts",
+    providerPackage = "com.google.android.gms",
+    certificates = R.array.com_google_android_gms_fonts_certs
+)
+val NunitoFont = GoogleFont(name = "Nunito")
+val NunitoFontFamily = FontFamily(
+    Font(googleFont = NunitoFont, fontProvider = provider),
+    Font(resId = R.font.nunito_regular),
+
+    Font(googleFont = NunitoFont, fontProvider = provider, weight = FontWeight.Bold),
+    Font(resId = R.font.nunito_bold),
+
+    Font(googleFont = NunitoFont, fontProvider = provider, weight = FontWeight.SemiBold),
+    Font(resId = R.font.nunito_semibold),
+
+    Font(googleFont = NunitoFont, fontProvider = provider, weight = FontWeight.Light),
+    Font(resId = R.font.nunito_light),
+
+    Font(googleFont = NunitoFont, fontProvider = provider, weight = FontWeight.Medium),
+    Font(resId = R.font.nunito_medium),
+
+    Font(googleFont = NunitoFont, fontProvider = provider, style = FontStyle.Italic),
+    Font(resId = R.font.nunito_italic)
+)
+
 val Typography = Typography(
     headlineLarge = TextStyle(
         fontWeight = FontWeight.SemiBold,

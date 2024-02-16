@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mediation.R
+import com.example.mediation.ui.theme.NunitoFontFamily
 import com.example.mediation.ui.theme.icon_dark_color
 import com.example.mediation.ui.theme.message_icon_color
 
@@ -62,7 +63,8 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit) {
         Row(modifier = modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom) {
             Text(
                 text = "记录此次专注",
-                fontWeight = FontWeight.SemiBold,
+                fontWeight = FontWeight.Medium,
+                fontFamily = NunitoFontFamily,
                 color = message_icon_color,
                 fontSize = 16.sp,
                 modifier = modifier
@@ -79,7 +81,7 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit) {
                     .clickable { onClose() })
         }
         Row(modifier = modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
-            OutlinedTextField(
+            TextField(
                 value = text,
                 onValueChange = { text = it },
                 colors = TextFieldDefaults.colors(
@@ -87,15 +89,16 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit) {
                     unfocusedContainerColor = Color.Transparent,
                     focusedTextColor = icon_dark_color,
                     unfocusedTextColor = icon_dark_color,
+                    cursorColor = icon_dark_color,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 ),
-                singleLine = true,
                 textStyle = TextStyle(fontWeight = FontWeight.SemiBold),
                 modifier = modifier
                     .weight(1f)
-                    .border(width = 0.dp, color = Color.Transparent),
-                label = { Text(text = "文案", color = icon_dark_color, fontWeight = FontWeight.SemiBold) }
+                    .border(width = 0.dp, color = Color.Transparent)
+                    .offset(x = (-8).dp),
+                placeholder = { Text(text = "标题", color = icon_dark_color, fontWeight = FontWeight.SemiBold) }
             )
             Spacer(modifier = modifier.weight(1f))
         }
