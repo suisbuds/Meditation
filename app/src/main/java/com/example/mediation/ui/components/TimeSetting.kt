@@ -67,7 +67,7 @@ private fun drawTimeSettingHeader(
             style = TextStyle(
                 color = icon_dark_color,
                 fontSize = 15.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.Light
             )
         )
     canvas.drawText(

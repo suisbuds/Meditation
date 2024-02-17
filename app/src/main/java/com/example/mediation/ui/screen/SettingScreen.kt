@@ -66,7 +66,7 @@ fun SettingScreen(
                 MusicList(
                     musicList = musicList,
                     onClick = {
-                        val index = musicList.indexOf(it)
+                        val index = musicList.indexOf(it) + 1
                         Toast.makeText(
                             context,
                             "已加入音乐$index",
