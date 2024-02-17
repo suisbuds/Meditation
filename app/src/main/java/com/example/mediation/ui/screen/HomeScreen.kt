@@ -51,7 +51,7 @@ fun HomeScreen(
     val context = LocalContext.current
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(
-            topBar = { TopNavigationBar(navigateToSetting) },
+            topBar = { TopNavigationBar(navigateToSetting, hasStarted) },
             bottomBar = { BottomNavigationBar() },
             containerColor = Color.Transparent
         ) {
@@ -100,7 +100,11 @@ fun BottomNavigationBar(
     var selectedItem by remember {
         mutableIntStateOf(0)
     }
-    NavigationBar(modifier = modifier.fillMaxWidth(), containerColor = Color.Transparent, tonalElevation = 0.dp) {
+    NavigationBar(
+        modifier = modifier.fillMaxWidth(),
+        containerColor = Color.Transparent,
+        tonalElevation = 0.dp
+    ) {
         BOTTOM_ICON_LIST.forEachIndexed { index, item ->
             NavigationBarItem(
                 selected = selectedItem == index,
@@ -129,14 +133,26 @@ fun BottomNavigationBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopNavigationBar(navigateToSetting: () -> Unit, modifier: Modifier = Modifier) {
+fun TopNavigationBar(
+    navigateToSetting: () -> Unit,
+    hasStarted: Boolean,
+    modifier: Modifier = Modifier
+) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent,
             titleContentColor = Color.Transparent
         ), title = { Text(text = "") },
         actions = {
-            IconButton(onClick = navigateToSetting) {
+            val context = LocalContext.current
+            IconButton(onClick = {
+                if (hasStarted) Toast.makeText(
+                    context,
+                    "正在倒计时，不可重新设置",
+                    Toast.LENGTH_SHORT
+                ).show()
+                else navigateToSetting()
+            }) {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.menu_icon),
                     contentDescription = "navigate to setting",
