@@ -2,7 +2,9 @@ package com.example.mediation.ui.screen
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,11 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.example.mediation.R
 import com.example.mediation.data.model.BOTTOM_ICON_LIST
 import com.example.mediation.ui.components.MessageCard
@@ -43,7 +47,8 @@ fun HomeScreen(
     val endTime by homeViewModel.endTime.collectAsState()
     val isRunning by homeViewModel.isRunning.collectAsState()
     val hasStarted by homeViewModel.hasStarted.collectAsState()
-
+    val enableWriteMessage by homeViewModel.enableWriteMessage.collectAsState()
+    val context = LocalContext.current
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(
             topBar = { TopNavigationBar(navigateToSetting) },
@@ -59,29 +64,29 @@ fun HomeScreen(
                     contentScale = ContentScale.FillBounds,
                     modifier = modifier.matchParentSize()
                 )
-                Box(modifier = modifier.fillMaxSize()) {
-                    Box(
-                        modifier = modifier
-                            .padding(
-                                horizontal = 36.dp, vertical = 128.dp
-                            )
-                            .padding(bottom = 36.dp)
-                            .align(Alignment.Center)
-                    ) {
-                        MessageCard()
+                AnimatedVisibility(visible = enableWriteMessage) {
+                    Dialog(onDismissRequest = { homeViewModel.closeMessageCard() }) {
+                        MessageCard(onClose = { homeViewModel.closeMessageCard() })
                     }
-                    Timer(
-                        isRunning = isRunning,
-                        onStart = { homeViewModel.startTimer() },
-                        onPause = { homeViewModel.pauseTimer() },
-                        currentTime = currentTime.timeParser(),
-                        endTime = endTime.timeParser(),
-                        hasStarted = hasStarted,
-                        modifier = modifier
-                            .align(Alignment.BottomCenter)
-                            .padding(vertical = 144.dp)
-                    )
                 }
+                Timer(
+                    isRunning = isRunning,
+                    onStart = {
+                        if (endTime != 0L) {
+                            homeViewModel.startTimer()
+                        } else {
+                            Toast.makeText(context, "请先设置冥想时间", Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    onPause = { homeViewModel.pauseTimer() },
+                    currentTime = currentTime.timeParser(),
+                    endTime = endTime.timeParser(),
+                    hasStarted = hasStarted,
+                    modifier = modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(vertical = 144.dp)
+                )
+
             }
         }
     }

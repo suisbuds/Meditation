@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel() : ViewModel() {
 
-    private val _endTime = MutableStateFlow(10L)
+    private val _endTime = MutableStateFlow(0L)
     val endTime = _endTime.asStateFlow()
 
     private val _currentTime = MutableStateFlow(0L)
@@ -55,15 +55,17 @@ class HomeViewModel() : ViewModel() {
     //处理设置页面传来的数据
     fun handleSettingData(data: List<Int>) {
         if (data.isNotEmpty()) {
-            _endTime.value = ((data[1] * 60 + data[2]) * 60 + data[3]) .toLong()
-            Log.d("HomeViewModel","${_currentTime.value}")
+            _endTime.value = ((data[1] * 60 + data[2]) * 60 + data[3]).toLong()
+            Log.d("HomeViewModel", "time: ${_currentTime.value}+${_endTime.value}")
             _musicIndex.value = data[0]
+            Log.d("HomeViewModel", "music_index: ${_musicIndex.value}")
         }
     }
 
     //计时结束,重置
     private fun endTimer() {
         timeJob?.cancel()
+        _enableWriteMessage.value = true
         _currentTime.value = 0
         _isRunning.value = false
         _hasStarted.value = false
@@ -72,5 +74,10 @@ class HomeViewModel() : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         timeJob?.cancel()
+    }
+
+    //close message
+    fun closeMessageCard() {
+        _enableWriteMessage.value = false
     }
 }

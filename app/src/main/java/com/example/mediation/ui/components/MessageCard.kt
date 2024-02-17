@@ -31,7 +31,6 @@ import com.example.mediation.ui.theme.MediationTheme
 import com.example.mediation.ui.theme.NunitoFontFamily
 import com.example.mediation.ui.theme.icon_color
 import com.example.mediation.ui.theme.icon_dark_color
-import com.example.mediation.ui.theme.message_icon_color
 import java.time.LocalDate
 
 //alpha值：透明度
@@ -39,13 +38,13 @@ import java.time.LocalDate
 @Composable
 fun MessageCard(
     modifier: Modifier = Modifier,
-    onClose: () -> Unit = {},
+    onClose: () -> Unit,
     onShare: () -> Unit = {},
     navigateToHistory: () -> Unit = {}
 ) {
     Surface(
         modifier = modifier
-            .fillMaxSize()
+            .padding(vertical = 96.dp)
             .clip(shape = RoundedCornerShape(12.dp)), color = Color.White.copy(alpha = 0.6f)
     ) {
         Column(modifier = modifier.padding(16.dp)) {
@@ -63,7 +62,11 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit) {
     var text by remember {
         mutableStateOf("")
     }
-    Column(modifier = modifier.fillMaxWidth()) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .requiredHeight(100.dp)
+    ) {
         Row(modifier = modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom) {
             Text(
                 text = "记录此次专注",
@@ -87,12 +90,10 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit) {
         }
         Row(
             modifier = modifier
-                .fillMaxWidth(), verticalAlignment = Alignment.Top
+                .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
-                modifier = modifier
-                    .weight(1f)
-                    .height(96.dp)
+                modifier = modifier.weight(1f)
             ) {
                 TextField(
                     value = text,
@@ -112,9 +113,8 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit) {
                         fontSize = 16.sp
                     ),
                     modifier = modifier
-                        .weight(1f)
                         .border(width = 0.dp, color = Color.Transparent)
-                        .offset(x = (-8).dp, y = (-8).dp),
+                        .offset(x = (-8).dp, y = (-4).dp),
                     placeholder = {
                         AnimatedVisibility(visible = text == "") {
                             Text(
@@ -123,7 +123,7 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit) {
                                 fontWeight = FontWeight.SemiBold,
                                 fontFamily = NunitoFontFamily,
                                 fontStyle = FontStyle.Italic,
-                                fontSize = 16.sp
+                                fontSize = 16.sp,
                             )
                         }
                     },
@@ -136,7 +136,10 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit) {
                     color = icon_color,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 12.sp,
-                    modifier = modifier.offset(x = 8.dp, y = (-24).dp)
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(start = 8.dp)
+                        .offset(y = (-8).dp)
                 )
 
             }
@@ -160,8 +163,8 @@ fun CardContent(modifier: Modifier = Modifier, onShare: () -> Unit, navigateToHi
             elevation = 4.dp,
             modifier = modifier
                 .fillMaxWidth()
-                .height(388.dp)
-                .padding(8.dp),
+                .weight(1f)
+                .padding(bottom = 8.dp),
             backgroundColor = Color.White
         ) {
             OutlinedTextField(
@@ -170,14 +173,14 @@ fun CardContent(modifier: Modifier = Modifier, onShare: () -> Unit, navigateToHi
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent,
-                    cursorColor = message_icon_color,
+                    cursorColor = icon_dark_color,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 ),
                 textStyle = TextStyle(
                     fontFamily = NunitoFontFamily,
                     fontWeight = FontWeight.Medium,
-                    color = message_icon_color
+                    color = icon_dark_color
                 ),
                 modifier = modifier
                     .border(width = 0.dp, color = Color.Transparent),
@@ -196,7 +199,7 @@ fun CardContent(modifier: Modifier = Modifier, onShare: () -> Unit, navigateToHi
         Spacer(modifier = modifier.height(4.dp))
         Row(
             modifier = modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .padding(end = 8.dp), horizontalArrangement = Arrangement.End
         ) {
             Icon(
@@ -223,7 +226,7 @@ fun CardContent(modifier: Modifier = Modifier, onShare: () -> Unit, navigateToHi
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
-fun MessageCardPreview(){
+fun MessageCardPreview() {
     MediationTheme {
         Surface {
             MessageCard(
