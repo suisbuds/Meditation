@@ -1,5 +1,6 @@
 package com.example.mediation.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
@@ -54,7 +55,8 @@ class HomeViewModel() : ViewModel() {
     //处理设置页面传来的数据
     fun handleSettingData(data: List<Int>) {
         if (data.isNotEmpty()) {
-            _currentTime.value = (((data[1] * 60 + data[2]) * 60 + data[3]) * 1000).toLong()
+            _endTime.value = ((data[1] * 60 + data[2]) * 60 + data[3]) .toLong()
+            Log.d("HomeViewModel","${_currentTime.value}")
             _musicIndex.value = data[0]
         }
     }
