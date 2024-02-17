@@ -23,13 +23,13 @@ import com.example.mediation.R
 import com.example.mediation.ui.components.Music
 import com.example.mediation.ui.components.MusicList
 import com.example.mediation.ui.components.TimeSetting
+import com.example.mediation.ui.components.musicList
 import com.example.mediation.ui.theme.MediationTheme
 import com.example.mediation.ui.theme.background_color
 import com.example.mediation.ui.theme.icon_color
 import com.example.mediation.ui.theme.icon_dark_color
 import com.example.mediation.ui.viewmodel.SettingViewModel
 import com.example.mediation.ui.viewmodel.SettingViewModelFactory
-import com.example.mediation.ui.viewmodel.musicList
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -38,7 +38,7 @@ fun SettingScreen(
     backToHome: () -> Unit,
     musicList: List<Music>,
     settingViewModel: SettingViewModel,
-    navigateToHome: (List<Int>) -> Unit
+    navigateToHome: () -> Unit
 ) {
     val currentMusicIndex by settingViewModel.musicIndex.collectAsState()
     val currentHour by settingViewModel.hour.collectAsState()
@@ -83,13 +83,7 @@ fun SettingScreen(
                 ) {
                     ConfirmButton(
                         onConfirmPressed = {
-                            settingViewModel.onConfirmPressed(
-                                currentMusicIndex,
-                                currentHour,
-                                currentMinute,
-                                currentSecond,
-                                navigateToHome
-                            )
+                            settingViewModel.onConfirmPressed(navigateToHome = navigateToHome)
                         }
                     )
                 }
@@ -160,7 +154,7 @@ fun SettingScreenPreview() {
                 backToHome = { },
                 musicList = musicList,
                 settingViewModel = settingViewModel,
-                navigateToHome = { _ -> }
+                navigateToHome = { }
             )
         }
     }

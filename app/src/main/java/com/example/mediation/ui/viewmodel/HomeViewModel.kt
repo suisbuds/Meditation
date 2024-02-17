@@ -25,6 +25,9 @@ class HomeViewModel() : ViewModel() {
     private val _enableWriteMessage = MutableStateFlow(false)
     val enableWriteMessage = _enableWriteMessage.asStateFlow()
 
+    private val _musicIndex = MutableStateFlow(0)
+    val musicIndex = _musicIndex.asStateFlow()
+
     private var timeJob: Job? = null
 
     //计时开始
@@ -46,6 +49,14 @@ class HomeViewModel() : ViewModel() {
     fun pauseTimer() {
         timeJob?.cancel()
         _isRunning.value = false
+    }
+
+    //处理设置页面传来的数据
+    fun handleSettingData(data: List<Int>) {
+        if (data.isNotEmpty()) {
+            _currentTime.value = (((data[1] * 60 + data[2]) * 60 + data[3]) * 1000).toLong()
+            _musicIndex.value = data[0]
+        }
     }
 
     //计时结束,重置

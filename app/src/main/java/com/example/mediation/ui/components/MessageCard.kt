@@ -23,9 +23,11 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mediation.R
+import com.example.mediation.ui.theme.MediationTheme
 import com.example.mediation.ui.theme.NunitoFontFamily
 import com.example.mediation.ui.theme.icon_color
 import com.example.mediation.ui.theme.icon_dark_color
@@ -213,6 +215,21 @@ fun CardContent(modifier: Modifier = Modifier, onShare: () -> Unit, navigateToHi
                     .size(24.dp)
                     .clickable { onShare() },
                 tint = icon_dark_color
+            )
+        }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Preview
+@Composable
+fun MessageCardPreview(){
+    MediationTheme {
+        Surface {
+            MessageCard(
+                onClose = { },
+                navigateToHistory = { },
+                onShare = { }
             )
         }
     }
