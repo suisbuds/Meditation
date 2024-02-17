@@ -16,18 +16,22 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mediation.ui.screen.HomeScreen
 import com.example.mediation.ui.screen.SettingScreen
 import com.example.mediation.ui.viewmodel.HomeViewModel
+import com.example.mediation.ui.viewmodel.SettingViewModel
+import com.example.mediation.ui.viewmodel.musicList
 
 object Destinations {
     const val HOME_ROUTE = "home"
     const val SETTING_ROUTE = "setting"
 }
 
+
 @Composable
 fun AppNavHost(
     modifier: Modifier = Modifier,
     startDestination: String = Destinations.HOME_ROUTE,
     navController: NavHostController = rememberNavController(),
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
+    settingViewModel: SettingViewModel
 ) {
     NavHost(
         navController = navController, startDestination = startDestination, modifier = modifier
@@ -46,18 +50,22 @@ fun AppNavHost(
                 animationSpec = tween(250, easing = EaseIn),
                 towards = AnimatedContentTransitionScope.SlideDirection.Start
             )
-        },
-            exitTransition = {
-                fadeOut(
-                    animationSpec = tween(
-                        250, easing = LinearEasing
-                    )
-                ) + slideOutOfContainer(
-                    animationSpec = tween(250, easing = EaseOut),
-                    towards = AnimatedContentTransitionScope.SlideDirection.End
+        }, exitTransition = {
+            fadeOut(
+                animationSpec = tween(
+                    250, easing = LinearEasing
                 )
-            }) {
-            SettingScreen(backToHome = { navController.popBackStack() })
+            ) + slideOutOfContainer(
+                animationSpec = tween(250, easing = EaseOut),
+                towards = AnimatedContentTransitionScope.SlideDirection.End
+            )
+        }) {
+            SettingScreen(backToHome = { navController.popBackStack() },
+                musicList = musicList,
+                settingViewModel = settingViewModel,
+                navigateToHome = {
+                    navController.navigate("$Destinations.HOME_ROUTE/$it")
+                })
         }
     }
 }

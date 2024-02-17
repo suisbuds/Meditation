@@ -18,20 +18,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.mediation.R
 import com.example.mediation.ui.theme.MediationTheme
 import com.example.mediation.ui.theme.icon_dark_color
 import com.example.mediation.ui.theme.md_theme_light_brown
+import com.example.mediation.ui.viewmodel.musicList
 
 @Composable
 fun MusicList(
     modifier: Modifier = Modifier,
     musicList: List<Music>,
+    onClick: (Music) -> Unit
 ) {
     Surface(
         color = Color.White,
         modifier = modifier
-            .height(250.dp)
+            .height(260.dp)
             .padding(15.dp),
         shape = RoundedCornerShape(5.dp)
     ) {
@@ -48,7 +49,10 @@ fun MusicList(
                     modifier = Modifier.height(180.dp)
                 ) {
                     items(musicList) { music ->
-                        MusicCard(music = music)
+                        MusicCard(
+                            music = music,
+                            onClick = onClick
+                        )
                     }
                 }
             }
@@ -61,7 +65,7 @@ fun MusicListHeader(modifier: Modifier = Modifier) {
     Row(modifier = modifier.fillMaxWidth()) {
         Text(
             text = "音乐",
-            color = md_theme_light_brown,
+            color = icon_dark_color,
             style = MaterialTheme.typography.bodyLarge
         )
         Icon(
@@ -83,14 +87,6 @@ fun MusicListHeader(modifier: Modifier = Modifier) {
     }
 }
 
-val musicList: List<Music> = listOf(
-    Music(R.drawable.shou_tan, "手谈", "专注", "竹林清脆，落子闻音"),
-    Music(R.drawable.lin_feng, "林风", "冥想", "穿林而过的风"),
-    Music(R.drawable.guang_yun, "光蕴", "情绪", "点点喜悦，束束希望"),
-    Music(R.drawable.shou_tan, "手谈", "专注", "竹林清脆，落子闻音"),
-    Music(R.drawable.lin_feng, "林风", "冥想", "穿林而过的风"),
-    Music(R.drawable.guang_yun, "光蕴", "情绪", "点点喜悦，束束希望"),
-    )
 
 @Preview
 @Composable
@@ -98,7 +94,8 @@ fun MusicListPreview() {
     MediationTheme {
         Surface {
             MusicList(
-                musicList = musicList
+                musicList = musicList,
+                onClick = {}
             )
         }
     }
