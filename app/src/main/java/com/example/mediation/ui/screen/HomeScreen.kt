@@ -1,6 +1,7 @@
 package com.example.mediation.ui.screen
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -49,6 +50,7 @@ fun HomeScreen(
     val isRunning by homeViewModel.isRunning.collectAsState()
     val hasStarted by homeViewModel.hasStarted.collectAsState()
     val enableWriteMessage by homeViewModel.enableWriteMessage.collectAsState()
+    val context = LocalContext.current
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(
             topBar = { TopNavigationBar(navigateToSetting, hasStarted) },
@@ -77,7 +79,11 @@ fun HomeScreen(
                 Timer(
                     isRunning = isRunning,
                     onStart = {
-                        homeViewModel.startTimer()
+                        if (endTime != 0L) {
+                            homeViewModel.startTimer()
+                        } else {
+                            Toast.makeText(context, "请先设置冥想时间", Toast.LENGTH_SHORT).show()
+                        }
                     },
                     onPause = { homeViewModel.pauseTimer() },
                     currentTime = currentTime.timeParser(),

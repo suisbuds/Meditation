@@ -1,6 +1,7 @@
 package com.example.mediation.ui.navigation
 
 import android.os.Build
+import androidx.annotation.OptIn
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.EaseIn
@@ -13,6 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.RawResourceDataSource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -29,6 +33,7 @@ object Destinations {
 }
 
 
+@OptIn(UnstableApi::class)
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @Composable
 fun AppNavHost(
@@ -46,7 +51,12 @@ fun AppNavHost(
             val hour by settingViewModel.hour.collectAsState()
             val minute by settingViewModel.minute.collectAsState()
             val second by settingViewModel.second.collectAsState()
-            homeViewModel.handleSettingData(listOf(musicIndex,hour,minute,second))
+            if (musicIndex != -1) {
+                homeViewModel.handleSettingData(
+                    listOf(hour, minute, second),
+                    RawResourceDataSource.buildRawResourceUri(musicList[musicIndex].musicId)
+                ) { settingViewModel.onStart() }
+            }
             HomeScreen(
                 navigateToSetting = {
                     navController.navigate(Destinations.SETTING_ROUTE)

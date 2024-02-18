@@ -1,8 +1,17 @@
 package com.example.mediation.ui.viewmodel
 
+import android.net.Uri
 import android.util.Log
+import androidx.annotation.OptIn
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player.REPEAT_MODE_ALL
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.RawResourceDataSource
+import androidx.media3.exoplayer.ExoPlayer
+import com.example.mediation.MainActivity.Companion.appContext
+import com.example.mediation.ui.components.musicList
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,10 +35,13 @@ class HomeViewModel() : ViewModel() {
     private val _enableWriteMessage = MutableStateFlow(false)
     val enableWriteMessage = _enableWriteMessage.asStateFlow()
 
-    private val _musicIndex = MutableStateFlow(0)
-    val musicIndex = _musicIndex.asStateFlow()
+    private val _musicUri = MutableStateFlow(Uri.EMPTY)
+    val musicUri = _musicUri.asStateFlow()
 
     private var timeJob: Job? = null
+    private var playMusic: Job? = null
+
+    private var player: ExoPlayer? = null
 
     //计时开始
     fun startTimer() {
@@ -44,21 +56,40 @@ class HomeViewModel() : ViewModel() {
                 }
             }
         }
+        player = ExoPlayer.Builder(appContext).build()
+        player!!.setMediaItem(
+            MediaItem.fromUri(
+                _musicUri.value
+            )
+        )
+        player!!.setRepeatMode(REPEAT_MODE_ALL)
+        playMusic = viewModelScope.launch {
+            if (_isRunning.value) {
+                player!!.prepare()
+                player!!.play()
+            }
+        }
     }
 
     //计时暂停
     fun pauseTimer() {
         timeJob?.cancel()
         _isRunning.value = false
+        playMusic = viewModelScope.launch {
+            if (!_isRunning.value) {
+                player?.pause()
+            }
+        }
     }
 
     //处理设置页面传来的数据
-    fun handleSettingData(data: List<Int>) {
+    fun handleSettingData(data: List<Int>, musicUri: Uri,clearSettingViewModelData:()->Unit) {
         if (data.isNotEmpty()) {
-            _endTime.value = ((data[1] * 60 + data[2]) * 60 + data[3]).toLong()
+            _endTime.value = ((data[0] * 60 + data[1]) * 60 + data[2]).toLong()
             Log.d("HomeViewModel", "time: ${_currentTime.value}+${_endTime.value}")
-            _musicIndex.value = data[0]
-            Log.d("HomeViewModel", "music_index: ${_musicIndex.value}")
+            _musicUri.value = musicUri
+            Log.d("HomeViewModel", "music_uri: ${_musicUri.value}")
+            clearSettingViewModelData()
         }
     }
 
@@ -67,8 +98,11 @@ class HomeViewModel() : ViewModel() {
         timeJob?.cancel()
         _enableWriteMessage.value = true
         _currentTime.value = 0
+        _endTime.value = 0
         _isRunning.value = false
         _hasStarted.value = false
+        playMusic?.cancel()
+        player?.release()
     }
 
     override fun onCleared() {
