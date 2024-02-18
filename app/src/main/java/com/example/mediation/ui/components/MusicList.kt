@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
@@ -21,8 +22,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.mediation.R
 import com.example.mediation.ui.theme.MediationTheme
 import com.example.mediation.ui.theme.icon_dark_color
@@ -36,12 +39,13 @@ fun MusicList(
     Surface(
         color = Color.White,
         modifier = modifier
-            .height(260.dp)
+            .height(270.dp)
             .padding(15.dp),
         shape = RoundedCornerShape(5.dp)
     ) {
         LazyColumn(modifier = modifier.padding(8.dp)) {
             item {
+                Spacer(modifier = modifier.height(10.dp))
                 MusicListHeader(modifier = modifier)
                 Spacer(modifier = modifier.height(8.dp))
             }
@@ -49,7 +53,7 @@ fun MusicList(
                 LazyHorizontalGrid(
                     rows = GridCells.Fixed(3),
                     verticalArrangement = Arrangement.spacedBy(5.dp),
-                    horizontalArrangement = Arrangement.spacedBy(125.dp),
+                    horizontalArrangement = Arrangement.spacedBy(20.dp),
                     modifier = Modifier.height(180.dp)
                 ) {
                     items(musicList) { music ->
@@ -67,10 +71,11 @@ fun MusicList(
 @Composable
 fun MusicListHeader(modifier: Modifier = Modifier) {
     Row(modifier = modifier.fillMaxWidth()) {
+        Spacer(modifier = modifier.width(7.dp))
         Text(
             text = "音乐",
             color = icon_dark_color,
-            style = MaterialTheme.typography.bodyLarge
+            style = TextStyle(fontSize = 15.sp)
         )
         Icon(
             imageVector = Icons.Default.KeyboardArrowRight,

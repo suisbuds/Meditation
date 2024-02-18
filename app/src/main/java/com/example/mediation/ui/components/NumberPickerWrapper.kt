@@ -47,7 +47,7 @@ fun NumberPickerWrapper(
                 color = icon_dark_color,
                 fontFamily = FontFamily.Monospace,
                 fontSize = 25.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.Normal
             )
         )
         val textMeasurer = rememberTextMeasurer()
@@ -73,7 +73,7 @@ private fun DrawScope.drawOverlay(
         topLeft = middleRect.topLeft,
         size = middleRect.size,
         cornerRadius = cornerRadius,
-        style = Stroke(width = 3f)
+        style = Stroke(width = 1f)
     )
     val bottomRect = Rect(0f, 2 * rectHeight, rectWidth, rectHeight * 3)
     canvas.drawRect(Color.White, topLeft = bottomRect.topLeft, size = bottomRect.size)
@@ -82,7 +82,7 @@ private fun DrawScope.drawOverlay(
             text = title,
             style = TextStyle(
                 fontSize = 10.sp,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Light,
                 color = icon_dark_color
             )
         )
