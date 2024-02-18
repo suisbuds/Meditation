@@ -66,10 +66,10 @@ fun SettingScreen(
                 MusicList(
                     musicList = musicList,
                     onClick = {
-                        val index = musicList.indexOf(it) + 1
+                        val index = musicList.indexOf(it)
                         Toast.makeText(
                             context,
-                            "已加入音乐$index",
+                            "已加入音乐${index + 1}",
                             Toast.LENGTH_SHORT
                         ).show()
                         if (index != currentMusicIndex) {
@@ -83,7 +83,17 @@ fun SettingScreen(
                 ) {
                     ConfirmButton(
                         onConfirmPressed = {
-                            settingViewModel.onConfirmPressed(navigateToHome = navigateToHome)
+                            if (currentHour == 0 && currentMinute == 0 && currentSecond == 0) Toast.makeText(
+                                context,
+                                "请设置时间",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            else if (currentMusicIndex == -1) Toast.makeText(
+                                context,
+                                "请设置背景音乐",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            else settingViewModel.onConfirmPressed(navigateToHome = navigateToHome)
                         }
                     )
                 }

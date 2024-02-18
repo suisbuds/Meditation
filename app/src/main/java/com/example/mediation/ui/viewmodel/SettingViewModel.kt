@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class SettingViewModel() : ViewModel() {
-    private val _musicIndex = MutableStateFlow(0)
+    private val _musicIndex = MutableStateFlow(-1)
     val musicIndex = _musicIndex.asStateFlow()
     private val _hour = MutableStateFlow(0)
     val hour = _hour.asStateFlow()
@@ -16,6 +16,13 @@ class SettingViewModel() : ViewModel() {
     val minute = _minute.asStateFlow()
     private val _second = MutableStateFlow(0)
     val second = _second.asStateFlow()
+
+    fun onStart(){
+        _musicIndex.value=-1
+        _hour.value=0
+        _minute.value=0
+        _second.value=0
+    }
     fun onHourChange(newValue: Int) {
         _hour.value = newValue
     }

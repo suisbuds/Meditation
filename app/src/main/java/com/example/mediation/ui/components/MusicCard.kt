@@ -39,10 +39,11 @@ fun MusicCard(
     music: Music,
     onClick: (Music) -> Unit
 ) {
-    Surface(modifier = modifier.width(250.dp),
+    Surface(
+        modifier = modifier.width(250.dp),
         shape = RoundedCornerShape(5.dp),
         color = Color.Transparent
-    ){
+    ) {
         Row(modifier = modifier.clickable {
             onClick(music)
         }) {
@@ -117,7 +118,8 @@ fun MusicCardPreview() {
                     R.drawable.shou_tan,
                     "手谈",
                     "专注",
-                    "竹林清脆，落子闻音"
+                    "竹林清脆，落子闻音",
+                    R.raw.waterstream
                 ),
                 onClick = {}
             )
@@ -129,7 +131,8 @@ data class Music(
     val imageId: Int,
     val title: String,
     val tag: String,
-    val subtitle: String
+    val subtitle: String,
+    val musicId: Int
 )
 
 
