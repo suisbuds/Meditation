@@ -1,0 +1,18 @@
+package com.example.mediation.data.dao
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import com.example.mediation.data.model.Message
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface MessageDao {
+    //异步操作
+    @Insert
+    suspend fun insertMessage(message: Message)
+
+    //flow保存
+    @Query("SELECT * FROM message")
+    fun getAllMessage(): Flow<List<Message>>;
+}
