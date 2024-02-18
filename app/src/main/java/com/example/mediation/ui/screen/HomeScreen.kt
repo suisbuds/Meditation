@@ -23,7 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
 import com.example.mediation.R
 import com.example.mediation.data.model.BOTTOM_ICON_LIST
 import com.example.mediation.ui.components.MessageCard
@@ -48,7 +49,6 @@ fun HomeScreen(
     val isRunning by homeViewModel.isRunning.collectAsState()
     val hasStarted by homeViewModel.hasStarted.collectAsState()
     val enableWriteMessage by homeViewModel.enableWriteMessage.collectAsState()
-    val context = LocalContext.current
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(
             topBar = { TopNavigationBar(navigateToSetting, hasStarted) },
@@ -65,18 +65,19 @@ fun HomeScreen(
                     modifier = modifier.matchParentSize()
                 )
                 AnimatedVisibility(visible = enableWriteMessage) {
-                    Dialog(onDismissRequest = { homeViewModel.closeMessageCard() }) {
+                    Popup(
+                        alignment = Alignment.Center,
+                        properties = PopupProperties(focusable = true),
+                        onDismissRequest = { homeViewModel.closeMessageCard() }
+                    ) {
                         MessageCard(onClose = { homeViewModel.closeMessageCard() })
+
                     }
                 }
                 Timer(
                     isRunning = isRunning,
                     onStart = {
-                        if (endTime != 0L) {
-                            homeViewModel.startTimer()
-                        } else {
-                            Toast.makeText(context, "请先设置冥想时间", Toast.LENGTH_SHORT).show()
-                        }
+                        homeViewModel.startTimer()
                     },
                     onPause = { homeViewModel.pauseTimer() },
                     currentTime = currentTime.timeParser(),

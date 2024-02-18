@@ -44,7 +44,7 @@ fun MessageCard(
 ) {
     Surface(
         modifier = modifier
-            .padding(vertical = 96.dp)
+            .padding(horizontal = 16.dp,vertical = 96.dp)
             .clip(shape = RoundedCornerShape(12.dp)), color = Color.White.copy(alpha = 0.6f)
     ) {
         Column(modifier = modifier.padding(16.dp)) {
