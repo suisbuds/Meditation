@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -80,7 +81,8 @@ fun MusicListHeader(modifier: Modifier = Modifier) {
         Icon(
             imageVector = Icons.Default.KeyboardArrowRight,
             contentDescription = "to music list details",
-            tint = icon_dark_color
+            tint = icon_dark_color,
+            modifier = modifier.offset(0.dp,(-3).dp)
         )
         Row(
             modifier = Modifier
