@@ -6,7 +6,9 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -44,7 +46,7 @@ fun MessageCard(
 ) {
     Surface(
         modifier = modifier
-            .padding(horizontal = 16.dp,vertical = 96.dp)
+            .padding(horizontal = 16.dp, vertical = 96.dp)
             .clip(shape = RoundedCornerShape(12.dp)), color = Color.White.copy(alpha = 0.6f)
     ) {
         Column(modifier = modifier.padding(16.dp)) {
@@ -167,34 +169,41 @@ fun CardContent(modifier: Modifier = Modifier, onShare: () -> Unit, navigateToHi
                 .padding(bottom = 8.dp),
             backgroundColor = Color.White
         ) {
-            OutlinedTextField(
-                value = text,
-                onValueChange = { text = it },
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    cursorColor = icon_dark_color,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                ),
-                textStyle = TextStyle(
-                    fontFamily = NunitoFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    color = icon_dark_color
-                ),
+            Column(
                 modifier = modifier
-                    .border(width = 0.dp, color = Color.Transparent),
-                placeholder = {
-                    AnimatedVisibility(visible = text == "") {
-                        Text(
-                            text = "留言",
-                            color = icon_dark_color,
-                            fontWeight = FontWeight.Medium,
-                            fontFamily = NunitoFontFamily,
-                        )
-                    }
-                },
-            )
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                OutlinedTextField(
+                    value = text,
+                    onValueChange = { text = it },
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedContainerColor = Color.Transparent,
+                        cursorColor = icon_dark_color,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent
+                    ),
+                    textStyle = TextStyle(
+                        fontFamily = NunitoFontFamily,
+                        fontWeight = FontWeight.Medium,
+                        color = icon_dark_color
+                    ),
+                    modifier = modifier
+                        .border(width = 0.dp, color = Color.Transparent),
+                    placeholder = {
+                        AnimatedVisibility(visible = text == "") {
+                            Text(
+                                text = "留言",
+                                color = icon_dark_color,
+                                fontWeight = FontWeight.Medium,
+                                fontFamily = NunitoFontFamily,
+                            )
+                        }
+                    },
+                )
+                Spacer(modifier = modifier.weight(1f))
+            }
         }
         Spacer(modifier = modifier.height(4.dp))
         Row(
