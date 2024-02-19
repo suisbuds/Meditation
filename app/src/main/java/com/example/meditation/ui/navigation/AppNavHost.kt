@@ -47,9 +47,13 @@ fun AppNavHost(
     NavHost(
         navController = navController, startDestination = startDestination, modifier = modifier
     ) {
-        composable(route=Destinations.SPLASH_ROUTE){
+        composable(route = Destinations.SPLASH_ROUTE) {
             SplashScreen {
-                navController.navigate(Destinations.HOME_ROUTE)
+                navController.navigate(Destinations.HOME_ROUTE) {
+                    popUpTo(Destinations.SPLASH_ROUTE) {
+                        inclusive = true
+                    }
+                }
             }
         }
         composable(route = Destinations.HOME_ROUTE) {
