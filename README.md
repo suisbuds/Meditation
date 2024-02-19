@@ -1,2 +1,2 @@
-# Mediation
+# Meditation
 - test
