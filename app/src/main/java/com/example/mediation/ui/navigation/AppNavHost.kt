@@ -24,10 +24,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mediation.ui.components.musicList
 import com.example.mediation.ui.screen.HomeScreen
 import com.example.mediation.ui.screen.SettingScreen
+import com.example.mediation.ui.screen.SplashScreen
 import com.example.mediation.ui.viewmodel.HomeViewModel
 import com.example.mediation.ui.viewmodel.SettingViewModel
 
 object Destinations {
+    const val SPLASH_ROUTE = "splash"
     const val HOME_ROUTE = "home"
     const val SETTING_ROUTE = "setting"
 }
@@ -38,7 +40,7 @@ object Destinations {
 @Composable
 fun AppNavHost(
     modifier: Modifier = Modifier,
-    startDestination: String = Destinations.HOME_ROUTE,
+    startDestination: String = Destinations.SPLASH_ROUTE,
     navController: NavHostController = rememberNavController(),
     homeViewModel: HomeViewModel,
     settingViewModel: SettingViewModel
@@ -46,6 +48,11 @@ fun AppNavHost(
     NavHost(
         navController = navController, startDestination = startDestination, modifier = modifier
     ) {
+        composable(route=Destinations.SPLASH_ROUTE){
+            SplashScreen {
+                navController.navigate(Destinations.HOME_ROUTE)
+            }
+        }
         composable(route = Destinations.HOME_ROUTE) {
             val musicIndex by settingViewModel.musicIndex.collectAsState()
             val hour by settingViewModel.hour.collectAsState()
