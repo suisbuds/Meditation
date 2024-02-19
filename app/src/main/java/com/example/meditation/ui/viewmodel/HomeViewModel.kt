@@ -52,40 +52,33 @@ class HomeViewModel() : ViewModel() {
                 }
             }
         }
-        player = ExoPlayer.Builder(appContext).build()
-        player!!.setMediaItem(
-            MediaItem.fromUri(
-                _musicUri.value
-            )
-        )
-        player!!.setRepeatMode(REPEAT_MODE_ALL)
-        playMusic = viewModelScope.launch {
-            if (_isRunning.value) {
-                player!!.prepare()
-                player!!.play()
-            }
-        }
     }
 
     //计时暂停
     fun pauseTimer() {
         timeJob?.cancel()
         _isRunning.value = false
-        playMusic = viewModelScope.launch {
-            if (!_isRunning.value) {
-                player?.pause()
-            }
-        }
     }
 
     //处理设置页面传来的数据
-    fun handleSettingData(data: List<Int>, musicUri: Uri,clearSettingViewModelData:()->Unit) {
+    fun handleSettingData(data: List<Int>, musicUri: Uri, clearSettingViewModelData: () -> Unit) {
         if (data.isNotEmpty()) {
             _endTime.value = ((data[0] * 60 + data[1]) * 60 + data[2]).toLong()
             Log.d("HomeViewModel", "time: ${_currentTime.value}+${_endTime.value}")
             _musicUri.value = musicUri
             Log.d("HomeViewModel", "music_uri: ${_musicUri.value}")
             clearSettingViewModelData()
+            player = ExoPlayer.Builder(appContext).build()
+            player!!.setMediaItem(
+                MediaItem.fromUri(
+                    _musicUri.value
+                )
+            )
+            player!!.setRepeatMode(REPEAT_MODE_ALL)
+            playMusic = viewModelScope.launch {
+                player!!.prepare()
+                player!!.play()
+            }
         }
     }
 
