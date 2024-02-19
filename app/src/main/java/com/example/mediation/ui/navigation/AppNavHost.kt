@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.RawResourceDataSource
 import androidx.navigation.NavHostController
@@ -22,6 +21,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.mediation.ui.components.musicList
+import com.example.mediation.ui.screen.HistoryScreen
 import com.example.mediation.ui.screen.HomeScreen
 import com.example.mediation.ui.screen.SettingScreen
 import com.example.mediation.ui.viewmodel.HomeViewModel
@@ -30,6 +30,7 @@ import com.example.mediation.ui.viewmodel.SettingViewModel
 object Destinations {
     const val HOME_ROUTE = "home"
     const val SETTING_ROUTE = "setting"
+    const val HISTORY_ROUTE = "history"
 }
 
 
@@ -89,6 +90,9 @@ fun AppNavHost(
                 navigateToHome = {
                     navController.navigate(Destinations.HOME_ROUTE)
                 })
+        }
+        composable(route = Destinations.HISTORY_ROUTE) {
+            HistoryScreen()
         }
     }
 }

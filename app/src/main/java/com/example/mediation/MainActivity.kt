@@ -16,7 +16,7 @@ import com.example.mediation.ui.viewmodel.SettingViewModel
 import com.example.mediation.ui.viewmodel.SettingViewModelFactory
 
 class MainActivity : ComponentActivity() {
-    @RequiresApi(Build.VERSION_CODES.Q)
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
         appContext = applicationContext
         enableEdgeToEdge()
@@ -29,6 +29,9 @@ class MainActivity : ComponentActivity() {
                     viewModel(factory = SettingViewModelFactory())
                 AppNavHost(homeViewModel = homeViewModel, settingViewModel = settingViewModel)
             }
+            /*MediationTheme {
+                HistoryScreen()
+            }*/
         }
     }
 

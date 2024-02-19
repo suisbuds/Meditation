@@ -47,7 +47,7 @@ fun SettingScreen(
     Surface(modifier = modifier.fillMaxSize(), color = background_color) {
         val context = LocalContext.current
         Scaffold(
-            topBar = { TopBackHandlerBar(backToHome = backToHome) },
+            topBar = { TopBackHandlerBar(backToHome = backToHome, topAppBarName = "设定") },
             bottomBar = { BottomNavigationBar() },
             containerColor = Color.Transparent,
         ) { innerPadding ->
@@ -106,7 +106,7 @@ fun SettingScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBackHandlerBar(modifier: Modifier = Modifier, backToHome: () -> Unit) {
+fun TopBackHandlerBar(modifier: Modifier = Modifier, backToHome: () -> Unit,topAppBarName:String) {
     TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
         containerColor = Color.Transparent,
         titleContentColor = Color.Transparent
@@ -126,7 +126,7 @@ fun TopBackHandlerBar(modifier: Modifier = Modifier, backToHome: () -> Unit) {
                     )
                 }
                 Text(
-                    text = "设定",
+                    text = topAppBarName,
                     color = icon_dark_color,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
