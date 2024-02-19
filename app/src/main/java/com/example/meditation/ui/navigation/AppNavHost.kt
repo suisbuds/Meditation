@@ -21,6 +21,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.meditation.ui.components.musicList
+import com.example.meditation.ui.screen.HistoryScreen
 import com.example.meditation.ui.screen.HomeScreen
 import com.example.meditation.ui.screen.SettingScreen
 import com.example.meditation.ui.screen.SplashScreen
@@ -31,6 +32,7 @@ object Destinations {
     const val SPLASH_ROUTE = "splash"
     const val HOME_ROUTE = "home"
     const val SETTING_ROUTE = "setting"
+    const val HISTORY_ROUTE = "history"
 }
 
 
@@ -99,6 +101,9 @@ fun AppNavHost(
                 navigateToHome = {
                     navController.navigate(Destinations.HOME_ROUTE)
                 })
+        }
+        composable(route = Destinations.HISTORY_ROUTE) {
+            HistoryScreen()
         }
     }
 }

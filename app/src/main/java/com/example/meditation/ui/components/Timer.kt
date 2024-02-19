@@ -22,7 +22,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.example.meditation.R
+import com.example.mediation.R
 import com.example.meditation.ui.theme.icon_color
 import com.example.meditation.ui.theme.icon_dark_color
 

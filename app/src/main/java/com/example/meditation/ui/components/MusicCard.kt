@@ -4,13 +4,7 @@ package com.example.meditation.ui.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -25,12 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.meditation.R
-import com.example.meditation.ui.theme.MeditationTheme
-import com.example.meditation.ui.theme.md_theme_gray
-import com.example.meditation.ui.theme.md_theme_light_brown
-import com.example.meditation.ui.theme.md_theme_light_gold
-import com.example.meditation.ui.theme.md_theme_orange
+import com.example.mediation.R
+import com.example.meditation.ui.theme.*
 
 @Composable
 fun MusicCard(
