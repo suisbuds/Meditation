@@ -4,6 +4,9 @@ import android.net.Uri
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -13,7 +16,6 @@ import androidx.media3.exoplayer.ExoPlayer
 import com.example.meditation.MainActivity.Companion.appContext
 import com.example.meditation.data.dao.MessageDao
 import com.example.meditation.data.model.Message
-import com.example.meditation.data.model.TestMessages
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,14 +49,14 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
 
     private var player: ExoPlayer? = null
 
-    private val _historyMessages = MutableStateFlow(TestMessages.messages)
+    private val _historyMessages = MutableStateFlow(emptyList<Message>())
     val historyMessages = _historyMessages.asStateFlow()
 
-    private val _messageTitle = MutableStateFlow("")
-    val messageTitle = _messageTitle.asStateFlow()
+    var messageContent by mutableStateOf("")
+        private set
 
-    private val _messageContent = MutableStateFlow("")
-    val messageContent = _messageContent.asStateFlow()
+    var messageTitle by mutableStateOf("")
+        private set
 
     //计时开始
     fun startTimer() {
@@ -120,15 +122,15 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun closeMessageCard() {
         val message = Message(
-            title = _messageTitle.value,
-            content = _messageContent.value,
+            title = messageTitle,
+            content = messageContent,
             time = LocalDate.now().toString(),
-            id = 1
+            id = System.currentTimeMillis()
         )
         insertMessage(message)
         _enableWriteMessage.value = false
-        _messageTitle.value = ""
-        _messageContent.value = ""
+        messageTitle = ""
+        messageContent = ""
     }
 
     fun getAllMessages() {
@@ -141,12 +143,12 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
         }
     }
 
-    fun updateTitle(input: String = "") {
-        _messageTitle.value = input
+    fun updateTitle(input: String) {
+        messageTitle = input
     }
 
-    fun updateContent(input: String = "") {
-        _messageContent.value = input
+    fun updateContent(input: String) {
+        messageContent = input
     }
 }
 

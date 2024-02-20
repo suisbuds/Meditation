@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -42,19 +45,19 @@ import com.example.meditation.ui.viewmodel.HomeViewModel
 fun HomeScreen(
     modifier: Modifier = Modifier,
     navigateToSetting: () -> Unit,
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
+    navigateToHistory: () -> Unit
 ) {
     val currentTime by homeViewModel.currentTime.collectAsState()
     val endTime by homeViewModel.endTime.collectAsState()
     val isRunning by homeViewModel.isRunning.collectAsState()
     val hasStarted by homeViewModel.hasStarted.collectAsState()
     val enableWriteMessage by homeViewModel.enableWriteMessage.collectAsState()
-    val title by homeViewModel.messageTitle.collectAsState()
-    val content by homeViewModel.messageContent.collectAsState()
+
 
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(
-            topBar = { TopNavigationBar(navigateToSetting, hasStarted) },
+            topBar = { TopNavigationBar(navigateToSetting, hasStarted, navigateToHistory = navigateToHistory) },
             bottomBar = { BottomNavigationBar() },
             containerColor = Color.Transparent
         ) {
@@ -74,11 +77,8 @@ fun HomeScreen(
                         onDismissRequest = { homeViewModel.closeMessageCard() }
                     ) {
                         MessageCard(
-                            title = title,
-                            content = content,
                             onClose = { homeViewModel.closeMessageCard() },
-                            onTitleChange = { homeViewModel.updateTitle() },
-                            onContentChange = { homeViewModel.updateContent() }
+                            homeViewModel = homeViewModel
                         )
                     }
                 }
@@ -145,8 +145,12 @@ fun BottomNavigationBar(
 fun TopNavigationBar(
     navigateToSetting: () -> Unit,
     hasStarted: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToHistory: () -> Unit
 ) {
+    var expanded by remember {
+        mutableStateOf(false)
+    }
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent,
@@ -155,18 +159,37 @@ fun TopNavigationBar(
         actions = {
             val context = LocalContext.current
             IconButton(onClick = {
-                if (hasStarted) Toast.makeText(
-                    context,
-                    "正在倒计时，不可重新设置",
-                    Toast.LENGTH_SHORT
-                ).show()
-                else navigateToSetting()
+                expanded = true
             }) {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.menu_icon),
                     contentDescription = "navigate to setting",
                     tint = icon_dark_color,
                 )
+            }
+            DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                DropdownMenuItem(
+                    leadingIcon = { Icon(imageVector = Icons.Default.List, contentDescription = "setting") },
+                    onClick = {
+                        if (hasStarted) {
+                            Toast.makeText(
+                                context,
+                                "正在倒计时，不可重新设置",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            navigateToSetting();
+                        }
+                        expanded = false
+                    },
+                    text = { Text(text = "") })
+                DropdownMenuItem(
+                    leadingIcon = { Icon(imageVector = Icons.Default.Share, contentDescription = "history") },
+                    onClick = {
+                        navigateToHistory();
+                        expanded = false
+                    },
+                    text = { Text(text = "") })
             }
         }
     )

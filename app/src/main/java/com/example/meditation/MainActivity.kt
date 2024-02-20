@@ -7,15 +7,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.room.Room
 import com.example.meditation.data.db.MessageDatabase
-import com.example.meditation.ui.screen.HistoryScreen
+import com.example.meditation.ui.navigation.AppNavHost
 import com.example.meditation.ui.theme.MeditationTheme
 import com.example.meditation.ui.viewmodel.HomeViewModel
 import com.example.meditation.ui.viewmodel.HomeViewModelFactory
+import com.example.meditation.ui.viewmodel.SettingViewModel
+import com.example.meditation.ui.viewmodel.SettingViewModelFactory
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
@@ -25,7 +25,6 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         setContent {
-/*
             MeditationTheme {
                 //注入模型
                 val settingViewModel: SettingViewModel =
@@ -40,7 +39,7 @@ class MainActivity : ComponentActivity() {
                 val homeViewModel: HomeViewModel = viewModel(factory = HomeViewModelFactory(database.messageDao))
                 AppNavHost(homeViewModel = homeViewModel, settingViewModel = settingViewModel)
             }
-*/
+/*
             MeditationTheme {
                 val database by lazy {
                     Room.databaseBuilder(
@@ -53,6 +52,7 @@ class MainActivity : ComponentActivity() {
                 val historyMessages by homeViewModel.historyMessages.collectAsState()
                 HistoryScreen(messages = historyMessages)
             }
+*/
         }
     }
 

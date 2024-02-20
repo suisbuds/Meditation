@@ -23,16 +23,15 @@ import com.example.meditation.ui.theme.icon_color
 import com.example.meditation.ui.theme.icon_dark_color
 
 
-
 @Composable
 fun HistoryScreen(
     modifier: Modifier = Modifier,
-    navigateToHome: () -> Unit = {},
+    backToHome: () -> Unit,
     messages: List<Message>,
 ) {
     Surface(modifier = modifier.fillMaxSize(), color = background_color) {
         androidx.compose.material3.Scaffold(
-            topBar = { TopBackHandlerBar(backToHome = { navigateToHome() }, topAppBarName = "历史留言") },
+            topBar = { TopBackHandlerBar(backToHome = { backToHome() }, topAppBarName = "历史留言") },
             bottomBar = { BottomNavigationBar() },
             containerColor = Color.Transparent
         ) { innerPadding ->

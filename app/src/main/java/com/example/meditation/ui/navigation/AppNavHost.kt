@@ -73,7 +73,8 @@ fun AppNavHost(
                 navigateToSetting = {
                     navController.navigate(Destinations.SETTING_ROUTE)
                 },
-                homeViewModel = homeViewModel
+                homeViewModel = homeViewModel,
+                navigateToHistory = { navController.navigate(Destinations.HISTORY_ROUTE) }
             )
         }
         composable(route = Destinations.SETTING_ROUTE, enterTransition = {
@@ -105,7 +106,7 @@ fun AppNavHost(
         composable(route = Destinations.HISTORY_ROUTE) {
             homeViewModel.getAllMessages()
             val historyMessages by homeViewModel.historyMessages.collectAsState()
-            HistoryScreen(messages = historyMessages)
+            HistoryScreen(messages = historyMessages, backToHome = { navController.popBackStack() })
         }
     }
 }

@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp")
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -77,8 +77,9 @@ dependencies {
     //font
     implementation("androidx.compose.ui:ui-text-google-fonts:1.6.1")
     //room
-    val roomVersion = "2.6.1"
 
-    implementation("androidx.room:room-runtime:$roomVersion")
-    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    val roomVersion = "2.6.1" // Check for the latest version
+    implementation ("androidx.room:room-runtime:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation ("androidx.room:room-ktx:$roomVersion")
 }

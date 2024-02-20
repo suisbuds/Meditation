@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Message(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Long,
     val content: String,
     val title: String,
     val time: String
