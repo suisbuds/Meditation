@@ -1,20 +1,27 @@
 package com.example.meditation.ui.viewmodel
 
 import android.net.Uri
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player.REPEAT_MODE_ALL
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.meditation.MainActivity.Companion.appContext
+import com.example.meditation.data.dao.MessageDao
+import com.example.meditation.data.model.Message
+import com.example.meditation.data.model.TestMessages
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
-class HomeViewModel() : ViewModel() {
+class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
 
     private val _endTime = MutableStateFlow(0L)
     val endTime = _endTime.asStateFlow()
@@ -35,9 +42,19 @@ class HomeViewModel() : ViewModel() {
     val musicUri = _musicUri.asStateFlow()
 
     private var timeJob: Job? = null
+
     private var playMusic: Job? = null
 
     private var player: ExoPlayer? = null
+
+    private val _historyMessages = MutableStateFlow(TestMessages.messages)
+    val historyMessages = _historyMessages.asStateFlow()
+
+    private val _messageTitle = MutableStateFlow("")
+    val messageTitle = _messageTitle.asStateFlow()
+
+    private val _messageContent = MutableStateFlow("")
+    val messageContent = _messageContent.asStateFlow()
 
     //计时开始
     fun startTimer() {
@@ -74,7 +91,7 @@ class HomeViewModel() : ViewModel() {
                     _musicUri.value
                 )
             )
-            player!!.setRepeatMode(REPEAT_MODE_ALL)
+            player!!.repeatMode = REPEAT_MODE_ALL
             playMusic = viewModelScope.launch {
                 player!!.prepare()
                 player!!.play()
@@ -100,7 +117,45 @@ class HomeViewModel() : ViewModel() {
     }
 
     //close message
+    @RequiresApi(Build.VERSION_CODES.O)
     fun closeMessageCard() {
+        val message = Message(
+            title = _messageTitle.value,
+            content = _messageContent.value,
+            time = LocalDate.now().toString(),
+            id = 1
+        )
+        insertMessage(message)
         _enableWriteMessage.value = false
+        _messageTitle.value = ""
+        _messageContent.value = ""
+    }
+
+    fun getAllMessages() {
+        viewModelScope.launch { messageDao.getAllMessages().collect { response -> _historyMessages.value = response } }
+    }
+
+    private fun insertMessage(message: Message) {
+        viewModelScope.launch {
+            messageDao.insertMessage(message)
+        }
+    }
+
+    fun updateTitle(input: String = "") {
+        _messageTitle.value = input
+    }
+
+    fun updateContent(input: String = "") {
+        _messageContent.value = input
+    }
+}
+
+class HomeViewModelFactory(private val messageDao: MessageDao) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+            return HomeViewModel(messageDao = messageDao) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

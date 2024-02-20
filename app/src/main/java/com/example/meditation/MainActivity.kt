@@ -6,32 +6,53 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.meditation.ui.navigation.AppNavHost
+import androidx.room.Room
+import com.example.meditation.data.db.MessageDatabase
+import com.example.meditation.ui.screen.HistoryScreen
 import com.example.meditation.ui.theme.MeditationTheme
 import com.example.meditation.ui.viewmodel.HomeViewModel
-import com.example.meditation.ui.viewmodel.SettingViewModel
-import com.example.meditation.ui.viewmodel.SettingViewModelFactory
+import com.example.meditation.ui.viewmodel.HomeViewModelFactory
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
         appContext = applicationContext
         enableEdgeToEdge()
+
         super.onCreate(savedInstanceState)
         setContent {
+/*
             MeditationTheme {
                 //注入模型
-                val homeViewModel: HomeViewModel by viewModels()
                 val settingViewModel: SettingViewModel =
                     viewModel(factory = SettingViewModelFactory())
+                val database by lazy {
+                    Room.databaseBuilder(
+                        applicationContext,
+                        klass = MessageDatabase::class.java,
+                        name = "message.db"
+                    ).build()
+                }
+                val homeViewModel: HomeViewModel = viewModel(factory = HomeViewModelFactory(database.messageDao))
                 AppNavHost(homeViewModel = homeViewModel, settingViewModel = settingViewModel)
             }
-            /*MediationTheme {
-                HistoryScreen()
-            }*/
+*/
+            MeditationTheme {
+                val database by lazy {
+                    Room.databaseBuilder(
+                        applicationContext,
+                        klass = MessageDatabase::class.java,
+                        name = "message.db"
+                    ).build()
+                }
+                val homeViewModel: HomeViewModel = viewModel(factory = HomeViewModelFactory(database.messageDao))
+                val historyMessages by homeViewModel.historyMessages.collectAsState()
+                HistoryScreen(messages = historyMessages)
+            }
         }
     }
 

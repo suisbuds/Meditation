@@ -14,5 +14,5 @@ interface MessageDao {
 
     //flow保存
     @Query("SELECT * FROM message")
-    fun getAllMessage(): Flow<List<Message>>;
+    fun getAllMessages(): Flow<List<Message>>;
 }

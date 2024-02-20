@@ -15,7 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,25 +25,30 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mediation.R
-import com.example.meditation.ui.theme.MeditationTheme
 import com.example.meditation.ui.theme.NunitoFontFamily
 import com.example.meditation.ui.theme.icon_color
 import com.example.meditation.ui.theme.icon_dark_color
 import java.time.LocalDate
 
 //alpha值：透明度
+
+
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MessageCard(
     modifier: Modifier = Modifier,
-    onClose: () -> Unit,
     onShare: () -> Unit = {},
-    navigateToHistory: () -> Unit = {}
+    navigateToHistory: () -> Unit = {},
+    title: String,
+    content: String,
+    onClose: () -> Unit,
+    onTitleChange: (String) -> Unit,
+    onContentChange: (String) -> Unit
 ) {
+
     Surface(
         modifier = modifier
             .padding(horizontal = 16.dp, vertical = 96.dp)
@@ -51,8 +56,13 @@ fun MessageCard(
     ) {
         Column(modifier = modifier.padding(16.dp)) {
             Spacer(modifier = Modifier.height(8.dp))
-            CardHeader(onClose = onClose)
-            CardContent(onShare = onShare, navigateToHistory = navigateToHistory)
+            CardHeader(onClose = onClose, title = title, onTitleChange = onTitleChange)
+            CardContent(
+                onShare = onShare,
+                navigateToHistory = navigateToHistory,
+                content = content,
+                onContentChange = onContentChange
+            )
         }
     }
 }
@@ -60,10 +70,7 @@ fun MessageCard(
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit) {
-    var text by remember {
-        mutableStateOf("")
-    }
+fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit, title: String, onTitleChange: (String) -> Unit) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -98,8 +105,8 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit) {
                 modifier = modifier.weight(1f)
             ) {
                 TextField(
-                    value = text,
-                    onValueChange = { text = it },
+                    value = title,
+                    onValueChange = { onTitleChange(it) },
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.Transparent,
                         unfocusedContainerColor = Color.Transparent,
@@ -118,7 +125,7 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit) {
                         .border(width = 0.dp, color = Color.Transparent)
                         .offset(x = (-8).dp, y = (-4).dp),
                     placeholder = {
-                        AnimatedVisibility(visible = text == "") {
+                        AnimatedVisibility(visible = title == "") {
                             Text(
                                 text = "标题",
                                 color = icon_dark_color,
@@ -152,10 +159,14 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit) {
 
 
 @Composable
-fun CardContent(modifier: Modifier = Modifier, onShare: () -> Unit, navigateToHistory: () -> Unit) {
-    var text by remember {
-        mutableStateOf("")
-    }
+fun CardContent(
+    modifier: Modifier = Modifier,
+    onShare: () -> Unit,
+    navigateToHistory: () -> Unit,
+    onContentChange: (String) -> Unit,
+    content: String
+) {
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -175,8 +186,8 @@ fun CardContent(modifier: Modifier = Modifier, onShare: () -> Unit, navigateToHi
                     .verticalScroll(rememberScrollState())
             ) {
                 OutlinedTextField(
-                    value = text,
-                    onValueChange = { text = it },
+                    value = content,
+                    onValueChange = { onContentChange(it) },
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.Transparent,
                         unfocusedContainerColor = Color.Transparent,
@@ -192,7 +203,7 @@ fun CardContent(modifier: Modifier = Modifier, onShare: () -> Unit, navigateToHi
                     modifier = modifier
                         .border(width = 0.dp, color = Color.Transparent),
                     placeholder = {
-                        AnimatedVisibility(visible = text == "") {
+                        AnimatedVisibility(visible = content == "") {
                             Text(
                                 text = "留言",
                                 color = icon_dark_color,
@@ -232,17 +243,3 @@ fun CardContent(modifier: Modifier = Modifier, onShare: () -> Unit, navigateToHi
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview
-@Composable
-fun MessageCardPreview() {
-    MeditationTheme {
-        Surface {
-            MessageCard(
-                onClose = { },
-                navigateToHistory = { },
-                onShare = { }
-            )
-        }
-    }
-}

@@ -22,23 +22,13 @@ import com.example.meditation.ui.theme.background_color
 import com.example.meditation.ui.theme.icon_color
 import com.example.meditation.ui.theme.icon_dark_color
 
-object Test {
-    val messages = listOf(
-        Message(id = 1, title = "1", time = "1", content = "test"),
-        Message(id = 1, title = "1", time = "1", content = "testtesttesttesttesttesttesttesttest"),
-        Message(id = 1, title = "1", time = "1", content = "testtesttesttesttesttesttesttesttesttesttesttesttesttest"),
-        Message(id = 1, title = "1", time = "1", content = "testtesttesttesttesttesttesttesttesttesttesttesttesttest"),
-        Message(id = 1, title = "1", time = "1", content = "testtesttesttesttesttesttesttesttesttesttesttesttesttest"),
-        Message(id = 1, title = "1", time = "1", content = "testtesttesttesttesttesttesttesttesttesttesttesttesttest"),
-        Message(id = 1, title = "1", time = "1", content = "testtesttesttesttesttesttesttesttesttesttesttesttesttest"),
-    )
-}
+
 
 @Composable
 fun HistoryScreen(
     modifier: Modifier = Modifier,
     navigateToHome: () -> Unit = {},
-    messages: List<Message> = Test.messages
+    messages: List<Message>,
 ) {
     Surface(modifier = modifier.fillMaxSize(), color = background_color) {
         androidx.compose.material3.Scaffold(

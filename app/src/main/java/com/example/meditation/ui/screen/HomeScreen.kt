@@ -49,7 +49,9 @@ fun HomeScreen(
     val isRunning by homeViewModel.isRunning.collectAsState()
     val hasStarted by homeViewModel.hasStarted.collectAsState()
     val enableWriteMessage by homeViewModel.enableWriteMessage.collectAsState()
-    val context = LocalContext.current
+    val title by homeViewModel.messageTitle.collectAsState()
+    val content by homeViewModel.messageContent.collectAsState()
+
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(
             topBar = { TopNavigationBar(navigateToSetting, hasStarted) },
@@ -71,18 +73,19 @@ fun HomeScreen(
                         properties = PopupProperties(focusable = true),
                         onDismissRequest = { homeViewModel.closeMessageCard() }
                     ) {
-                        MessageCard(onClose = { homeViewModel.closeMessageCard() })
-
+                        MessageCard(
+                            title = title,
+                            content = content,
+                            onClose = { homeViewModel.closeMessageCard() },
+                            onTitleChange = { homeViewModel.updateTitle() },
+                            onContentChange = { homeViewModel.updateContent() }
+                        )
                     }
                 }
                 Timer(
                     isRunning = isRunning,
                     onStart = {
-                        if (endTime != 0L) {
-                            homeViewModel.startTimer()
-                        } else {
-                            Toast.makeText(context, "请先设置冥想时间", Toast.LENGTH_SHORT).show()
-                        }
+                        homeViewModel.startTimer()
                     },
                     onPause = { homeViewModel.pauseTimer() },
                     currentTime = currentTime.timeParser(),

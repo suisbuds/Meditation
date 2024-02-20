@@ -103,7 +103,9 @@ fun AppNavHost(
                 })
         }
         composable(route = Destinations.HISTORY_ROUTE) {
-            HistoryScreen()
+            homeViewModel.getAllMessages()
+            val historyMessages by homeViewModel.historyMessages.collectAsState()
+            HistoryScreen(messages = historyMessages)
         }
     }
 }
