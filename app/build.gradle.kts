@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.mediation"
+    namespace = "com.example.meditation"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.mediation"
+        applicationId = "com.example.meditation"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
