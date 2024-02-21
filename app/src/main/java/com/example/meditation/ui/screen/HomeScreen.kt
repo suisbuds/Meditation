@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
-import com.example.mediation.R
+import com.example.meditation.R
 import com.example.meditation.data.model.BOTTOM_ICON_LIST
 import com.example.meditation.ui.components.MessageCard
 import com.example.meditation.ui.components.Timer
