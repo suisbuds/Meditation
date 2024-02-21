@@ -186,6 +186,12 @@ fun TopNavigationBar(
                 onDismissRequest = { expanded = false },
             ) {
                 DropdownMenuItem(
+                    leadingIcon = {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.setting_icon),
+                            contentDescription = "setting"
+                        )
+                    },
                     onClick = {
                         if (hasStarted) {
                             Toast.makeText(
@@ -194,7 +200,7 @@ fun TopNavigationBar(
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
-                            navigateToSetting();
+                            navigateToSetting()
                         }
                         expanded = false
                     },
@@ -208,8 +214,14 @@ fun TopNavigationBar(
                 )
                 Divider()
                 DropdownMenuItem(
+                    leadingIcon = {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.history_icon),
+                            contentDescription = "history"
+                        )
+                    },
                     onClick = {
-                        navigateToHistory();
+                        navigateToHistory()
                         expanded = false
                     },
                     text = {
