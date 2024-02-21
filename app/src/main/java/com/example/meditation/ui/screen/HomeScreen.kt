@@ -5,18 +5,16 @@ import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Share
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -24,8 +22,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import com.example.mediation.R
@@ -140,6 +140,7 @@ fun BottomNavigationBar(
 }
 
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopNavigationBar(
@@ -151,6 +152,13 @@ fun TopNavigationBar(
     var expanded by remember {
         mutableStateOf(false)
     }
+
+    //rotate the icon
+    var isRotated by remember { mutableStateOf(false) }
+    val rotationAngle by animateFloatAsState(
+        targetValue = if (isRotated) 180F else 0F,
+        animationSpec = tween(durationMillis = 800, easing = LinearEasing)
+    )
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent,
@@ -158,18 +166,23 @@ fun TopNavigationBar(
         ), title = { Text(text = "") },
         actions = {
             val context = LocalContext.current
-            IconButton(onClick = {
-                expanded = true
-            }) {
+            IconButton(
+                onClick = {
+                    expanded = !expanded
+                    isRotated = !isRotated
+                }, modifier = modifier.rotate(rotationAngle)
+            ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.menu_icon),
                     contentDescription = "navigate to setting",
                     tint = icon_dark_color,
                 )
             }
-            DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+            ) {
                 DropdownMenuItem(
-                    leadingIcon = { Icon(imageVector = Icons.Default.List, contentDescription = "setting") },
                     onClick = {
                         if (hasStarted) {
                             Toast.makeText(
@@ -182,14 +195,30 @@ fun TopNavigationBar(
                         }
                         expanded = false
                     },
-                    text = { Text(text = "") })
+                    text = {
+                        Text(
+                            text = "设置", color = icon_color,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                        )
+                    },
+                    modifier = modifier.height(30.dp)
+                )
+                Divider()
                 DropdownMenuItem(
-                    leadingIcon = { Icon(imageVector = Icons.Default.Share, contentDescription = "history") },
                     onClick = {
                         navigateToHistory();
                         expanded = false
                     },
-                    text = { Text(text = "") })
+                    text = {
+                        Text(
+                            text = "历史留言", color = icon_color,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                        )
+                    },
+                    modifier = modifier.height(30.dp)
+                )
             }
         }
     )
