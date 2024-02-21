@@ -9,7 +9,10 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -202,7 +205,6 @@ fun TopNavigationBar(
                             fontWeight = FontWeight.Medium,
                         )
                     },
-                    modifier = modifier.height(30.dp)
                 )
                 Divider()
                 DropdownMenuItem(
@@ -217,7 +219,6 @@ fun TopNavigationBar(
                             fontWeight = FontWeight.Medium,
                         )
                     },
-                    modifier = modifier.height(30.dp)
                 )
             }
         }
