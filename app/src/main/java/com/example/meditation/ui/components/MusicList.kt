@@ -19,7 +19,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.mediation.R
+import com.example.meditation.R
 import com.example.meditation.ui.theme.MeditationTheme
 import com.example.meditation.ui.theme.icon_dark_color
 
@@ -74,7 +74,7 @@ fun MusicListHeader(modifier: Modifier = Modifier) {
             imageVector = Icons.Default.KeyboardArrowRight,
             contentDescription = "to music list details",
             tint = icon_dark_color,
-            modifier = modifier.offset(0.dp,(-3).dp)
+            modifier = modifier.offset(0.dp, (-3).dp)
         )
         Row(
             modifier = Modifier
@@ -108,7 +108,7 @@ val musicList: List<Music> = listOf(
     Music(R.drawable.shou_tan, "手谈", "专注", "竹林清脆，落子闻音", R.raw.airplane),
     Music(R.drawable.lin_feng, "林风", "冥想", "穿林而过的风", R.raw.boilingwater),
     Music(R.drawable.guang_yun, "光蕴", "情绪", "点点喜悦，束束希望", R.raw.campfire),
-    Music(R.drawable.lin_feng, "林风", "专注", "竹林清脆，落子闻音", R.raw.chirpingbirds),
-    Music(R.drawable.lin_feng, "手谈", "专注", "竹林清脆，落子闻音", R.raw.nightfall),
-    Music(R.drawable.guang_yun, "手谈", "专注", "竹林清脆，落子闻音", R.raw.waterstream),
+    Music(R.drawable.bai_hua_lin, "林风", "专注", "竹林清脆，落子闻音", R.raw.chirpingbirds),
+    Music(R.drawable.the_swell_season, "手谈", "专注", "竹林清脆，落子闻音", R.raw.nightfall),
+    Music(R.drawable.mountain, "手谈", "专注", "竹林清脆，落子闻音", R.raw.waterstream),
 )

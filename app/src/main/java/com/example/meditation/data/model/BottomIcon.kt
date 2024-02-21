@@ -1,6 +1,6 @@
 package com.example.meditation.data.model
 
-import com.example.mediation.R
+import com.example.meditation.R
 
 
 object Name {

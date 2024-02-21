@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.mediation.R
+import com.example.meditation.R
 import com.example.meditation.ui.components.Music
 import com.example.meditation.ui.components.MusicList
 import com.example.meditation.ui.components.TimeSetting
