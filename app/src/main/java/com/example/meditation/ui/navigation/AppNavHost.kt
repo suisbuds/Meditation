@@ -80,7 +80,7 @@ fun AppNavHost(
         composable(route = Destinations.SETTING_ROUTE, enterTransition = {
             fadeIn(
                 animationSpec = tween(
-                    250, easing = LinearEasing
+                    200, easing = LinearEasing
                 )
             ) + slideIntoContainer(
                 animationSpec = tween(250, easing = EaseIn),
@@ -89,7 +89,7 @@ fun AppNavHost(
         }, exitTransition = {
             fadeOut(
                 animationSpec = tween(
-                    250, easing = LinearEasing
+                    200, easing = LinearEasing
                 )
             ) + slideOutOfContainer(
                 animationSpec = tween(250, easing = EaseOut),
@@ -103,7 +103,25 @@ fun AppNavHost(
                     navController.navigate(Destinations.HOME_ROUTE)
                 })
         }
-        composable(route = Destinations.HISTORY_ROUTE) {
+        composable(route = Destinations.HISTORY_ROUTE,enterTransition = {
+            fadeIn(
+                animationSpec = tween(
+                    200, easing = LinearEasing
+                )
+            ) + slideIntoContainer(
+                animationSpec = tween(250, easing = EaseIn),
+                towards = AnimatedContentTransitionScope.SlideDirection.Start
+            )
+        }, exitTransition = {
+            fadeOut(
+                animationSpec = tween(
+                    200, easing = LinearEasing
+                )
+            ) + slideOutOfContainer(
+                animationSpec = tween(250, easing = EaseOut),
+                towards = AnimatedContentTransitionScope.SlideDirection.End
+            )
+        }) {
             homeViewModel.getAllMessages()
             val historyMessages by homeViewModel.historyMessages.collectAsState()
             HistoryScreen(messages = historyMessages, backToHome = { navController.popBackStack() })
