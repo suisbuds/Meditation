@@ -49,6 +49,9 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
 
     private var player: ExoPlayer? = null
 
+    private var _isPlayingMusic = MutableStateFlow(false)
+    val isPlayingMusic = _isPlayingMusic.asStateFlow()
+
     private val _historyMessages = MutableStateFlow(emptyList<Message>())
     val historyMessages = _historyMessages.asStateFlow()
 
@@ -97,8 +100,23 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
             playMusic = viewModelScope.launch {
                 player!!.prepare()
                 player!!.play()
+                _isPlayingMusic.value = true
             }
         }
+    }
+
+    //控制音乐播放按钮点击事件
+    fun onMusicControllerClicked() {
+        if(player!=null){
+            if (_isPlayingMusic.value) {
+                _isPlayingMusic.value = false
+                player!!.pause()
+            } else {
+                _isPlayingMusic.value = true
+                player!!.play()
+            }
+        }
+
     }
 
     //计时结束,重置
@@ -134,7 +152,9 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
     }
 
     fun getAllMessages() {
-        viewModelScope.launch { messageDao.getAllMessages().collect { response -> _historyMessages.value = response } }
+        viewModelScope.launch {
+            messageDao.getAllMessages().collect { response -> _historyMessages.value = response }
+        }
     }
 
     private fun insertMessage(message: Message) {

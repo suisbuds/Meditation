@@ -65,13 +65,9 @@ fun SettingScreen(
                 )
                 MusicList(
                     musicList = musicList,
+                    currentMusicIndex = currentMusicIndex,
                     onClick = {
                         val index = musicList.indexOf(it)
-                        Toast.makeText(
-                            context,
-                            "已加入音乐${index + 1}",
-                            Toast.LENGTH_SHORT
-                        ).show()
                         if (index != currentMusicIndex) {
                             settingViewModel.onMusicChange(index)
                         }

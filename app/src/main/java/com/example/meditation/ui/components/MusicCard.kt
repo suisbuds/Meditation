@@ -1,19 +1,25 @@
 package com.example.meditation.ui.components
 
 
+import android.provider.MediaStore.Audio.Radio
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,16 +32,17 @@ import com.example.meditation.ui.theme.*
 fun MusicCard(
     modifier: Modifier = Modifier,
     music: Music,
-    onClick: (Music) -> Unit
+    selected: Boolean,
+    onClick: () -> Unit
 ) {
     Surface(
-        modifier = modifier.width(250.dp),
+        modifier = modifier
+            .width(250.dp)
+            .padding(horizontal = 3.dp),
         shape = RoundedCornerShape(5.dp),
         color = Color.Transparent
     ) {
-        Row(modifier = modifier.clickable {
-            onClick(music)
-        }) {
+        Row(modifier = modifier.selectable(selected, onClick = onClick, role = Role.RadioButton)) {
             Spacer(modifier = modifier.width(5.dp))
             Image(
                 painter = painterResource(id = music.imageId),
@@ -52,6 +59,20 @@ fun MusicCard(
                 subtitle = music.subtitle,
                 tag = music.tag
             )
+            Column(modifier = modifier.fillMaxWidth()) {
+                Spacer(modifier = modifier.height(10.dp))
+                Box(modifier = modifier.align(Alignment.End)) {
+                    RadioButton(
+                        selected = selected, onClick = null,
+                        colors = RadioButtonDefaults.colors(
+                            selectedColor = icon_dark_color,
+                            unselectedColor = icon_dark_color
+                        )
+                    )
+                }
+            }
+
+
         }
     }
 
@@ -110,6 +131,7 @@ fun MusicCardPreview() {
                     "竹林清脆，落子闻音",
                     R.raw.waterstream
                 ),
+                selected = true,
                 onClick = {}
             )
         }

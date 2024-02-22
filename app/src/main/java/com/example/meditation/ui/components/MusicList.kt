@@ -27,6 +27,7 @@ import com.example.meditation.ui.theme.icon_dark_color
 fun MusicList(
     modifier: Modifier = Modifier,
     musicList: List<Music>,
+    currentMusicIndex: Int,
     onClick: (Music) -> Unit
 ) {
     Surface(
@@ -50,9 +51,11 @@ fun MusicList(
                     modifier = Modifier.height(180.dp)
                 ) {
                     items(musicList) { music ->
+                        val index = musicList.indexOf(music)
                         MusicCard(
                             music = music,
-                            onClick = onClick
+                            selected = index == currentMusicIndex,
+                            onClick = { onClick(music) }
                         )
                     }
                 }
@@ -98,6 +101,7 @@ fun MusicListPreview() {
         Surface {
             MusicList(
                 musicList = musicList,
+                currentMusicIndex = 1,
                 onClick = {}
             )
         }

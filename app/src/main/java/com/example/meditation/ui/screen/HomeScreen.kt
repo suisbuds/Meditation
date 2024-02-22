@@ -10,9 +10,13 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -31,19 +35,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.meditation.R
 import com.example.meditation.data.model.BOTTOM_ICON_LIST
 import com.example.meditation.ui.components.MessageCard
 import com.example.meditation.ui.components.Timer
+import com.example.meditation.ui.theme.MeditationTheme
 import com.example.meditation.ui.theme.icon_color
 import com.example.meditation.ui.theme.icon_dark_color
 import com.example.meditation.ui.theme.indicator_color
 import com.example.meditation.ui.utils.timeParser
 import com.example.meditation.ui.viewmodel.HomeViewModel
+import com.example.meditation.ui.viewmodel.HomeViewModelFactory
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Preview
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -60,7 +66,14 @@ fun HomeScreen(
 
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(
-            topBar = { TopNavigationBar(navigateToSetting, hasStarted, navigateToHistory = navigateToHistory) },
+            topBar = {
+                TopNavigationBar(
+                    navigateToSetting,
+                    hasStarted,
+                    navigateToHistory = navigateToHistory,
+                    onMusicControllerClicked = homeViewModel::onMusicControllerClicked
+                )
+            },
             bottomBar = { BottomNavigationBar() },
             containerColor = Color.Transparent
         ) {
@@ -150,7 +163,8 @@ fun TopNavigationBar(
     navigateToSetting: () -> Unit,
     hasStarted: Boolean,
     modifier: Modifier = Modifier,
-    navigateToHistory: () -> Unit
+    navigateToHistory: () -> Unit,
+    onMusicControllerClicked: () -> Unit
 ) {
     var expanded by remember {
         mutableStateOf(false)
@@ -160,13 +174,24 @@ fun TopNavigationBar(
     var isRotated by remember { mutableStateOf(false) }
     val rotationAngle by animateFloatAsState(
         targetValue = if (isRotated) 180F else 0F,
-        animationSpec = tween(durationMillis = 800, easing = LinearEasing)
+        animationSpec = tween(durationMillis = 800, easing = LinearEasing), label = ""
     )
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent,
             titleContentColor = Color.Transparent
         ), title = { Text(text = "") },
+        navigationIcon = {
+            IconButton(onClick = onMusicControllerClicked) {
+                Image(
+                    painter = painterResource(id = R.drawable.music_controller),
+                    contentDescription = "music controller",
+                    modifier = modifier
+                        .size(20.dp, 20.dp)
+                        .offset(x = 8.dp, y = 4.dp)
+                )
+            }
+        },
         actions = {
             val context = LocalContext.current
             IconButton(
@@ -236,3 +261,4 @@ fun TopNavigationBar(
         }
     )
 }
+
