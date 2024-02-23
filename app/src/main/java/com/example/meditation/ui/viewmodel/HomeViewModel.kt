@@ -107,7 +107,7 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
 
     //控制音乐播放按钮点击事件
     fun onMusicControllerClicked() {
-        if(player!=null){
+        if (player != null) {
             if (_isPlayingMusic.value) {
                 _isPlayingMusic.value = false
                 player!!.pause()
@@ -161,6 +161,10 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
         viewModelScope.launch {
             messageDao.insertMessage(message)
         }
+    }
+
+    fun swipeToDeleteMessage(message: Message) {
+        viewModelScope.launch { messageDao.deleteMessage(message) }
     }
 
     fun updateTitle(input: String) {

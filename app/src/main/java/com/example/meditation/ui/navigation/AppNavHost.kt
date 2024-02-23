@@ -103,7 +103,7 @@ fun AppNavHost(
                     navController.navigate(Destinations.HOME_ROUTE)
                 })
         }
-        composable(route = Destinations.HISTORY_ROUTE,enterTransition = {
+        composable(route = Destinations.HISTORY_ROUTE, enterTransition = {
             fadeIn(
                 animationSpec = tween(
                     200, easing = LinearEasing
@@ -124,7 +124,11 @@ fun AppNavHost(
         }) {
             homeViewModel.getAllMessages()
             val historyMessages by homeViewModel.historyMessages.collectAsState()
-            HistoryScreen(messages = historyMessages, backToHome = { navController.popBackStack() })
+            HistoryScreen(
+                messages = historyMessages,
+                backToHome = { navController.popBackStack() },
+                homeViewModel = homeViewModel
+            )
         }
     }
 }

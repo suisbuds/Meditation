@@ -106,7 +106,7 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit, homeViewModel
             ) {
                 TextField(
                     value = text,
-                    onValueChange = {  text=it;homeViewModel.updateTitle(input = it) },
+                    onValueChange = { text = it;homeViewModel.updateTitle(input = it) },
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.Transparent,
                         unfocusedContainerColor = Color.Transparent,
@@ -188,7 +188,7 @@ fun CardContent(
             ) {
                 OutlinedTextField(
                     value = text,
-                    onValueChange = { text=it;homeViewModel.updateContent(it) },
+                    onValueChange = { text = it;homeViewModel.updateContent(it) },
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.Transparent,
                         unfocusedContainerColor = Color.Transparent,
