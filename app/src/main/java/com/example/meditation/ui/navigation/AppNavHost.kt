@@ -66,7 +66,8 @@ fun AppNavHost(
             if (musicIndex != -1) {
                 homeViewModel.handleSettingData(
                     listOf(hour, minute, second),
-                    RawResourceDataSource.buildRawResourceUri(musicList[musicIndex].musicId)
+                    RawResourceDataSource.buildRawResourceUri(musicList[musicIndex].musicId),
+                    musicTitle = musicList[musicIndex].title
                 ) { settingViewModel.onStart() }
             }
             HomeScreen(
@@ -74,7 +75,9 @@ fun AppNavHost(
                     navController.navigate(Destinations.SETTING_ROUTE)
                 },
                 homeViewModel = homeViewModel,
-                navigateToHistory = { navController.navigate(Destinations.HISTORY_ROUTE) }
+                navigateToHistory = {
+                    navController.navigate(Destinations.HISTORY_ROUTE)
+                }
             )
         }
         composable(route = Destinations.SETTING_ROUTE, enterTransition = {
