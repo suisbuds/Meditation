@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -25,6 +26,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.meditation.R
@@ -49,7 +51,7 @@ fun MessageCard(
 
     Surface(
         modifier = modifier
-            .padding(horizontal = 16.dp, vertical = 100.dp)
+            .padding(horizontal = 16.dp, vertical = 100.dp).offset(y=(-24).dp)
             .clip(shape = RoundedCornerShape(12.dp)), color = Color.White.copy(alpha = 0.6f)
     ) {
         Column(modifier = modifier.padding(16.dp)) {
@@ -137,6 +139,7 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit, homeViewModel
                         }
                     },
                     singleLine = true,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
                 )
                 Text(
                     text = "日期：" + LocalDate.now(),
@@ -213,6 +216,7 @@ fun CardContent(
                             )
                         }
                     },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
                 )
                 Spacer(modifier = modifier.weight(1f))
             }

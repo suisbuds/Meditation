@@ -55,11 +55,9 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
     private val _historyMessages = MutableStateFlow(emptyList<Message>())
     val historyMessages = _historyMessages.asStateFlow()
 
-    var messageContent by mutableStateOf("")
-        private set
+    private var messageContent by mutableStateOf("")
 
-    var messageTitle by mutableStateOf("")
-        private set
+    private var messageTitle by mutableStateOf("")
 
     //计时开始
     fun startTimer() {
