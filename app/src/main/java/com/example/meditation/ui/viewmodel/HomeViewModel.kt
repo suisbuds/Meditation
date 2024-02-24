@@ -16,6 +16,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import com.example.meditation.MainActivity.Companion.appContext
 import com.example.meditation.data.dao.MessageDao
 import com.example.meditation.data.model.Message
+import com.example.meditation.ui.components.musicList
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,6 +43,9 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
 
     private val _musicUri = MutableStateFlow(Uri.EMPTY)
     val musicUri = _musicUri.asStateFlow()
+
+    private val _musicTitle = MutableStateFlow("")
+    val musicTitle = _musicTitle.asStateFlow()
 
     private var timeJob: Job? = null
 
@@ -81,12 +85,18 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
     }
 
     //处理设置页面传来的数据
-    fun handleSettingData(data: List<Int>, musicUri: Uri, clearSettingViewModelData: () -> Unit) {
+    fun handleSettingData(
+        data: List<Int>,
+        musicUri: Uri,
+        musicTitle: String,
+        clearSettingViewModelData: () -> Unit
+    ) {
         if (data.isNotEmpty()) {
             _endTime.value = ((data[0] * 60 + data[1]) * 60 + data[2]).toLong()
             Log.d("HomeViewModel", "time: ${_currentTime.value}+${_endTime.value}")
             _musicUri.value = musicUri
             Log.d("HomeViewModel", "music_uri: ${_musicUri.value}")
+            _musicTitle.value = musicTitle
             clearSettingViewModelData()
             player = ExoPlayer.Builder(appContext).build()
             player!!.setMediaItem(
@@ -125,6 +135,7 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
         _endTime.value = 0
         _isRunning.value = false
         _hasStarted.value = false
+        _musicTitle.value = ""
         playMusic?.cancel()
         player?.release()
     }
