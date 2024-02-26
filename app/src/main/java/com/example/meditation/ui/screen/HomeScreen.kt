@@ -11,8 +11,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -59,6 +59,7 @@ fun HomeScreen(
     val enableWriteMessage by homeViewModel.enableWriteMessage.collectAsState()
     val pagerState = rememberPagerState { pages.size }
 
+    val musicTitle by homeViewModel.musicTitle.collectAsState()
 
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(
@@ -67,7 +68,8 @@ fun HomeScreen(
                     navigateToSetting,
                     hasStarted,
                     navigateToHistory = navigateToHistory,
-                    onMusicControllerClicked = homeViewModel::onMusicControllerClicked
+                    onMusicControllerClicked = homeViewModel::onMusicControllerClicked,
+                    musicTitle = musicTitle
                 )
             },
             bottomBar = { BottomNavigationBar() },
@@ -183,7 +185,8 @@ fun TopNavigationBar(
     hasStarted: Boolean,
     modifier: Modifier = Modifier,
     navigateToHistory: () -> Unit,
-    onMusicControllerClicked: () -> Unit
+    onMusicControllerClicked: () -> Unit,
+    musicTitle: String
 ) {
     var expanded by remember {
         mutableStateOf(false)
@@ -199,15 +202,26 @@ fun TopNavigationBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent,
             titleContentColor = Color.Transparent
-        ), title = { Text(text = "") },
+        ), title = {
+            if (musicTitle == "") {
+                Text(text = "暂无可播放音乐", color = icon_dark_color, fontSize = 12.sp)
+            } else {
+                Text(
+                    text = musicTitle,
+                    color = icon_dark_color,
+                    fontSize = 12.sp
+                )
+            }
+        },
         navigationIcon = {
             IconButton(onClick = onMusicControllerClicked) {
                 Image(
                     painter = painterResource(id = R.drawable.music_controller),
                     contentDescription = "music controller",
                     modifier = modifier
-                        .size(20.dp, 20.dp)
+                        .size(17.dp, 17.dp)
                 )
+
             }
         },
         actions = {
@@ -230,7 +244,7 @@ fun TopNavigationBar(
             ) {
                 DropdownMenuItem(
                     leadingIcon = {
-                        Icon(
+                        Image(
                             imageVector = ImageVector.vectorResource(id = R.drawable.setting_icon),
                             contentDescription = "setting"
                         )
@@ -258,7 +272,7 @@ fun TopNavigationBar(
                 Divider()
                 DropdownMenuItem(
                     leadingIcon = {
-                        Icon(
+                        Image(
                             imageVector = ImageVector.vectorResource(id = R.drawable.history_icon),
                             contentDescription = "history"
                         )

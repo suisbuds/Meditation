@@ -129,7 +129,7 @@ fun MusicCardPreview() {
                     "手谈",
                     "专注",
                     "竹林清脆，落子闻音",
-                    R.raw.waterstream
+                    R.raw.gu_meng
                 ),
                 selected = true,
                 onClick = {}
