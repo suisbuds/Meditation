@@ -8,8 +8,11 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -29,6 +32,8 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import com.example.meditation.R
 import com.example.meditation.data.model.BOTTOM_ICON_LIST
+import com.example.meditation.data.model.Page
+import com.example.meditation.data.model.pages
 import com.example.meditation.ui.components.MessageCard
 import com.example.meditation.ui.components.Timer
 import com.example.meditation.ui.theme.icon_color
@@ -37,6 +42,7 @@ import com.example.meditation.ui.theme.indicator_color
 import com.example.meditation.ui.utils.timeParser
 import com.example.meditation.ui.viewmodel.HomeViewModel
 
+@OptIn(ExperimentalFoundationApi::class)
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -51,6 +57,7 @@ fun HomeScreen(
     val isRunning by homeViewModel.isRunning.collectAsState()
     val hasStarted by homeViewModel.hasStarted.collectAsState()
     val enableWriteMessage by homeViewModel.enableWriteMessage.collectAsState()
+    val pagerState = rememberPagerState { pages.size }
 
 
     Surface(modifier = modifier.fillMaxSize()) {
@@ -69,12 +76,33 @@ fun HomeScreen(
             Box(
                 modifier = modifier.fillMaxSize()
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.home_screen),
-                    contentDescription = "",
-                    contentScale = ContentScale.FillBounds,
-                    modifier = modifier.matchParentSize()
-                )
+                HorizontalPager(state = pagerState) { pageIndex ->
+                    when (pages[pageIndex]) {
+                        Page.ThemeFirst -> Image(
+                            painter = painterResource(id = R.drawable.home_screen_1),
+                            contentDescription = "",
+                            contentScale = ContentScale.FillBounds,
+                            modifier = modifier.fillMaxSize()
+                        )
+
+                        Page.ThemeSecond -> Image(
+                            painter = painterResource(id = R.drawable.home_screen_2),
+                            contentDescription = "",
+                            contentScale = ContentScale.FillBounds,
+                            modifier = modifier.fillMaxSize()
+                        )
+
+                        Page.ThemeThird -> Image(
+                            painter = painterResource(id = R.drawable.home_screen_3),
+                            contentDescription = "",
+                            contentScale = ContentScale.FillBounds,
+                            modifier = modifier.fillMaxSize()
+                        )
+
+                    }
+
+                }
+
                 AnimatedVisibility(
                     visible = enableWriteMessage,
                 ) {

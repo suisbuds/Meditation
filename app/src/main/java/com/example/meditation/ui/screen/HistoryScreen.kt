@@ -110,7 +110,7 @@ fun HistoryCard(message: Message, modifier: Modifier = Modifier) {
 @Composable
 fun SwipeDeleteWrapper(
     homeViewModel: HomeViewModel,
-    animationDuration: Int = 1000,
+    animationDuration: Int = 3000,
     message: Message,
     content: @Composable () -> Unit,
 ) {
