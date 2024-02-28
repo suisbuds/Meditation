@@ -23,10 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.meditation.data.model.Message
-import com.example.meditation.ui.theme.NunitoFontFamily
-import com.example.meditation.ui.theme.background_color
-import com.example.meditation.ui.theme.icon_color
-import com.example.meditation.ui.theme.icon_dark_color
+import com.example.meditation.ui.theme.*
 import com.example.meditation.ui.viewmodel.HomeViewModel
 
 
@@ -68,40 +65,44 @@ fun HistoryCard(message: Message, modifier: Modifier = Modifier) {
             .padding(8.dp),
         backgroundColor = Color.White
     ) {
-        Row(modifier = modifier.fillMaxSize()) {
-            Column(
-                modifier = modifier
-                    .weight(1f)
-                    .padding(start = 16.dp),
+        Column(modifier = modifier.fillMaxSize()) {
+            Spacer(modifier = modifier.height(8.dp))
+            Row(
+                modifier = modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Spacer(modifier = modifier.height(8.dp))
                 Text(
                     text = message.title,
-                    fontSize = 16.sp,
+                    fontSize = 20.sp,
                     fontStyle = FontStyle.Italic,
-                    color = icon_dark_color,
+                    color = message_icon_color,
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = NunitoFontFamily,
+                    modifier = modifier.padding(start = 8.dp)
                 )
-                Spacer(modifier = modifier.height(4.dp))
                 Text(
                     text = message.time,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = NunitoFontFamily,
                     fontStyle = FontStyle.Italic,
-                    color = icon_color
+                    color = icon_color,
+                    modifier = modifier.padding(end = 8.dp)
                 )
+            }
+            Spacer(modifier = modifier.height(4.dp))
+            Row {
                 Text(
                     text = message.content,
                     fontSize = 18.sp,
                     fontFamily = NunitoFontFamily,
                     fontWeight = FontWeight.Medium,
                     color = icon_dark_color,
+                    modifier = modifier.padding(8.dp)
                 )
-                Spacer(modifier = modifier.height(4.dp))
             }
-            Spacer(modifier = modifier.weight(1f))
+            Spacer(modifier = modifier.height(4.dp))
         }
     }
 }
