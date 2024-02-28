@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     viewModel(factory = SettingViewModelFactory())
                 val database by lazy {
                     Room.databaseBuilder(
-                        applicationContext,
+                        appContext,
                         klass = MessageDatabase::class.java,
                         name = "message.db"
                     ).build()

@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,14 +21,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.room.Room
+import com.example.meditation.MainActivity.Companion.appContext
+import com.example.meditation.data.db.MessageDatabase
 import com.example.meditation.data.model.Message
+import com.example.meditation.ui.theme.MeditationTheme
 import com.example.meditation.ui.theme.NunitoFontFamily
 import com.example.meditation.ui.theme.background_color
 import com.example.meditation.ui.theme.icon_color
 import com.example.meditation.ui.theme.icon_dark_color
 import com.example.meditation.ui.viewmodel.HomeViewModel
+import com.example.meditation.ui.viewmodel.HomeViewModelFactory
 
 
 @Composable
@@ -39,7 +47,12 @@ fun HistoryScreen(
 ) {
     Surface(modifier = modifier.fillMaxSize(), color = background_color) {
         Scaffold(
-            topBar = { TopBackHandlerBar(backToHome = { backToHome() }, topAppBarName = "历史留言") },
+            topBar = {
+                TopBackHandlerBar(
+                    backToHome = { backToHome() },
+                    topAppBarName = "历史留言"
+                )
+            },
             bottomBar = { BottomNavigationBar() },
             containerColor = Color.Transparent
         ) { innerPadding ->
@@ -60,12 +73,16 @@ fun HistoryScreen(
 
 @Composable
 fun HistoryCard(message: Message, modifier: Modifier = Modifier) {
+    var isExpanded by remember {
+        mutableStateOf(false)
+    }
     Card(
         shape = RoundedCornerShape(12.dp),
         elevation = 4.dp,
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable { isExpanded = !isExpanded },
         backgroundColor = Color.White
     ) {
         Row(modifier = modifier.fillMaxSize()) {
@@ -94,14 +111,15 @@ fun HistoryCard(message: Message, modifier: Modifier = Modifier) {
                 )
                 Text(
                     text = message.content,
-                    fontSize = 18.sp,
+                    fontSize = 12.sp,
                     fontFamily = NunitoFontFamily,
                     fontWeight = FontWeight.Medium,
                     color = icon_dark_color,
+                    maxLines = if (isExpanded) Int.MAX_VALUE else 1
                 )
-                Spacer(modifier = modifier.height(4.dp))
+                Spacer(modifier = modifier.height(8.dp))
             }
-            Spacer(modifier = modifier.weight(1f))
+            Spacer(modifier = modifier.width(5.dp))
         }
     }
 }
@@ -183,3 +201,19 @@ fun DeleteBackground(modifier: Modifier = Modifier, swipeDismissState: DismissSt
     }
 }
 
+@Preview
+@Composable
+fun HistoryCardPreview() {
+    MeditationTheme {
+        Surface {
+            HistoryCard(
+                message = Message(
+                    1,
+                    "abcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                    "Abc",
+                    "2024-2-28"
+                )
+            )
+        }
+    }
+}
