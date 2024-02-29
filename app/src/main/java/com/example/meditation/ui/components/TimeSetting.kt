@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.meditation.ui.theme.MeditationTheme
-import com.example.meditation.ui.theme.icon_dark_color
+import com.example.meditation.ui.theme.icon_dark_color_brown
 
 @Composable
 fun TimeSetting(
@@ -65,7 +65,7 @@ private fun drawTimeSettingHeader(
         textMeasurer.measure(
             text = AnnotatedString("时间"),
             style = TextStyle(
-                color = icon_dark_color,
+                color = icon_dark_color_brown,
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Light
             )

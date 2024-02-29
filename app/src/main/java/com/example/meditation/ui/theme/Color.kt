@@ -73,8 +73,24 @@ val md_theme_gray = Color(0xFF8C909C)
 
 
 //自定义颜色
-val icon_color = Color(0xFF9C8E87)
-val icon_dark_color = Color(0xFF7B6861)
+val icon_color_brown = Color(0xFF9C8E87)
+val icon_dark_color_brown = Color(0xFF7B6861)
 val background_color = Color(0xFFEFE7DF)
 val indicator_color = Color(0xFFEFECEB)
 val message_icon_color = Color(0xFF453D39)
+val icon_color_blue = Color(0xFF607379)
+val icon_dark_color_blue = Color(0xFF154D61)
+
+val darkColorList = listOf<Color>(
+    icon_dark_color_brown, icon_dark_color_brown, icon_dark_color_brown,
+    icon_dark_color_blue, icon_dark_color_blue, icon_dark_color_blue
+)
+
+val shallowColorList = listOf<Color>(
+    icon_color_brown,
+    icon_color_brown,
+    icon_color_brown,
+    icon_color_blue,
+    icon_color_blue,
+    icon_color_blue
+)

@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.meditation.R
 import com.example.meditation.ui.theme.MeditationTheme
-import com.example.meditation.ui.theme.icon_dark_color
+import com.example.meditation.ui.theme.icon_dark_color_brown
 
 @Composable
 fun MusicList(
@@ -70,13 +70,13 @@ fun MusicListHeader(modifier: Modifier = Modifier) {
         Spacer(modifier = modifier.width(7.dp))
         Text(
             text = "音乐",
-            color = icon_dark_color,
+            color = icon_dark_color_brown,
             style = TextStyle(fontSize = 15.sp)
         )
         Icon(
             imageVector = Icons.Default.KeyboardArrowRight,
             contentDescription = "to music list details",
-            tint = icon_dark_color,
+            tint = icon_dark_color_brown,
             modifier = modifier.offset(0.dp, (-3).dp)
         )
         Row(
@@ -87,7 +87,7 @@ fun MusicListHeader(modifier: Modifier = Modifier) {
             Icon(
                 imageVector = Icons.Default.MoreVert,
                 contentDescription = "more of music list",
-                tint = icon_dark_color
+                tint = icon_dark_color_brown
             )
         }
     }

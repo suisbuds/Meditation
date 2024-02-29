@@ -15,21 +15,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.meditation.R
 import com.example.meditation.ui.components.Music
 import com.example.meditation.ui.components.MusicList
 import com.example.meditation.ui.components.TimeSetting
-import com.example.meditation.ui.components.musicList
-import com.example.meditation.ui.theme.MeditationTheme
 import com.example.meditation.ui.theme.background_color
-import com.example.meditation.ui.theme.icon_color
-import com.example.meditation.ui.theme.icon_dark_color
+import com.example.meditation.ui.theme.icon_color_brown
+import com.example.meditation.ui.theme.icon_dark_color_brown
 import com.example.meditation.ui.viewmodel.SettingViewModel
-import com.example.meditation.ui.viewmodel.SettingViewModelFactory
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -38,7 +33,8 @@ fun SettingScreen(
     backToHome: () -> Unit,
     musicList: List<Music>,
     settingViewModel: SettingViewModel,
-    navigateToHome: () -> Unit
+    navigateToHome: () -> Unit,
+    colorIndex: Int
 ) {
     val currentMusicIndex by settingViewModel.musicIndex.collectAsState()
     val currentHour by settingViewModel.hour.collectAsState()
@@ -48,7 +44,7 @@ fun SettingScreen(
         val context = LocalContext.current
         Scaffold(
             topBar = { TopBackHandlerBar(backToHome = backToHome, topAppBarName = "设定") },
-            bottomBar = { BottomNavigationBar() },
+            bottomBar = { BottomNavigationBar(colorIndex = colorIndex) },
             containerColor = Color.Transparent,
         ) { innerPadding ->
             Column(
@@ -102,7 +98,7 @@ fun SettingScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBackHandlerBar(modifier: Modifier = Modifier, backToHome: () -> Unit,topAppBarName:String) {
+fun TopBackHandlerBar(modifier: Modifier = Modifier, backToHome: () -> Unit, topAppBarName: String) {
     TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
         containerColor = Color.Transparent,
         titleContentColor = Color.Transparent
@@ -118,12 +114,12 @@ fun TopBackHandlerBar(modifier: Modifier = Modifier, backToHome: () -> Unit,topA
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.arrowback_icon),
                         contentDescription = "",
-                        tint = icon_dark_color
+                        tint = icon_dark_color_brown
                     )
                 }
                 Text(
                     text = topAppBarName,
-                    color = icon_dark_color,
+                    color = icon_dark_color_brown,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
                     modifier = modifier.offset(x = (-4).dp)
@@ -141,7 +137,7 @@ fun ConfirmButton(
     Button(
         onClick = onConfirmPressed,
         shape = RoundedCornerShape(5.dp),
-        colors = ButtonDefaults.buttonColors(icon_color),
+        colors = ButtonDefaults.buttonColors(icon_color_brown),
         modifier = modifier
             .fillMaxWidth()
             .padding(15.dp)
@@ -150,18 +146,3 @@ fun ConfirmButton(
     }
 }
 
-@Preview
-@Composable
-fun SettingScreenPreview() {
-    MeditationTheme {
-        Surface {
-            val settingViewModel: SettingViewModel = viewModel(factory = SettingViewModelFactory())
-            SettingScreen(
-                backToHome = { },
-                musicList = musicList,
-                settingViewModel = settingViewModel,
-                navigateToHome = { }
-            )
-        }
-    }
-}

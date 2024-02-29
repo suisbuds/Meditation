@@ -23,8 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.example.meditation.R
-import com.example.meditation.ui.theme.icon_color
-import com.example.meditation.ui.theme.icon_dark_color
+import com.example.meditation.ui.theme.darkColorList
+import com.example.meditation.ui.theme.shallowColorList
 
 
 //怎样使文字初始为开始
@@ -37,7 +37,8 @@ fun Timer(
     currentTime: String,
     endTime: String,
     hasStarted: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    colorIndex: Int
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
@@ -64,13 +65,13 @@ fun Timer(
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.pause_icon),
                     contentDescription = "pause timer",
-                    tint = icon_dark_color
+                    tint = darkColorList[colorIndex]
                 )
             } else {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.play_icon),
                     contentDescription = "start timer",
-                    tint = icon_dark_color
+                    tint = darkColorList[colorIndex]
                 )
             }
         }
@@ -95,10 +96,10 @@ fun Timer(
                 true -> {
                     Text(
                         buildAnnotatedString {
-                            withStyle(style = SpanStyle(color = icon_dark_color)) {
+                            withStyle(style = SpanStyle(color = darkColorList[colorIndex])) {
                                 append(currentTime)
                             }
-                            withStyle(style = SpanStyle(color = icon_color)) {
+                            withStyle(style = SpanStyle(color = shallowColorList[colorIndex])) {
                                 append(" / $endTime")
                             }
                         },
@@ -107,7 +108,7 @@ fun Timer(
                 }
 
                 false -> {
-                    Text(text = "开始", color = icon_dark_color, fontWeight = FontWeight.SemiBold)
+                    Text(text = "开始", color = darkColorList[colorIndex], fontWeight = FontWeight.SemiBold)
                 }
             }
 

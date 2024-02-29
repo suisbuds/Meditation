@@ -16,7 +16,6 @@ import androidx.media3.exoplayer.ExoPlayer
 import com.example.meditation.MainActivity.Companion.appContext
 import com.example.meditation.data.dao.MessageDao
 import com.example.meditation.data.model.Message
-import com.example.meditation.ui.components.musicList
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -62,6 +61,10 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
     private var messageContent by mutableStateOf("")
 
     private var messageTitle by mutableStateOf("")
+
+
+    private val _currentColorIndex = MutableStateFlow(0)
+    val currentColorIndex = _currentColorIndex.asStateFlow()
 
     //计时开始
     fun startTimer() {
@@ -182,6 +185,10 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
 
     fun updateContent(input: String) {
         messageContent = input
+    }
+
+    fun updateColorIndex(index: Int) {
+        _currentColorIndex.value = index
     }
 }
 

@@ -36,23 +36,11 @@ class MainActivity : ComponentActivity() {
                         name = "message.db"
                     ).build()
                 }
-                val homeViewModel: HomeViewModel = viewModel(factory = HomeViewModelFactory(database.messageDao))
+                val homeViewModel: HomeViewModel =
+                    viewModel(factory = HomeViewModelFactory(database.messageDao))
                 AppNavHost(homeViewModel = homeViewModel, settingViewModel = settingViewModel)
             }
-/*
-            MeditationTheme {
-                val database by lazy {
-                    Room.databaseBuilder(
-                        applicationContext,
-                        klass = MessageDatabase::class.java,
-                        name = "message.db"
-                    ).build()
-                }
-                val homeViewModel: HomeViewModel = viewModel(factory = HomeViewModelFactory(database.messageDao))
-                val historyMessages by homeViewModel.historyMessages.collectAsState()
-                HistoryScreen(messages = historyMessages)
-            }
-*/
+
         }
     }
 

@@ -99,9 +99,11 @@ fun AppNavHost(
                 towards = AnimatedContentTransitionScope.SlideDirection.End
             )
         }) {
+            val colorIndex by homeViewModel.currentColorIndex.collectAsState()
             SettingScreen(backToHome = { navController.popBackStack() },
                 musicList = musicList,
                 settingViewModel = settingViewModel,
+                colorIndex=colorIndex,
                 navigateToHome = {
                     navController.navigate(Destinations.HOME_ROUTE)
                 })
@@ -127,10 +129,12 @@ fun AppNavHost(
         }) {
             homeViewModel.getAllMessages()
             val historyMessages by homeViewModel.historyMessages.collectAsState()
+            val colorIndex by homeViewModel.currentColorIndex.collectAsState()
             HistoryScreen(
                 messages = historyMessages,
                 backToHome = { navController.popBackStack() },
-                homeViewModel = homeViewModel
+                homeViewModel = homeViewModel,
+                colorIndex=colorIndex
             )
         }
     }
