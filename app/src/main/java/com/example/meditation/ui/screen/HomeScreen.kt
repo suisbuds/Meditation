@@ -58,14 +58,14 @@ fun HomeScreen(
     val isRunning by homeViewModel.isRunning.collectAsState()
     val hasStarted by homeViewModel.hasStarted.collectAsState()
     val enableWriteMessage by homeViewModel.enableWriteMessage.collectAsState()
-    val pagerState = rememberPagerState { pages.size }
-    val colorIndex by homeViewModel.currentColorIndex.collectAsState()
 
+    val themeIndex by homeViewModel.currentThemeIndex.collectAsState()
+    val pagerState = rememberPagerState(initialPage = themeIndex) { pages.size }
     val musicTitle by homeViewModel.musicTitle.collectAsState()
 
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect { pageIndex ->
-            homeViewModel.updateColorIndex(pageIndex)
+            homeViewModel.updateThemeIndex(pageIndex)
         }
     }
 
@@ -78,17 +78,16 @@ fun HomeScreen(
                     navigateToHistory = navigateToHistory,
                     onMusicControllerClicked = homeViewModel::onMusicControllerClicked,
                     musicTitle = musicTitle,
-                    colorIndex = colorIndex
+                    colorIndex = themeIndex
                 )
             },
-            bottomBar = { BottomNavigationBar(colorIndex = colorIndex) },
+            bottomBar = { BottomNavigationBar(colorIndex = themeIndex) },
             containerColor = Color.Transparent
         ) {
             Box(
                 modifier = modifier.fillMaxSize()
             ) {
                 HorizontalPager(state = pagerState) { pageIndex ->
-
                     when (pages[pageIndex]) {
                         Page.ScreenDefault -> Image(
                             painter = painterResource(id = R.drawable.home_screen_default),
@@ -147,7 +146,7 @@ fun HomeScreen(
                         MessageCard(
                             onClose = { homeViewModel.closeMessageCard() },
                             homeViewModel = homeViewModel,
-                            colorIndex = colorIndex
+                            colorIndex = themeIndex
                         )
                     }
                 }
@@ -163,7 +162,7 @@ fun HomeScreen(
                     modifier = modifier
                         .align(Alignment.BottomCenter)
                         .padding(vertical = 144.dp),
-                    colorIndex = colorIndex
+                    colorIndex = themeIndex
                 )
 
             }
