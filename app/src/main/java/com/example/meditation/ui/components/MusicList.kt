@@ -109,10 +109,10 @@ fun MusicListPreview() {
 }
 
 val musicList: List<Music> = listOf(
-    Music(R.drawable.shou_tan, "竹林", "专注", "竹林清脆，落子闻音", R.raw.zhu_lin),
-    Music(R.drawable.lin_feng, "故梦", "情绪", "人间何所以，观风与月舒", R.raw.gu_meng),
-    Music(R.drawable.guang_yun, "潺潺", "冥想", "静坐溪畔，踏青风明月", R.raw.chan_chan),
-    Music(R.drawable.bai_hua_lin, "相许", "情绪", "祝眉目舒展，顺问冬安", R.raw.xiang_xu),
-    Music(R.drawable.the_swell_season, "江湖", "冥想", "围炉煮茶，叹长歌", R.raw.jiang_hu),
-    Music(R.drawable.mountain, "慢慢", "冥想", "阳光洒下一地斑驳，想着从前", R.raw.man_man),
+    Music(R.drawable.zhu_lin, "竹林", "专注", "竹林清脆，落子闻音", R.raw.zhu_lin),
+    Music(R.drawable.gu_meng, "故梦", "情绪", "人间何所以，观风与月舒", R.raw.gu_meng),
+    Music(R.drawable.chan_chan, "潺潺", "冥想", "静坐溪畔，踏青风明月", R.raw.chan_chan),
+    Music(R.drawable.xiang_xu, "相许", "情绪", "祝眉目舒展，顺问冬安", R.raw.xiang_xu),
+    Music(R.drawable.jiang_hu, "江湖", "冥想", "围炉煮茶，叹长歌", R.raw.jiang_hu),
+    Music(R.drawable.man_man, "慢慢", "冥想", "阳光洒下一地斑驳，想着从前", R.raw.man_man),
 )
