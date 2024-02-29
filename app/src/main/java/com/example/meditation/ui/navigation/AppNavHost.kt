@@ -107,10 +107,7 @@ fun AppNavHost(
                 })
         }
         composable(route = Destinations.HISTORY_ROUTE) {
-            homeViewModel.getAllMessages()
-            val historyMessages by homeViewModel.historyMessages.collectAsState()
             HistoryScreen(
-                messages = historyMessages,
                 backToHome = { navController.popBackStack() },
                 homeViewModel = homeViewModel,
             )

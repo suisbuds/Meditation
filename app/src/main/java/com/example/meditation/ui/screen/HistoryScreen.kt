@@ -1,9 +1,7 @@
 package com.example.meditation.ui.screen
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,6 +16,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -28,12 +27,14 @@ import com.example.meditation.data.model.Message
 import com.example.meditation.ui.theme.*
 import com.example.meditation.ui.viewmodel.HomeViewModel
 
+/*
+* Bug Fix:provide latest item and update it,as well as unique id
+* */
 
 @Composable
 fun HistoryScreen(
     modifier: Modifier = Modifier,
     backToHome: () -> Unit,
-    messages: List<Message>,
     homeViewModel: HomeViewModel,
     colorIndex: Int = 0
 ) {
@@ -48,14 +49,19 @@ fun HistoryScreen(
             bottomBar = { BottomNavigationBar(colorIndex = colorIndex) },
             containerColor = Color.Transparent
         ) { innerPadding ->
+            val historyMessages by homeViewModel.historyMessages.collectAsState(initial = listOf())
             LazyColumn(
                 modifier = modifier.padding(innerPadding),
                 state = rememberLazyListState(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                items(messages) { message ->
-                    SwipeDeleteWrapper(homeViewModel = homeViewModel, message = message) {
-                        HistoryCard(message = message)
+                items(items = historyMessages, key = { message -> message.id }) { message ->
+                    val currentMessage by rememberUpdatedState(newValue = message)
+                    SwipeDeleteWrapper(
+                        homeViewModel = homeViewModel,
+                        currentMessage = currentMessage
+                    ) {
+                        HistoryCard(it)
                     }
                 }
             }
@@ -125,56 +131,38 @@ fun HistoryCard(message: Message, modifier: Modifier = Modifier) {
 @Composable
 fun SwipeDeleteWrapper(
     homeViewModel: HomeViewModel,
-    animationDuration: Int = 3000,
-    message: Message,
-    content: @Composable () -> Unit,
+    currentMessage: Message,
+    content: @Composable (Message) -> Unit,
 ) {
-    var isRemove by remember {
-        mutableStateOf(false)
-    }
-    val state = rememberDismissState(
-        confirmValueChange = { value: DismissValue ->
-            when (value) {
-                DismissValue.DismissedToStart -> {
-                    isRemove = true
-                    true
-                }
 
-                else -> false
-            }
+    val state = rememberDismissState(
+        confirmValueChange = {
+            if (it == DismissValue.DismissedToStart) {
+                homeViewModel.swipeToDeleteMessage(currentMessage.id)
+                true
+            } else false
         }
     )
-    LaunchedEffect(key1 = isRemove) {
-        if (isRemove) {
-            homeViewModel.swipeToDeleteMessage(message)
-        }
-    }
-    AnimatedVisibility(
-        visible = !isRemove, exit = shrinkVertically(
-            animationSpec = tween(animationDuration),
-            shrinkTowards = Alignment.Top
-        ) + fadeOut()
-    ) {
-        SwipeToDismiss(
-            state = state,
-            background = { DeleteBackground(swipeDismissState = state) },
-            dismissContent = { content() }, directions = setOf(DismissDirection.EndToStart)
-        )
-    }
+
+    SwipeToDismiss(
+        state = state,
+        background = { DeleteBackground(swipeDismissState = state) },
+        dismissContent = { content(currentMessage) }, directions = setOf(DismissDirection.EndToStart)
+    )
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DeleteBackground(modifier: Modifier = Modifier, swipeDismissState: DismissState) {
-    val color = when (swipeDismissState.dismissDirection) {
-        DismissDirection.EndToStart -> {
-            Color.Red
+    val color by animateColorAsState(
+        when (swipeDismissState.targetValue) {
+            DismissValue.DismissedToStart -> Color.Red
+            DismissValue.Default -> Color.LightGray
+            DismissValue.DismissedToEnd -> Color.Transparent
         }
-
-        else -> {
-            Color.Transparent
-        }
-    }
+    )
+    val scale by animateFloatAsState(targetValue = if (swipeDismissState.targetValue == DismissValue.Default) 0.75f else 1f)
     Card(
         shape = RoundedCornerShape(12.dp),
         elevation = 4.dp,
@@ -192,7 +180,9 @@ fun DeleteBackground(modifier: Modifier = Modifier, swipeDismissState: DismissSt
                 imageVector = Icons.Default.Delete,
                 contentDescription = "delete",
                 tint = Color.White,
-                modifier = modifier.padding(16.dp)
+                modifier = modifier
+                    .padding(16.dp)
+                    .scale(scale)
             )
         }
     }

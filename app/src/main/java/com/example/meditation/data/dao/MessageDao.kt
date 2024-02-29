@@ -1,7 +1,6 @@
 package com.example.meditation.data.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.meditation.data.model.Message
@@ -14,9 +13,9 @@ interface MessageDao {
     suspend fun insertMessage(message: Message)
 
     //flow保存
-    @Query("SELECT * FROM message")
+    @Query("SELECT * FROM MESSAGE")
     fun getAllMessages(): Flow<List<Message>>
 
-    @Delete
-    suspend fun deleteMessage(message: Message)
+    @Query("DELETE FROM  MESSAGE WHERE id = :id")
+    suspend fun deleteMessage(id: Long)
 }

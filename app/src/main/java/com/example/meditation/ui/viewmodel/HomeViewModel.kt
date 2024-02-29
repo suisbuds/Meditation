@@ -16,6 +16,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import com.example.meditation.MainActivity.Companion.appContext
 import com.example.meditation.data.dao.MessageDao
 import com.example.meditation.data.model.Message
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -55,9 +56,6 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
     private var _isPlayingMusic = MutableStateFlow(false)
     val isPlayingMusic = _isPlayingMusic.asStateFlow()
 
-    private val _historyMessages = MutableStateFlow(emptyList<Message>())
-    val historyMessages = _historyMessages.asStateFlow()
-
     private var messageContent by mutableStateOf("")
 
     private var messageTitle by mutableStateOf("")
@@ -65,6 +63,9 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
 
     private val _currentColorIndex = MutableStateFlow(0)
     val currentColorIndex = _currentColorIndex.asStateFlow()
+
+    val historyMessages
+        get() = messageDao.getAllMessages()
 
     //计时开始
     fun startTimer() {
@@ -163,11 +164,11 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
         messageContent = ""
     }
 
-    fun getAllMessages() {
+    /*fun getAllMessages() {
         viewModelScope.launch {
             messageDao.getAllMessages().collect { response -> _historyMessages.value = response }
         }
-    }
+    }*/
 
     private fun insertMessage(message: Message) {
         viewModelScope.launch {
@@ -175,8 +176,8 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
         }
     }
 
-    fun swipeToDeleteMessage(message: Message) {
-        viewModelScope.launch { messageDao.deleteMessage(message) }
+    fun swipeToDeleteMessage(id: Long) {
+        viewModelScope.launch(Dispatchers.IO) { messageDao.deleteMessage(id) }
     }
 
     fun updateTitle(input: String) {
