@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.meditation.R
 import com.example.meditation.ui.theme.NunitoFontFamily
-import com.example.meditation.ui.theme.icon_color_brown
-import com.example.meditation.ui.theme.icon_dark_color_brown
+import com.example.meditation.ui.theme.darkColorList
+import com.example.meditation.ui.theme.shallowColorList
 import com.example.meditation.ui.viewmodel.HomeViewModel
 import java.time.LocalDate
 
@@ -46,21 +46,24 @@ fun MessageCard(
     onShare: () -> Unit = {},
     navigateToHistory: () -> Unit = {},
     onClose: () -> Unit,
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
+    colorIndex: Int
 ) {
 
     Surface(
         modifier = modifier
-            .padding(horizontal = 16.dp, vertical = 100.dp).offset(y=(-24).dp)
+            .padding(horizontal = 16.dp, vertical = 100.dp)
+            .offset(y = (-24).dp)
             .clip(shape = RoundedCornerShape(12.dp)), color = Color.White.copy(alpha = 0.6f)
     ) {
         Column(modifier = modifier.padding(16.dp)) {
             Spacer(modifier = Modifier.height(8.dp))
-            CardHeader(onClose = onClose, homeViewModel = homeViewModel)
+            CardHeader(onClose = onClose, homeViewModel = homeViewModel, colorIndex = colorIndex)
             CardContent(
                 onShare = onShare,
                 navigateToHistory = navigateToHistory,
-                homeViewModel = homeViewModel
+                homeViewModel = homeViewModel,
+                colorIndex = colorIndex
             )
         }
     }
@@ -69,7 +72,7 @@ fun MessageCard(
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit, homeViewModel: HomeViewModel) {
+fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit, homeViewModel: HomeViewModel, colorIndex: Int) {
     var text by remember {
         mutableStateOf("")
     }
@@ -82,7 +85,7 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit, homeViewModel
             Text(
                 text = "记录此次专注",
                 fontFamily = NunitoFontFamily,
-                color = icon_dark_color_brown,
+                color = darkColorList[colorIndex],
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
                 modifier = modifier
@@ -93,7 +96,7 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit, homeViewModel
             Icon(
                 imageVector = Icons.Filled.Close,
                 contentDescription = "close message",
-                tint = icon_dark_color_brown,
+                tint = darkColorList[colorIndex],
                 modifier = modifier
                     .alignByBaseline()
                     .size(24.dp)
@@ -112,7 +115,7 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit, homeViewModel
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.Transparent,
                         unfocusedContainerColor = Color.Transparent,
-                        cursorColor = icon_dark_color_brown,
+                        cursorColor = darkColorList[colorIndex],
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent
                     ),
@@ -120,7 +123,7 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit, homeViewModel
                         fontFamily = NunitoFontFamily,
                         fontStyle = FontStyle.Italic,
                         fontWeight = FontWeight.SemiBold,
-                        color = icon_dark_color_brown,
+                        color = darkColorList[colorIndex],
                         fontSize = 16.sp
                     ),
                     modifier = modifier
@@ -130,7 +133,7 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit, homeViewModel
                         AnimatedVisibility(visible = text == "") {
                             Text(
                                 text = "标题",
-                                color = icon_dark_color_brown,
+                                color = darkColorList[colorIndex],
                                 fontWeight = FontWeight.SemiBold,
                                 fontFamily = NunitoFontFamily,
                                 fontStyle = FontStyle.Italic,
@@ -145,7 +148,7 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit, homeViewModel
                     text = "日期：" + LocalDate.now(),
                     fontStyle = FontStyle.Italic,
                     fontFamily = NunitoFontFamily,
-                    color = icon_color_brown,
+                    color = shallowColorList[colorIndex],
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 12.sp,
                     modifier = modifier
@@ -155,7 +158,7 @@ fun CardHeader(modifier: Modifier = Modifier, onClose: () -> Unit, homeViewModel
                 )
 
             }
-            Spacer(modifier = modifier.weight(1f))
+            Spacer(modifier = modifier)
         }
     }
 }
@@ -166,7 +169,8 @@ fun CardContent(
     modifier: Modifier = Modifier,
     onShare: () -> Unit,
     navigateToHistory: () -> Unit,
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
+    colorIndex: Int
 ) {
     var text by remember {
         mutableStateOf("")
@@ -195,14 +199,14 @@ fun CardContent(
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.Transparent,
                         unfocusedContainerColor = Color.Transparent,
-                        cursorColor = icon_dark_color_brown,
+                        cursorColor = darkColorList[colorIndex],
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent
                     ),
                     textStyle = TextStyle(
                         fontFamily = NunitoFontFamily,
                         fontWeight = FontWeight.Medium,
-                        color = icon_dark_color_brown
+                        color = darkColorList[colorIndex]
                     ),
                     modifier = modifier
                         .border(width = 0.dp, color = Color.Transparent),
@@ -210,7 +214,7 @@ fun CardContent(
                         AnimatedVisibility(visible = text == "") {
                             Text(
                                 text = "留言",
-                                color = icon_dark_color_brown,
+                                color = darkColorList[colorIndex],
                                 fontWeight = FontWeight.Medium,
                                 fontFamily = NunitoFontFamily,
                             )
@@ -233,7 +237,7 @@ fun CardContent(
                 modifier = modifier
                     .size(24.dp)
                     .clickable { navigateToHistory() },
-                tint = icon_dark_color_brown
+                tint = darkColorList[colorIndex]
             )
             Spacer(modifier = modifier.width(16.dp))
             Icon(
@@ -242,7 +246,7 @@ fun CardContent(
                 modifier = modifier
                     .size(24.dp)
                     .clickable { onShare() },
-                tint = icon_dark_color_brown
+                tint = darkColorList[colorIndex]
             )
         }
     }

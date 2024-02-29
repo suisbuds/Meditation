@@ -99,42 +99,20 @@ fun AppNavHost(
                 towards = AnimatedContentTransitionScope.SlideDirection.End
             )
         }) {
-            val colorIndex by homeViewModel.currentColorIndex.collectAsState()
             SettingScreen(backToHome = { navController.popBackStack() },
                 musicList = musicList,
                 settingViewModel = settingViewModel,
-                colorIndex=colorIndex,
                 navigateToHome = {
                     navController.navigate(Destinations.HOME_ROUTE)
                 })
         }
-        composable(route = Destinations.HISTORY_ROUTE, enterTransition = {
-            fadeIn(
-                animationSpec = tween(
-                    200, easing = LinearEasing
-                )
-            ) + slideIntoContainer(
-                animationSpec = tween(250, easing = EaseIn),
-                towards = AnimatedContentTransitionScope.SlideDirection.Start
-            )
-        }, exitTransition = {
-            fadeOut(
-                animationSpec = tween(
-                    200, easing = LinearEasing
-                )
-            ) + slideOutOfContainer(
-                animationSpec = tween(250, easing = EaseOut),
-                towards = AnimatedContentTransitionScope.SlideDirection.End
-            )
-        }) {
+        composable(route = Destinations.HISTORY_ROUTE) {
             homeViewModel.getAllMessages()
             val historyMessages by homeViewModel.historyMessages.collectAsState()
-            val colorIndex by homeViewModel.currentColorIndex.collectAsState()
             HistoryScreen(
                 messages = historyMessages,
                 backToHome = { navController.popBackStack() },
                 homeViewModel = homeViewModel,
-                colorIndex=colorIndex
             )
         }
     }

@@ -2,7 +2,6 @@ package com.example.meditation.ui.screen
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
@@ -90,10 +89,10 @@ fun HomeScreen(
             ) {
                 HorizontalPager(state = pagerState) { pageIndex ->
 
-                    Log.d(
+            /*        Log.d(
                         "DEBUG_COLOR_INDEX",
                         "pageIndex: $pageIndex currentIndex: $colorIndex "
-                    )
+                    )*/
 
                     when (pages[pageIndex]) {
                         Page.ScreenDefault -> Image(
@@ -152,7 +151,8 @@ fun HomeScreen(
                     ) {
                         MessageCard(
                             onClose = { homeViewModel.closeMessageCard() },
-                            homeViewModel = homeViewModel
+                            homeViewModel = homeViewModel,
+                            colorIndex = colorIndex
                         )
                     }
                 }

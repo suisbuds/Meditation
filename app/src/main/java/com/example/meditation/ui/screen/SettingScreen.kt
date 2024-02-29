@@ -34,7 +34,7 @@ fun SettingScreen(
     musicList: List<Music>,
     settingViewModel: SettingViewModel,
     navigateToHome: () -> Unit,
-    colorIndex: Int
+    colorIndex: Int = 0
 ) {
     val currentMusicIndex by settingViewModel.musicIndex.collectAsState()
     val currentHour by settingViewModel.hour.collectAsState()
