@@ -32,12 +32,13 @@ fun HistoryScreen(
     modifier: Modifier = Modifier,
     backToHome: () -> Unit,
     messages: List<Message>,
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
+    colorIndex:Int
 ) {
     Surface(modifier = modifier.fillMaxSize(), color = background_color) {
         Scaffold(
             topBar = { TopBackHandlerBar(backToHome = { backToHome() }, topAppBarName = "历史留言") },
-            bottomBar = { BottomNavigationBar() },
+            bottomBar = { BottomNavigationBar(colorIndex = colorIndex) },
             containerColor = Color.Transparent
         ) { innerPadding ->
             LazyColumn(
@@ -87,7 +88,7 @@ fun HistoryCard(message: Message, modifier: Modifier = Modifier) {
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = NunitoFontFamily,
                     fontStyle = FontStyle.Italic,
-                    color = icon_color,
+                    color = icon_color_brown,
                     modifier = modifier.padding(end = 8.dp)
                 )
             }
@@ -98,7 +99,7 @@ fun HistoryCard(message: Message, modifier: Modifier = Modifier) {
                     fontSize = 18.sp,
                     fontFamily = NunitoFontFamily,
                     fontWeight = FontWeight.Medium,
-                    color = icon_dark_color,
+                    color = icon_dark_color_brown,
                     modifier = modifier.padding(8.dp)
                 )
             }

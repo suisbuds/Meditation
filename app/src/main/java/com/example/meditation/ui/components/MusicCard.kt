@@ -1,10 +1,8 @@
 package com.example.meditation.ui.components
 
 
-import android.provider.MediaStore.Audio.Radio
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -65,8 +63,8 @@ fun MusicCard(
                     RadioButton(
                         selected = selected, onClick = null,
                         colors = RadioButtonDefaults.colors(
-                            selectedColor = icon_dark_color,
-                            unselectedColor = icon_dark_color
+                            selectedColor = icon_dark_color_brown,
+                            unselectedColor = icon_dark_color_brown
                         )
                     )
                 }

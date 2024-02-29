@@ -2,6 +2,7 @@ package com.example.meditation.ui.screen
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
@@ -11,14 +12,15 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -36,9 +38,9 @@ import com.example.meditation.data.model.Page
 import com.example.meditation.data.model.pages
 import com.example.meditation.ui.components.MessageCard
 import com.example.meditation.ui.components.Timer
-import com.example.meditation.ui.theme.icon_color
-import com.example.meditation.ui.theme.icon_dark_color
+import com.example.meditation.ui.theme.darkColorList
 import com.example.meditation.ui.theme.indicator_color
+import com.example.meditation.ui.theme.shallowColorList
 import com.example.meditation.ui.utils.timeParser
 import com.example.meditation.ui.viewmodel.HomeViewModel
 
@@ -58,8 +60,15 @@ fun HomeScreen(
     val hasStarted by homeViewModel.hasStarted.collectAsState()
     val enableWriteMessage by homeViewModel.enableWriteMessage.collectAsState()
     val pagerState = rememberPagerState { pages.size }
+    val colorIndex by homeViewModel.currentColorIndex.collectAsState()
 
     val musicTitle by homeViewModel.musicTitle.collectAsState()
+
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.currentPage }.collect { pageIndex ->
+            homeViewModel.updateColorIndex(pageIndex)
+        }
+    }
 
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(
@@ -69,33 +78,61 @@ fun HomeScreen(
                     hasStarted,
                     navigateToHistory = navigateToHistory,
                     onMusicControllerClicked = homeViewModel::onMusicControllerClicked,
-                    musicTitle = musicTitle
+                    musicTitle = musicTitle,
+                    colorIndex = colorIndex
                 )
             },
-            bottomBar = { BottomNavigationBar() },
+            bottomBar = { BottomNavigationBar(colorIndex = colorIndex) },
             containerColor = Color.Transparent
         ) {
             Box(
                 modifier = modifier.fillMaxSize()
             ) {
                 HorizontalPager(state = pagerState) { pageIndex ->
+
+                    Log.d(
+                        "DEBUG_COLOR_INDEX",
+                        "pageIndex: $pageIndex currentIndex: $colorIndex "
+                    )
+
                     when (pages[pageIndex]) {
-                        Page.ThemeFirst -> Image(
-                            painter = painterResource(id = R.drawable.home_screen_1),
+                        Page.ScreenDefault -> Image(
+                            painter = painterResource(id = R.drawable.home_screen_default),
                             contentDescription = "",
                             contentScale = ContentScale.FillBounds,
                             modifier = modifier.fillMaxSize()
                         )
 
-                        Page.ThemeSecond -> Image(
-                            painter = painterResource(id = R.drawable.home_screen_2),
+                        Page.Slow -> Image(
+                            painter = painterResource(id = R.drawable.home_screen_slow),
                             contentDescription = "",
                             contentScale = ContentScale.FillBounds,
                             modifier = modifier.fillMaxSize()
                         )
 
-                        Page.ThemeThird -> Image(
-                            painter = painterResource(id = R.drawable.home_screen_3),
+                        Page.Dream -> Image(
+                            painter = painterResource(id = R.drawable.home_screen_dream),
+                            contentDescription = "",
+                            contentScale = ContentScale.FillBounds,
+                            modifier = modifier.fillMaxSize()
+                        )
+
+                        Page.Society -> Image(
+                            painter = painterResource(id = R.drawable.home_screen_society),
+                            contentDescription = "",
+                            contentScale = ContentScale.FillBounds,
+                            modifier = modifier.fillMaxSize()
+                        )
+
+                        Page.ScreenFlow -> Image(
+                            painter = painterResource(id = R.drawable.home_screen_flow),
+                            contentDescription = "",
+                            contentScale = ContentScale.FillBounds,
+                            modifier = modifier.fillMaxSize()
+                        )
+
+                        Page.Agreement -> Image(
+                            painter = painterResource(id = R.drawable.home_screen_agreement),
                             contentDescription = "",
                             contentScale = ContentScale.FillBounds,
                             modifier = modifier.fillMaxSize()
@@ -130,7 +167,8 @@ fun HomeScreen(
                     hasStarted = hasStarted,
                     modifier = modifier
                         .align(Alignment.BottomCenter)
-                        .padding(vertical = 144.dp)
+                        .padding(vertical = 144.dp),
+                    colorIndex = colorIndex
                 )
 
             }
@@ -142,6 +180,7 @@ fun HomeScreen(
 @Composable
 fun BottomNavigationBar(
     modifier: Modifier = Modifier,
+    colorIndex: Int
 ) {
     var selectedItem by remember {
         mutableIntStateOf(0)
@@ -166,10 +205,10 @@ fun BottomNavigationBar(
                 },
                 colors = NavigationBarItemDefaults.colors(
                     indicatorColor = indicator_color,
-                    unselectedIconColor = icon_color,
-                    unselectedTextColor = icon_color,
-                    selectedIconColor = icon_dark_color,
-                    selectedTextColor = icon_dark_color
+                    unselectedIconColor = shallowColorList[colorIndex],
+                    unselectedTextColor = shallowColorList[colorIndex],
+                    selectedIconColor = darkColorList[colorIndex],
+                    selectedTextColor = darkColorList[colorIndex]
                 )
             )
         }
@@ -186,7 +225,8 @@ fun TopNavigationBar(
     modifier: Modifier = Modifier,
     navigateToHistory: () -> Unit,
     onMusicControllerClicked: () -> Unit,
-    musicTitle: String
+    musicTitle: String,
+    colorIndex: Int
 ) {
     var expanded by remember {
         mutableStateOf(false)
@@ -204,22 +244,25 @@ fun TopNavigationBar(
             titleContentColor = Color.Transparent
         ), title = {
             if (musicTitle == "") {
-                Text(text = "暂无可播放音乐", color = icon_dark_color, fontSize = 12.sp)
+                Text(text = "暂无可播放音乐", color = darkColorList[colorIndex], fontSize = 12.sp)
             } else {
                 Text(
                     text = musicTitle,
-                    color = icon_dark_color,
+                    color = darkColorList[colorIndex],
                     fontSize = 12.sp
                 )
             }
         },
         navigationIcon = {
-            IconButton(onClick = onMusicControllerClicked) {
+            IconButton(
+                onClick = onMusicControllerClicked,
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.music_controller),
                     contentDescription = "music controller",
                     modifier = modifier
-                        .size(17.dp, 17.dp)
+                        .size(17.dp, 17.dp),
+                    colorFilter = ColorFilter.tint(darkColorList[colorIndex])
                 )
 
             }
@@ -235,7 +278,7 @@ fun TopNavigationBar(
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.menu_icon),
                     contentDescription = "navigate to setting",
-                    tint = icon_dark_color,
+                    tint = darkColorList[colorIndex],
                 )
             }
             DropdownMenu(
@@ -246,7 +289,8 @@ fun TopNavigationBar(
                     leadingIcon = {
                         Image(
                             imageVector = ImageVector.vectorResource(id = R.drawable.setting_icon),
-                            contentDescription = "setting"
+                            contentDescription = "setting",
+                            colorFilter = ColorFilter.tint(darkColorList[colorIndex])
                         )
                     },
                     onClick = {
@@ -263,7 +307,7 @@ fun TopNavigationBar(
                     },
                     text = {
                         Text(
-                            text = "设置", color = icon_color,
+                            text = "设置", color = shallowColorList[colorIndex],
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium,
                         )
@@ -274,7 +318,8 @@ fun TopNavigationBar(
                     leadingIcon = {
                         Image(
                             imageVector = ImageVector.vectorResource(id = R.drawable.history_icon),
-                            contentDescription = "history"
+                            contentDescription = "history",
+                            colorFilter = ColorFilter.tint(darkColorList[colorIndex])
                         )
                     },
                     onClick = {
@@ -283,7 +328,7 @@ fun TopNavigationBar(
                     },
                     text = {
                         Text(
-                            text = "历史留言", color = icon_color,
+                            text = "历史留言", color = shallowColorList[colorIndex],
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium,
                         )

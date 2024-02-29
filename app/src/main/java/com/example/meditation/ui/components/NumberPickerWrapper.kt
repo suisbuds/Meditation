@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.chargemap.compose.numberpicker.NumberPicker
 import com.example.meditation.ui.theme.MeditationTheme
-import com.example.meditation.ui.theme.icon_dark_color
+import com.example.meditation.ui.theme.icon_dark_color_brown
 import com.example.meditation.ui.theme.md_theme_gray
 import kotlin.math.abs
 
@@ -44,7 +44,7 @@ fun NumberPickerWrapper(
             dividersColor = Color.Transparent,
             label = { "${if (abs(it) < 10) "0" else ""}$it" },
             textStyle = TextStyle(
-                color = icon_dark_color,
+                color = icon_dark_color_brown,
                 fontFamily = FontFamily.Monospace,
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Normal
@@ -83,7 +83,7 @@ private fun DrawScope.drawOverlay(
             style = TextStyle(
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Light,
-                color = icon_dark_color
+                color = icon_dark_color_brown
             )
         )
     val textSize = textLayoutResult.size
