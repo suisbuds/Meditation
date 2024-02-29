@@ -89,11 +89,6 @@ fun HomeScreen(
             ) {
                 HorizontalPager(state = pagerState) { pageIndex ->
 
-            /*        Log.d(
-                        "DEBUG_COLOR_INDEX",
-                        "pageIndex: $pageIndex currentIndex: $colorIndex "
-                    )*/
-
                     when (pages[pageIndex]) {
                         Page.ScreenDefault -> Image(
                             painter = painterResource(id = R.drawable.home_screen_default),
