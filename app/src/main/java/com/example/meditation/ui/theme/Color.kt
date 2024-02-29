@@ -81,12 +81,12 @@ val message_icon_color = Color(0xFF453D39)
 val icon_color_blue = Color(0xFF607379)
 val icon_dark_color_blue = Color(0xFF154D61)
 
-val darkColorList = listOf<Color>(
+val darkColorList = listOf(
     icon_dark_color_brown, icon_dark_color_brown, icon_dark_color_brown,
     icon_dark_color_blue, icon_dark_color_blue, icon_dark_color_blue
 )
 
-val shallowColorList = listOf<Color>(
+val shallowColorList = listOf(
     icon_color_brown,
     icon_color_brown,
     icon_color_brown,
