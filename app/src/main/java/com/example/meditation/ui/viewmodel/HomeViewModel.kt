@@ -61,8 +61,8 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
     private var messageTitle by mutableStateOf("")
 
 
-    private val _currentColorIndex = MutableStateFlow(0)
-    val currentColorIndex = _currentColorIndex.asStateFlow()
+    private val _currentThemeIndex = MutableStateFlow(0)
+    val currentThemeIndex = _currentThemeIndex.asStateFlow()
 
     val historyMessages
         get() = messageDao.getAllMessages()
@@ -188,8 +188,8 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
         messageContent = input
     }
 
-    fun updateColorIndex(index: Int) {
-        _currentColorIndex.value = index
+    fun updateThemeIndex(index: Int) {
+        _currentThemeIndex.value = index
     }
 }
 
