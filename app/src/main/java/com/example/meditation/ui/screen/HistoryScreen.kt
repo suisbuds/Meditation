@@ -19,10 +19,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -67,7 +71,7 @@ fun HistoryScreen(
                     SwipeDeleteWrapper(
                         homeViewModel = homeViewModel,
                         currentMessage = currentMessage,
-                        animationDuration=animationDuration
+                        animationDuration = animationDuration
                     ) {
                         HistoryCard(it)
                     }
@@ -87,12 +91,12 @@ fun HistoryCard(message: Message, modifier: Modifier = Modifier) {
         elevation = 4.dp,
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(10.dp)
+            .clip(RoundedCornerShape(12.dp))
             .clickable { isExpanded = !isExpanded },
         backgroundColor = Color.White
     ) {
-        Column(modifier = modifier.fillMaxSize()) {
-            Spacer(modifier = modifier.height(8.dp))
+        Column(modifier = modifier.fillMaxSize().padding(horizontal = 8.dp, vertical = 15.dp)) {
             Row(
                 modifier = modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -100,13 +104,19 @@ fun HistoryCard(message: Message, modifier: Modifier = Modifier) {
             ) {
                 Text(
                     text = message.title,
-                    fontSize = 20.sp,
+                    fontSize = 17.sp,
                     fontStyle = FontStyle.Italic,
                     color = message_icon_color,
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = NunitoFontFamily,
                     modifier = modifier.padding(start = 8.dp)
                 )
+
+            }
+            Row(
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
                 Text(
                     text = message.time,
                     fontSize = 12.sp,
@@ -117,8 +127,7 @@ fun HistoryCard(message: Message, modifier: Modifier = Modifier) {
                     modifier = modifier.padding(end = 8.dp)
                 )
             }
-            Spacer(modifier = modifier.height(4.dp))
-            Row {
+            if (isExpanded) {
                 Text(
                     text = message.content,
                     fontSize = 12.sp,
@@ -126,11 +135,9 @@ fun HistoryCard(message: Message, modifier: Modifier = Modifier) {
                     fontWeight = FontWeight.Medium,
                     color = icon_dark_color_brown,
                     modifier = modifier.padding(8.dp),
-                    maxLines = if (isExpanded) Int.MAX_VALUE else 1
                 )
-                Spacer(modifier = modifier.height(8.dp))
             }
-            Spacer(modifier = modifier.width(5.dp))
+
         }
     }
 }
@@ -163,7 +170,8 @@ fun SwipeDeleteWrapper(
         SwipeToDismiss(
             state = state,
             background = { DeleteBackground(swipeDismissState = state) },
-            dismissContent = { content(currentMessage) }, directions = setOf(DismissDirection.EndToStart)
+            dismissContent = { content(currentMessage) },
+            directions = setOf(DismissDirection.EndToStart)
         )
     }
 
@@ -212,7 +220,7 @@ fun HistoryCardPreview() {
                 message = Message(
                     1,
                     "abcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                    "Abc",
+                    "Abssssssssssssssaaaaaaaaaaaa",
                     "2024-2-28"
                 )
             )
