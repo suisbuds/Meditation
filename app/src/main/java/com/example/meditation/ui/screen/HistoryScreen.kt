@@ -38,6 +38,9 @@ fun HistoryScreen(
     homeViewModel: HomeViewModel,
     colorIndex: Int = 0
 ) {
+    LaunchedEffect(Unit) {
+        homeViewModel.getAllMessages()
+    }
     Surface(modifier = modifier.fillMaxSize(), color = background_color) {
         Scaffold(
             topBar = {
@@ -49,7 +52,7 @@ fun HistoryScreen(
             bottomBar = { BottomNavigationBar(colorIndex = colorIndex) },
             containerColor = Color.Transparent
         ) { innerPadding ->
-            val historyMessages by homeViewModel.historyMessages.collectAsState(initial = listOf())
+            val historyMessages by homeViewModel.historyMessages.collectAsState()
             LazyColumn(
                 modifier = modifier.padding(innerPadding),
                 state = rememberLazyListState(),

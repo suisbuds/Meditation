@@ -64,8 +64,11 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
     private val _currentColorIndex = MutableStateFlow(0)
     val currentColorIndex = _currentColorIndex.asStateFlow()
 
-    val historyMessages
-        get() = messageDao.getAllMessages()
+//    val historyMessages
+//        get() = messageDao.getAllMessages()
+
+    private val _historyMessages = MutableStateFlow(emptyList<Message>())
+    val historyMessages = _historyMessages.asStateFlow()
 
     //计时开始
     fun startTimer() {
@@ -164,11 +167,11 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
         messageContent = ""
     }
 
-    /*fun getAllMessages() {
+    fun getAllMessages() {
         viewModelScope.launch {
             messageDao.getAllMessages().collect { response -> _historyMessages.value = response }
         }
-    }*/
+    }
 
     private fun insertMessage(message: Message) {
         viewModelScope.launch {
