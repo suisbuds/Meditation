@@ -8,11 +8,14 @@
   <a href="https://github.com/suisbuds/Meditation">
     <img src="Images/app_icon.png" alt="Logo" width="160" height="160">
   </a>
-  <h3 align="center">颂静</h3>
+  <h2 align="center">颂静</h2>
 </div>
 
 # 👋 Introduction
 This is our collaborative project developed by the Meditation Team, designed specifically for the UniqueStudio Winter Camp. Our app helps people meditate, focus on themselves, and unwind. We've already achieved its foundational functionality, and next we will continue to improve it.
+
+
+<br>
 
 # 📷 Screenshots
 <div align="center">
