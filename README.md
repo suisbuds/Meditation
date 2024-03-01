@@ -11,10 +11,16 @@
   <h3 align="center">颂静</h3>
 </div>
 
-# 👋 Background
+# 👋 Introduction
 This is our collaborative project developed by the Meditation Team, designed specifically for the UniqueStudio Winter Camp. Our app helps people meditate, focus on themselves, and unwind. We've already achieved its foundational functionality, and next we will continue to improve it.
 
 # 📷 Screenshots
+![Screenshots-1]("Images/Screenshot_20240301_210218_com.example.meditation.jpg")
+![Screenshots-2]("Images/Screenshot_20240301_210227_com.example.meditation.jpg")
+![Screenshots-3]("Images/Screenshot_20240301_210542_com.example.meditation.jpg")
+![Screenshots-4]("Images/Screenshot_20240301_210627_com.example.meditation.jpg")
+![Screenshots-5]("Images/Screenshot_20240301_210916_com.example.meditation.jpg")
+![Screenshots-6]("Images/Screenshot_20240301_210725_com.example.meditation.jpg")
 
 
 <br>
