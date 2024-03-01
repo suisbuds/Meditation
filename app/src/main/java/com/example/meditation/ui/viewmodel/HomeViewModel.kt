@@ -64,9 +64,6 @@ class HomeViewModel(private val messageDao: MessageDao) : ViewModel() {
     private val _currentThemeIndex = MutableStateFlow(0)
     val currentThemeIndex = _currentThemeIndex.asStateFlow()
 
-//    val historyMessages
-//        get() = messageDao.getAllMessages()
-
     private val _historyMessages = MutableStateFlow(emptyList<Message>())
     val historyMessages = _historyMessages.asStateFlow()
 
