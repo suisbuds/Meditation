@@ -15,7 +15,7 @@
   </h2>
 </div>
 
-This is our collaborative project developed by the ***颂静团队***, designed specifically for the ***UniqueStudio Winter Camp***. Our app helps people meditate, focus on themselves, and unwind. We've already achieved its foundational functionality, and next we will continue to improve it.
+This is our collaborative project developed by the **颂静团队**, designed specifically for the **UniqueStudio Winter Camp**. Our app helps people meditate, focus on themselves, and unwind. We've already achieved its foundational functionality, and next we will continue to improve it.
 
 <br>
 
