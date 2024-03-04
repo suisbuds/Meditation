@@ -21,10 +21,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.meditation.ui.components.musicList
-import com.example.meditation.ui.screen.HistoryScreen
-import com.example.meditation.ui.screen.HomeScreen
-import com.example.meditation.ui.screen.SettingScreen
-import com.example.meditation.ui.screen.SplashScreen
+import com.example.meditation.ui.screen.*
 import com.example.meditation.ui.viewmodel.HomeViewModel
 import com.example.meditation.ui.viewmodel.SettingViewModel
 
@@ -33,6 +30,7 @@ object Destinations {
     const val HOME_ROUTE = "home"
     const val SETTING_ROUTE = "setting"
     const val HISTORY_ROUTE = "history"
+    const val LOGIN_ROUTE = "login"
 }
 
 
@@ -58,6 +56,13 @@ fun AppNavHost(
                 }
             }
         }
+
+        composable(route=Destinations.LOGIN_ROUTE){
+            LoginScreen {
+
+            }
+        }
+
         composable(route = Destinations.HOME_ROUTE) {
             val musicIndex by settingViewModel.musicIndex.collectAsState()
             val hour by settingViewModel.hour.collectAsState()
