@@ -16,12 +16,20 @@ import com.example.meditation.ui.viewmodel.HomeViewModel
 import com.example.meditation.ui.viewmodel.HomeViewModelFactory
 import com.example.meditation.ui.viewmodel.SettingViewModel
 import com.example.meditation.ui.viewmodel.SettingViewModelFactory
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var auth: FirebaseAuth;
+
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
         appContext = applicationContext
         enableEdgeToEdge()
+
+        auth= Firebase.auth
 
         super.onCreate(savedInstanceState)
         setContent {
@@ -38,11 +46,20 @@ class MainActivity : ComponentActivity() {
                 }
                 val homeViewModel: HomeViewModel =
                     viewModel(factory = HomeViewModelFactory(database.messageDao))
-                AppNavHost(homeViewModel = homeViewModel, settingViewModel = settingViewModel)
+                AppNavHost(homeViewModel = homeViewModel, settingViewModel = settingViewModel, auth = auth)
             }
 
         }
     }
+
+    /*override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            TODO()
+        }
+    }*/
+
 
     companion object {
         lateinit var appContext: Context

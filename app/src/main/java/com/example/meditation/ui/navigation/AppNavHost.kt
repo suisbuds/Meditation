@@ -24,6 +24,7 @@ import com.example.meditation.ui.components.musicList
 import com.example.meditation.ui.screen.*
 import com.example.meditation.ui.viewmodel.HomeViewModel
 import com.example.meditation.ui.viewmodel.SettingViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 object Destinations {
     const val SPLASH_ROUTE = "splash"
@@ -31,6 +32,7 @@ object Destinations {
     const val SETTING_ROUTE = "setting"
     const val HISTORY_ROUTE = "history"
     const val LOGIN_ROUTE = "login"
+    const val SIGNUP_ROUTE="sign up"
 }
 
 
@@ -42,7 +44,8 @@ fun AppNavHost(
     startDestination: String = Destinations.SPLASH_ROUTE,
     navController: NavHostController = rememberNavController(),
     homeViewModel: HomeViewModel,
-    settingViewModel: SettingViewModel
+    settingViewModel: SettingViewModel,
+    auth:FirebaseAuth
 ) {
     NavHost(
         navController = navController, startDestination = startDestination, modifier = modifier
@@ -58,9 +61,11 @@ fun AppNavHost(
         }
 
         composable(route=Destinations.LOGIN_ROUTE){
-            LoginScreen {
+            LoginScreen(auth = auth)
+        }
 
-            }
+        composable(route=Destinations.SIGNUP_ROUTE){
+            SignUpScreen()
         }
 
         composable(route = Destinations.HOME_ROUTE) {
