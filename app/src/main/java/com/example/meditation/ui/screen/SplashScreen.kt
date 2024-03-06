@@ -45,9 +45,7 @@ fun SplashScreen(navigateToHome: () -> Unit) {
 fun SplashScreenPreview() {
     Surface {
         MeditationTheme {
-            SplashScreen {
-
-            }
+            SplashScreen {}
         }
     }
 }

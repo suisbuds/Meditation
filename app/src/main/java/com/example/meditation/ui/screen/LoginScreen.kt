@@ -1,12 +1,8 @@
 package com.example.meditation.ui.screen
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.meditation.MainActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 
 private const val TAG = "Password"
 
@@ -17,7 +13,7 @@ fun LoginScreen(modifier: Modifier = Modifier,navigateToHome:()->Unit={},auth:Fi
 
 
 
-fun createAccount(email: String, password: String,auth: FirebaseAuth) {
+/*fun createAccount(email: String, password: String,auth: FirebaseAuth) {
     // [START create_user_with_email]
     auth.createUserWithEmailAndPassword(email, password)
         .addOnCompleteListener() { task ->
@@ -63,4 +59,4 @@ private fun signIn(email: String, password: String,auth: FirebaseAuth) {
     // [END sign_in_with_email]
 }
 
-fun updateUI(user: FirebaseUser?){}
+fun updateUI(user: FirebaseUser?){}*/

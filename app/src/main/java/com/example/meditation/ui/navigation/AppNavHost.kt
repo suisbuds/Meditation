@@ -3,13 +3,6 @@ package com.example.meditation.ui.navigation
 import android.os.Build
 import androidx.annotation.OptIn
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.EaseOut
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -21,7 +14,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.meditation.ui.components.musicList
-import com.example.meditation.ui.screen.*
+import com.example.meditation.ui.screen.HistoryScreen
+import com.example.meditation.ui.screen.HomeScreen
+import com.example.meditation.ui.screen.LoginScreen
+import com.example.meditation.ui.screen.SettingScreen
+import com.example.meditation.ui.screen.SignUpScreen
+import com.example.meditation.ui.screen.SplashScreen
 import com.example.meditation.ui.viewmodel.HomeViewModel
 import com.example.meditation.ui.viewmodel.SettingViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -90,7 +88,7 @@ fun AppNavHost(
                 }
             )
         }
-        composable(route = Destinations.SETTING_ROUTE, enterTransition = {
+        composable(route = Destinations.SETTING_ROUTE/*, enterTransition = {
             fadeIn(
                 animationSpec = tween(
                     200, easing = LinearEasing
@@ -108,7 +106,7 @@ fun AppNavHost(
                 animationSpec = tween(250, easing = EaseOut),
                 towards = AnimatedContentTransitionScope.SlideDirection.End
             )
-        }) {
+        }*/) {
             SettingScreen(backToHome = { navController.popBackStack() },
                 musicList = musicList,
                 settingViewModel = settingViewModel,

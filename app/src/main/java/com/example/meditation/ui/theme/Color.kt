@@ -94,3 +94,4 @@ val shallowColorList = listOf(
     icon_color_blue,
     icon_color_blue
 )
+val login_icon_color = Color(0xFFEBEAE7)

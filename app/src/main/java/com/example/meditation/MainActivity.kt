@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
         appContext = applicationContext
         enableEdgeToEdge()
 
-        auth= Firebase.auth
+        auth = Firebase.auth
 
         super.onCreate(savedInstanceState)
         setContent {
@@ -46,8 +46,15 @@ class MainActivity : ComponentActivity() {
                 }
                 val homeViewModel: HomeViewModel =
                     viewModel(factory = HomeViewModelFactory(database.messageDao))
-                AppNavHost(homeViewModel = homeViewModel, settingViewModel = settingViewModel, auth = auth)
+                AppNavHost(
+                    homeViewModel = homeViewModel,
+                    settingViewModel = settingViewModel,
+                    auth = auth
+                )
             }
+            /*MeditationTheme {
+                            SignUpScreen()
+                        }*/
 
         }
     }
