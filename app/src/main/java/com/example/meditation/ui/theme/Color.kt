@@ -94,4 +94,6 @@ val shallowColorList = listOf(
     icon_color_blue,
     icon_color_blue
 )
-val login_icon_color = Color(0xFFEBEAE7)
+val login_icon_color = Color(0xFFcfccc8)
+val login_input_box= Color(0xFFf6f5f3)
+val login_screen_color= Color(0xFFe0dbd6)

@@ -7,15 +7,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.room.Room
-import com.example.meditation.data.db.MessageDatabase
-import com.example.meditation.ui.navigation.AppNavHost
+import com.example.meditation.ui.screen.SignUpScreen
 import com.example.meditation.ui.theme.MeditationTheme
-import com.example.meditation.ui.viewmodel.HomeViewModel
-import com.example.meditation.ui.viewmodel.HomeViewModelFactory
-import com.example.meditation.ui.viewmodel.SettingViewModel
-import com.example.meditation.ui.viewmodel.SettingViewModelFactory
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -33,7 +26,7 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         setContent {
-            MeditationTheme {
+            /*MeditationTheme {
                 //注入模型
                 val settingViewModel: SettingViewModel =
                     viewModel(factory = SettingViewModelFactory())
@@ -51,21 +44,12 @@ class MainActivity : ComponentActivity() {
                     settingViewModel = settingViewModel,
                     auth = auth
                 )
+            }*/
+            MeditationTheme {
+                SignUpScreen()
             }
-            /*MeditationTheme {
-                            SignUpScreen()
-                        }*/
-
         }
     }
-
-    /*override fun onStart() {
-        super.onStart()
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            TODO()
-        }
-    }*/
 
 
     companion object {
