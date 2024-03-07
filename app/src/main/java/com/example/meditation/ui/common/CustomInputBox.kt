@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -19,8 +20,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.meditation.R
+import com.example.meditation.ui.theme.MeditationTheme
 import com.example.meditation.ui.theme.NunitoFontFamily
 import com.example.meditation.ui.theme.login_icon_color
 
@@ -30,7 +34,7 @@ fun CustomInputBox(
     onValueChange: () -> Unit = {},
     imageId: Int,
     keyboardType: KeyboardType,
-    textTint: String
+    textHint: String
 ) {
     var text by remember {
         mutableStateOf("")
@@ -46,7 +50,7 @@ fun CustomInputBox(
         placeholder = {
             AnimatedVisibility(visible = text == "") {
                 Text(
-                    text = textTint,
+                    text = textHint,
                     color = login_icon_color,
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = NunitoFontFamily,
@@ -63,4 +67,18 @@ fun CustomInputBox(
             color = login_icon_color
         ),
     )
+}
+
+@Preview
+@Composable
+fun CustomInputBoxPreview(){
+    Surface {
+        MeditationTheme {
+            CustomInputBox(
+                imageId = R.drawable.person_icon,
+                keyboardType = KeyboardType.Number,
+                textHint = "请输入手机号码"
+            )
+        }
+    }
 }
