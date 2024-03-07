@@ -30,7 +30,7 @@ object Destinations {
     const val SETTING_ROUTE = "setting"
     const val HISTORY_ROUTE = "history"
     const val LOGIN_ROUTE = "login"
-    const val SIGNUP_ROUTE="sign up"
+    const val SIGNUP_ROUTE = "sign up"
 }
 
 
@@ -43,7 +43,7 @@ fun AppNavHost(
     navController: NavHostController = rememberNavController(),
     homeViewModel: HomeViewModel,
     settingViewModel: SettingViewModel,
-    auth:FirebaseAuth
+    auth: FirebaseAuth
 ) {
     NavHost(
         navController = navController, startDestination = startDestination, modifier = modifier
@@ -58,12 +58,12 @@ fun AppNavHost(
             }
         }
 
-        composable(route=Destinations.LOGIN_ROUTE){
-            LoginScreen(auth = auth)
+        composable(route = Destinations.LOGIN_ROUTE) {
+            LoginScreen(auth = auth, onLogInPressed = {}, navigateToSignUp = {})
         }
 
-        composable(route=Destinations.SIGNUP_ROUTE){
-            SignUpScreen()
+        composable(route = Destinations.SIGNUP_ROUTE) {
+            SignUpScreen(onSignUpPressed = {})
         }
 
         composable(route = Destinations.HOME_ROUTE) {
@@ -88,7 +88,8 @@ fun AppNavHost(
                 }
             )
         }
-        composable(route = Destinations.SETTING_ROUTE/*, enterTransition = {
+        composable(
+            route = Destinations.SETTING_ROUTE/*, enterTransition = {
             fadeIn(
                 animationSpec = tween(
                     200, easing = LinearEasing
@@ -106,7 +107,8 @@ fun AppNavHost(
                 animationSpec = tween(250, easing = EaseOut),
                 towards = AnimatedContentTransitionScope.SlideDirection.End
             )
-        }*/) {
+        }*/
+        ) {
             SettingScreen(backToHome = { navController.popBackStack() },
                 musicList = musicList,
                 settingViewModel = settingViewModel,
