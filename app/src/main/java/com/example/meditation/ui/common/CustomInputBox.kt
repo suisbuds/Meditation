@@ -32,7 +32,7 @@ fun CustomInputBox(
     onValueChange: () -> Unit = {},
     imageId: Int,
     keyboardType: KeyboardType,
-    textTint: String
+    textHint: String
 ) {
     var text by remember {
         mutableStateOf("")
@@ -60,7 +60,7 @@ fun CustomInputBox(
         placeholder = {
             AnimatedVisibility(visible = text == "") {
                 Text(
-                    text = textTint,
+                    text = textHint,
                     color = login_icon_color,
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = NunitoFontFamily,

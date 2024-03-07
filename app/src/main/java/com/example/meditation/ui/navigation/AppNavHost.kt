@@ -59,7 +59,7 @@ fun AppNavHost(
         }
 
         composable(route=Destinations.LOGIN_ROUTE){
-            LoginScreen(auth = auth)
+            LoginScreen(auth = auth, onLogInPressed = {}, navigateToSignUp = {})
         }
 
         composable(route=Destinations.SIGNUP_ROUTE){

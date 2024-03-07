@@ -98,13 +98,13 @@ fun SignUpWrapper(
         CustomInputBox(
             imageId = R.drawable.person_icon,
             keyboardType = KeyboardType.Text,
-            textTint = "请输入用户名"
+            textHint = "请输入用户名"
         )
         Spacer(modifier = modifier.height(10.dp))
         CustomInputBox(
             imageId = R.drawable.visibility_icon,
             keyboardType = KeyboardType.NumberPassword,
-            textTint = "请输入密码"
+            textHint = "请输入密码"
         )
         Spacer(modifier = modifier.height(32.dp))
         Button(
