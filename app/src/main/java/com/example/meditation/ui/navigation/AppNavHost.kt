@@ -23,6 +23,7 @@ import com.example.meditation.ui.screen.SignUpScreen
 import com.example.meditation.ui.screen.SplashScreen
 import com.example.meditation.ui.viewmodel.HomeViewModel
 import com.example.meditation.ui.viewmodel.SettingViewModel
+import com.example.meditation.ui.viewmodel.SignUpViewModel
 
 object Destinations {
     const val SPLASH_ROUTE = "splash"
@@ -41,6 +42,8 @@ fun AppNavHost(
     modifier: Modifier = Modifier,
     startDestination: String = Destinations.SPLASH_ROUTE,
     navController: NavHostController = rememberNavController(),
+    signUpViewModel: SignUpViewModel,
+
     homeViewModel: HomeViewModel,
     settingViewModel: SettingViewModel,
 ) {
@@ -60,7 +63,7 @@ fun AppNavHost(
         composable(route = Destinations.LOGIN_ROUTE) {
             LoginScreen(
                 onLogin = { navController.navigate(Destinations.HOME_ROUTE) },
-                navigateToSignUp = { navController.navigate(Destinations.SIGNUP_ROUTE) })
+                navigateToSignUp = { navController.navigate(Destinations.SIGNUP_ROUTE) },)
         }
 
         composable(route = Destinations.SIGNUP_ROUTE) {

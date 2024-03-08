@@ -45,6 +45,10 @@ fun LoginScreen(
     modifier: Modifier = Modifier,
     onLogin: () -> Unit,
     navigateToSignUp: () -> Unit,
+    currentUsername: String,
+    currentPassword: String,
+    onUsernameChanged: (String) -> Unit,
+    onPasswordChanged: (String) -> Unit,
 ) {
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(containerColor = Color.Transparent) {
@@ -55,7 +59,14 @@ fun LoginScreen(
                     contentScale = ContentScale.FillBounds,
                     modifier = modifier.fillMaxSize()
                 )
-                LoginWrapper(onLogin = onLogin, navigateToSignUp = navigateToSignUp)
+                LoginWrapper(
+                    onLogin = onLogin,
+                    navigateToSignUp = navigateToSignUp,
+                    currentUsername = currentUsername,
+                    currentPassword = currentPassword,
+                    onUsernameChanged = onUsernameChanged,
+                    onPasswordChanged = onPasswordChanged
+                )
             }
         }
     }
@@ -66,7 +77,11 @@ fun LoginScreen(
 fun LoginWrapper(
     modifier: Modifier = Modifier,
     onLogin: () -> Unit,
-    navigateToSignUp: () -> Unit
+    navigateToSignUp: () -> Unit,
+    currentUsername: String,
+    currentPassword: String,
+    onUsernameChanged: (String) -> Unit,
+    onPasswordChanged: (String) -> Unit,
 ) {
     var checked by remember {
         mutableStateOf(false)
@@ -82,13 +97,17 @@ fun LoginWrapper(
         CustomInputBox(
             imageId = R.drawable.person_icon,
             keyboardType = KeyboardType.Text,
-            textHint = "请输入用户名"
+            textHint = "请输入用户名",
+            text = currentUsername,
+            onValueChange = onUsernameChanged
         )
         Spacer(modifier = modifier.height(10.dp))
         CustomInputBox(
             imageId = R.drawable.visibility_icon,
-            keyboardType = KeyboardType.NumberPassword,
-            textHint = "请输入密码"
+            keyboardType = KeyboardType.Password,
+            textHint = "请输入密码",
+            text = currentPassword,
+            onValueChange = onPasswordChanged
         )
         Spacer(modifier = modifier.height(32.dp))
         JumpButton(text = "登录", onClick = { onLogin() })
@@ -111,3 +130,19 @@ fun LoginWrapper(
 
 
 
+
+@Preview
+@Composable
+fun LoginScreenPreview() {
+    Surface {
+        MeditationTheme {
+            LoginScreen(
+                onLogin = {},
+                navigateToSignUp = {},
+                currentPassword = "",
+                currentUsername = "",
+                onPasswordChanged = {},
+                onUsernameChanged = {})
+        }
+    }
+}

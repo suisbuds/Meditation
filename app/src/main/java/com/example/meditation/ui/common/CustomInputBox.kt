@@ -2,6 +2,8 @@ package com.example.meditation.ui.common
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
@@ -29,15 +31,12 @@ import com.example.meditation.ui.theme.login_input_box
 @Composable
 fun CustomInputBox(
     modifier: Modifier = Modifier,
-    onValueChange: () -> Unit = {},
+    text: String,
+    onValueChange: (String) -> Unit,
     imageId: Int,
     keyboardType: KeyboardType,
     textHint: String
 ) {
-    var text by remember {
-        mutableStateOf("")
-    }
-
     TextField(
         value = text,
         leadingIcon = {
@@ -55,7 +54,7 @@ fun CustomInputBox(
             focusedContainerColor = login_input_box,
             cursorColor = icon_dark_color_brown
         ),
-        onValueChange = { text=it },
+        onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         placeholder = {
             AnimatedVisibility(visible = text == "") {
@@ -69,7 +68,10 @@ fun CustomInputBox(
             }
         },
         shape = RoundedCornerShape(16.dp),
-        modifier = modifier.border(width = 0.dp, color = Color.Transparent),
+        modifier = modifier
+            .border(width = 0.dp, color = Color.Transparent)
+            .fillMaxWidth()
+            .padding(horizontal = 50.dp),
         textStyle = TextStyle(
             fontFamily = NunitoFontFamily,
             fontWeight = FontWeight.Medium,
