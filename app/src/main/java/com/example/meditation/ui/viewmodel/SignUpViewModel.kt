@@ -2,9 +2,13 @@ package com.example.meditation.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.meditation.data.dao.MessageDao
+import com.example.meditation.ui.utils.checkBeforeSignUp
+import com.example.meditation.ui.utils.insertUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class SignUpViewModel():ViewModel(){
     private val _username=MutableStateFlow("")
@@ -20,8 +24,15 @@ class SignUpViewModel():ViewModel(){
         _password.value=newValue
     }
 
-    fun onSignUpPressed(){
-
+    fun onSignUpPressed():Boolean{
+        var result=false
+        viewModelScope.launch {
+            result= checkBeforeSignUp(_username.value)
+            if(!result){
+                insertUser(_username.value,_password.value)
+            }
+        }
+        return !result
     }
 }
 

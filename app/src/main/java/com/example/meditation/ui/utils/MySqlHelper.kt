@@ -42,3 +42,17 @@ suspend fun searchUser(username: String, password: String): Boolean =
         }
         result
     }
+
+suspend fun checkBeforeSignUp(username: String): Boolean =
+    withContext(Dispatchers.IO) {
+        val connection = establishConnection()
+        val sql = "SELECT * FROM users WHERE username=?"
+        var result: Boolean
+        connection.use {
+            val preparedStatement: java.sql.PreparedStatement = it.prepareStatement(sql)
+            preparedStatement.setString(1, username)
+            val resultSet: ResultSet = preparedStatement.executeQuery()
+            result = resultSet.next()
+        }
+        result
+    }
