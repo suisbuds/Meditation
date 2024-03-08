@@ -75,6 +75,6 @@ fun CustomInputBox(
             fontWeight = FontWeight.Medium,
             fontSize = 16.sp,
             color = icon_dark_color_brown
-        ),
+        )
     )
 }

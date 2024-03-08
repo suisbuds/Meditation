@@ -185,14 +185,16 @@ fun DeleteBackground(modifier: Modifier = Modifier, swipeDismissState: DismissSt
     } else {
         Color.Transparent
     }
-    val scale by animateFloatAsState(targetValue = if (swipeDismissState.targetValue == DismissValue.Default) 1f else 1.25f)
+    val scale by animateFloatAsState(targetValue = if (swipeDismissState.targetValue == DismissValue.Default) 1f else 1.25f,
+        label = ""
+    )
     Card(
         shape = RoundedCornerShape(12.dp),
         elevation = 4.dp,
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp),
-        backgroundColor = color
+            .padding(10.dp).clip(RoundedCornerShape(12.dp)),
+        backgroundColor = color,
     ) {
         Row(
             modifier = modifier.fillMaxSize(),

@@ -228,9 +228,10 @@ fun TopNavigationBar(
 
     //rotate the icon
     var isRotated by remember { mutableStateOf(false) }
+
     val rotationAngle by animateFloatAsState(
         targetValue = if (isRotated) 180F else 0F,
-        animationSpec = tween(durationMillis = 400, easing = LinearEasing), label = ""
+        animationSpec = tween(durationMillis = 200, easing = LinearEasing), label = ""
     )
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
