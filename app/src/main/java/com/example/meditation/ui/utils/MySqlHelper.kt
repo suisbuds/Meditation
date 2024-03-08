@@ -32,7 +32,7 @@ suspend fun searchUser(username: String, password: String): Boolean =
     withContext(Dispatchers.IO) {
         val connection = establishConnection()
         val sql = "SELECT * FROM users WHERE username=? AND password=?"
-        var result = false
+        var result: Boolean
         connection.use {
             val preparedStatement: java.sql.PreparedStatement = it.prepareStatement(sql)
             preparedStatement.setString(1, username)

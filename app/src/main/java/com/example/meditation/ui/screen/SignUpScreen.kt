@@ -55,7 +55,14 @@ import com.example.meditation.ui.theme.login_screen_color
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SignUpScreen(modifier: Modifier = Modifier, onSignUp: () -> Unit) {
+fun SignUpScreen(
+    modifier: Modifier = Modifier,
+    onSignUp: () -> Unit = {},
+    currentUsername: String,
+    currentPassword: String,
+    onUsernameChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit
+) {
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(containerColor = Color.Transparent) {
             Box(modifier = modifier.fillMaxSize()) {
@@ -65,7 +72,13 @@ fun SignUpScreen(modifier: Modifier = Modifier, onSignUp: () -> Unit) {
                     contentScale = ContentScale.FillBounds,
                     modifier = modifier.fillMaxSize()
                 )
-                SignUpWrapper(onSignUp = onSignUp)
+                SignUpWrapper(
+                    onSignUp = onSignUp,
+                    currentUsername = currentUsername,
+                    currentPassword = currentPassword,
+                    onUsernameChange = onUsernameChange,
+                    onPasswordChange = onPasswordChange
+                )
             }
         }
     }
@@ -76,7 +89,11 @@ fun SignUpScreen(modifier: Modifier = Modifier, onSignUp: () -> Unit) {
 fun SignUpWrapper(
     modifier: Modifier = Modifier,
     paddingTop: Dp = 120.dp,
-    onSignUp: () -> Unit
+    onSignUp: () -> Unit,
+    currentUsername: String,
+    currentPassword: String,
+    onUsernameChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit
 ) {
     var checked by remember {
         mutableStateOf(false)
@@ -92,13 +109,17 @@ fun SignUpWrapper(
         CustomInputBox(
             imageId = R.drawable.person_icon,
             keyboardType = KeyboardType.Text,
-            textHint = "请输入用户名"
+            textHint = "请输入用户名",
+            onValueChange = onUsernameChange,
+            text = currentUsername
         )
         Spacer(modifier = modifier.height(10.dp))
         CustomInputBox(
             imageId = R.drawable.visibility_icon,
             keyboardType = KeyboardType.NumberPassword,
-            textHint = "请输入密码"
+            textHint = "请输入密码",
+            onValueChange = onPasswordChange,
+            text = currentPassword
         )
         Spacer(modifier = modifier.height(32.dp))
         JumpButton(text = "注册", onClick = {onSignUp()})
@@ -111,3 +132,17 @@ fun SignUpWrapper(
 }
 
 
+@Preview
+@Composable
+fun PreviewSignUpScreen() {
+    Surface {
+        MeditationTheme {
+            SignUpScreen(
+                currentUsername = "",
+                currentPassword = "",
+                onUsernameChange = { },
+                onPasswordChange = { })
+        }
+
+    }
+}
