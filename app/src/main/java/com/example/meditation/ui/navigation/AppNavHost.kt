@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.RawResourceDataSource
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -22,7 +23,6 @@ import com.example.meditation.ui.screen.SignUpScreen
 import com.example.meditation.ui.screen.SplashScreen
 import com.example.meditation.ui.viewmodel.HomeViewModel
 import com.example.meditation.ui.viewmodel.SettingViewModel
-import com.google.firebase.auth.FirebaseAuth
 
 object Destinations {
     const val SPLASH_ROUTE = "splash"
@@ -30,7 +30,7 @@ object Destinations {
     const val SETTING_ROUTE = "setting"
     const val HISTORY_ROUTE = "history"
     const val LOGIN_ROUTE = "login"
-    const val SIGNUP_ROUTE="sign up"
+    const val SIGNUP_ROUTE = "sign up"
 }
 
 
@@ -43,14 +43,13 @@ fun AppNavHost(
     navController: NavHostController = rememberNavController(),
     homeViewModel: HomeViewModel,
     settingViewModel: SettingViewModel,
-    auth:FirebaseAuth
 ) {
     NavHost(
         navController = navController, startDestination = startDestination, modifier = modifier
     ) {
         composable(route = Destinations.SPLASH_ROUTE) {
             SplashScreen {
-                navController.navigate(Destinations.HOME_ROUTE) {
+                navController.navigate(Destinations.LOGIN_ROUTE) {
                     popUpTo(Destinations.SPLASH_ROUTE) {
                         inclusive = true
                     }
@@ -58,12 +57,14 @@ fun AppNavHost(
             }
         }
 
-        composable(route=Destinations.LOGIN_ROUTE){
-            LoginScreen(auth = auth, onLogInPressed = {}, navigateToSignUp = {})
+        composable(route = Destinations.LOGIN_ROUTE) {
+            LoginScreen(
+                onLogin = { navController.navigate(Destinations.HOME_ROUTE) },
+                navigateToSignUp = { navController.navigate(Destinations.SIGNUP_ROUTE) })
         }
 
-        composable(route=Destinations.SIGNUP_ROUTE){
-            SignUpScreen()
+        composable(route = Destinations.SIGNUP_ROUTE) {
+            SignUpScreen(onSignUp = { navController.popBackStack() })
         }
 
         composable(route = Destinations.HOME_ROUTE) {
@@ -88,25 +89,7 @@ fun AppNavHost(
                 }
             )
         }
-        composable(route = Destinations.SETTING_ROUTE/*, enterTransition = {
-            fadeIn(
-                animationSpec = tween(
-                    200, easing = LinearEasing
-                )
-            ) + slideIntoContainer(
-                animationSpec = tween(250, easing = EaseIn),
-                towards = AnimatedContentTransitionScope.SlideDirection.Start
-            )
-        }, exitTransition = {
-            fadeOut(
-                animationSpec = tween(
-                    200, easing = LinearEasing
-                )
-            ) + slideOutOfContainer(
-                animationSpec = tween(250, easing = EaseOut),
-                towards = AnimatedContentTransitionScope.SlideDirection.End
-            )
-        }*/) {
+        composable(route = Destinations.SETTING_ROUTE) {
             SettingScreen(backToHome = { navController.popBackStack() },
                 musicList = musicList,
                 settingViewModel = settingViewModel,

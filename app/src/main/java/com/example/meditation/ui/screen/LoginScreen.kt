@@ -23,29 +23,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.meditation.R
-import com.example.meditation.ui.common.AskForAgreementChoice
-import com.example.meditation.ui.common.CustomButton
+import com.example.meditation.ui.common.AgreementCheck
+import com.example.meditation.ui.common.JumpButton
 import com.example.meditation.ui.common.CustomInputBox
 import com.example.meditation.ui.common.WelcomeText
 import com.example.meditation.ui.theme.MeditationTheme
+import com.example.meditation.ui.theme.NunitoFontFamily
 import com.example.meditation.ui.theme.icon_color_brown
-import com.google.firebase.auth.FirebaseAuth
-
-private const val TAG = "Password"
+import com.example.meditation.ui.theme.icon_dark_color_brown
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    onLogInPressed: () -> Unit,
+    onLogin: () -> Unit,
     navigateToSignUp: () -> Unit,
-    auth: FirebaseAuth
 ) {
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(containerColor = Color.Transparent) {
@@ -56,7 +55,7 @@ fun LoginScreen(
                     contentScale = ContentScale.FillBounds,
                     modifier = modifier.fillMaxSize()
                 )
-                LoginContent(onLogInPressed = onLogInPressed, navigateToSignUp = navigateToSignUp)
+                LoginWrapper(onLogin = onLogin, navigateToSignUp = navigateToSignUp)
             }
         }
     }
@@ -64,9 +63,9 @@ fun LoginScreen(
 
 
 @Composable
-fun LoginContent(
+fun LoginWrapper(
     modifier: Modifier = Modifier,
-    onLogInPressed: () -> Unit,
+    onLogin: () -> Unit,
     navigateToSignUp: () -> Unit
 ) {
     var checked by remember {
@@ -74,7 +73,7 @@ fun LoginContent(
     }
     Column(
         modifier = modifier
-            .padding(top = 80.dp)
+            .padding(top = 120.dp)
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -82,86 +81,33 @@ fun LoginContent(
         Spacer(modifier = modifier.height(32.dp))
         CustomInputBox(
             imageId = R.drawable.person_icon,
-            keyboardType = KeyboardType.Number,
-            textHint = "请输入手机号码"
+            keyboardType = KeyboardType.Text,
+            textHint = "请输入用户名"
         )
-        Spacer(modifier = modifier.height(8.dp))
+        Spacer(modifier = modifier.height(10.dp))
         CustomInputBox(
             imageId = R.drawable.visibility_icon,
-            keyboardType = KeyboardType.Password,
+            keyboardType = KeyboardType.NumberPassword,
             textHint = "请输入密码"
         )
-        Spacer(modifier = modifier.height(16.dp))
-        CustomButton(text = "登录", onClick = onLogInPressed)
-        Spacer(modifier = modifier.height(5.dp))
+        Spacer(modifier = modifier.height(32.dp))
+        JumpButton(text = "登录", onClick = { onLogin() })
+        Spacer(modifier = modifier.height(8.dp))
         Text(
             text = "注册",
             modifier = modifier.clickable { navigateToSignUp() },
-            style = TextStyle(fontSize = 12.sp),
-            color = icon_color_brown
+            style = TextStyle(
+                fontSize = 14.sp, fontFamily = NunitoFontFamily,
+                fontWeight = FontWeight.Medium
+            ),
+            color = icon_dark_color_brown,
         )
         Spacer(modifier = modifier.weight(1f))
-        AskForAgreementChoice(checked = checked) {
+        AgreementCheck(checked = checked) {
             checked = !checked
         }
     }
 }
 
 
-/*fun createAccount(email: String, password: String,auth: FirebaseAuth) {
-    // [START create_user_with_email]
-    auth.createUserWithEmailAndPassword(email, password)
-        .addOnCompleteListener() { task ->
-            if (task.isSuccessful) {
-                // Sign in success, update UI with the signed-in user's information
-                Log.d(TAG, "createUserWithEmail:success")
-                val user = auth.currentUser
-                updateUI(user)
-            } else {
-                // If sign in fails, display a message to the user.
-                Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                Toast.makeText(
-                    MainActivity.appContext,
-                    "Authentication failed.",
-                    Toast.LENGTH_SHORT,
-                ).show()
-                updateUI(null)
-            }
-        }
-    // [END create_user_with_email]
-}
 
-private fun signIn(email: String, password: String,auth: FirebaseAuth) {
-    // [START sign_in_with_email]
-    auth.signInWithEmailAndPassword(email, password)
-        .addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                // Sign in success, update UI with the signed-in user's information
-                Log.d(TAG, "signInWithEmail:success")
-                val user = auth.currentUser
-                updateUI(user)
-            } else {
-                // If sign in fails, display a message to the user.
-                Log.w(TAG, "signInWithEmail:failure", task.exception)
-                Toast.makeText(
-                    MainActivity.appContext,
-                    "Authentication failed.",
-                    Toast.LENGTH_SHORT,
-                ).show()
-                updateUI(null)
-            }
-        }
-    // [END sign_in_with_email]
-}
-
-fun updateUI(user: FirebaseUser?){}*/
-
-//@Preview
-//@Composable
-//fun LoginScreenPreview() {
-//    Surface {
-//        MeditationTheme {
-//            LoginScreen(onLogInPressed = {}, navigateToSignUp = {})
-//        }
-//    }
-//}
