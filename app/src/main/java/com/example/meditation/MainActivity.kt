@@ -11,12 +11,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.room.Room
 import com.example.meditation.data.db.MessageDatabase
 import com.example.meditation.ui.navigation.AppNavHost
-import com.example.meditation.ui.screen.SignUpScreen
 import com.example.meditation.ui.theme.MeditationTheme
 import com.example.meditation.ui.viewmodel.HomeViewModel
 import com.example.meditation.ui.viewmodel.HomeViewModelFactory
+import com.example.meditation.ui.viewmodel.LoginViewModel
+import com.example.meditation.ui.viewmodel.LoginViewModelFactory
 import com.example.meditation.ui.viewmodel.SettingViewModel
 import com.example.meditation.ui.viewmodel.SettingViewModelFactory
+import com.example.meditation.ui.viewmodel.SignUpViewModel
+import com.example.meditation.ui.viewmodel.SignUpViewModelFactory
 
 
 class MainActivity : ComponentActivity() {
@@ -34,6 +37,8 @@ class MainActivity : ComponentActivity() {
                 //注入模型
                 val settingViewModel: SettingViewModel =
                     viewModel(factory = SettingViewModelFactory())
+                val loginViewModel:LoginViewModel= viewModel(factory = LoginViewModelFactory())
+                val signUpViewModel:SignUpViewModel= viewModel(factory = SignUpViewModelFactory())
                 val database by lazy {
                     Room.databaseBuilder(
                         appContext,
@@ -46,6 +51,8 @@ class MainActivity : ComponentActivity() {
                 AppNavHost(
                     homeViewModel = homeViewModel,
                     settingViewModel = settingViewModel,
+                    loginViewModel = loginViewModel,
+                    signUpViewModel = signUpViewModel
                 )
             }
 

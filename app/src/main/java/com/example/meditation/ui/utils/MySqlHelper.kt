@@ -43,7 +43,9 @@ suspend fun searchUser(username: String, password: String): Boolean =
         result
     }
 
-suspend fun checkBeforeSignUp(username: String): Boolean =
+
+
+suspend fun checkUserExist(username: String): Boolean =
     withContext(Dispatchers.IO) {
         val connection = establishConnection()
         val sql = "SELECT * FROM users WHERE username=?"

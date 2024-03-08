@@ -1,6 +1,7 @@
 package com.example.meditation.ui.screen
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +26,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,6 +44,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.meditation.MainActivity
 import com.example.meditation.R
 import com.example.meditation.ui.common.AgreementCheck
 import com.example.meditation.ui.common.CustomInputBox
@@ -52,17 +55,17 @@ import com.example.meditation.ui.theme.NunitoFontFamily
 import com.example.meditation.ui.theme.icon_color_brown
 import com.example.meditation.ui.theme.icon_dark_color_brown
 import com.example.meditation.ui.theme.login_screen_color
+import com.example.meditation.ui.viewmodel.SignUpViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
     onSignUp: () -> Unit = {},
-    currentUsername: String,
-    currentPassword: String,
-    onUsernameChange: (String) -> Unit,
-    onPasswordChange: (String) -> Unit
+    signUpViewModel: SignUpViewModel
 ) {
+    val currentUsername by signUpViewModel.username.collectAsState()
+    val currentPassword by signUpViewModel.password.collectAsState()
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(containerColor = Color.Transparent) {
             Box(modifier = modifier.fillMaxSize()) {
@@ -76,8 +79,8 @@ fun SignUpScreen(
                     onSignUp = onSignUp,
                     currentUsername = currentUsername,
                     currentPassword = currentPassword,
-                    onUsernameChange = onUsernameChange,
-                    onPasswordChange = onPasswordChange
+                    onUsernameChange = signUpViewModel::onUsernameChanged,
+                    onPasswordChange = signUpViewModel::onPasswordChanged
                 )
             }
         }
@@ -122,7 +125,14 @@ fun SignUpWrapper(
             text = currentPassword
         )
         Spacer(modifier = modifier.height(32.dp))
-        JumpButton(text = "注册", onClick = {onSignUp()})
+        JumpButton(text = "注册", onClick = {
+            if (currentPassword == "" || currentUsername == "") {
+                Toast.makeText(MainActivity.appContext, "请输入用户名和密码", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                onSignUp()
+            }
+        })
         Spacer(modifier = modifier.weight(1f))
         AgreementCheck(checked = checked) {
             checked = !checked
@@ -132,17 +142,4 @@ fun SignUpWrapper(
 }
 
 
-@Preview
-@Composable
-fun PreviewSignUpScreen() {
-    Surface {
-        MeditationTheme {
-            SignUpScreen(
-                currentUsername = "",
-                currentPassword = "",
-                onUsernameChange = { },
-                onPasswordChange = { })
-        }
 
-    }
-}

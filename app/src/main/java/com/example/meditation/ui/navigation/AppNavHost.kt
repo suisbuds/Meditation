@@ -1,6 +1,7 @@
 package com.example.meditation.ui.navigation
 
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
@@ -10,10 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.RawResourceDataSource
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.meditation.MainActivity
 import com.example.meditation.ui.components.musicList
 import com.example.meditation.ui.screen.HistoryScreen
 import com.example.meditation.ui.screen.HomeScreen
@@ -22,6 +23,7 @@ import com.example.meditation.ui.screen.SettingScreen
 import com.example.meditation.ui.screen.SignUpScreen
 import com.example.meditation.ui.screen.SplashScreen
 import com.example.meditation.ui.viewmodel.HomeViewModel
+import com.example.meditation.ui.viewmodel.LoginViewModel
 import com.example.meditation.ui.viewmodel.SettingViewModel
 import com.example.meditation.ui.viewmodel.SignUpViewModel
 
@@ -43,7 +45,7 @@ fun AppNavHost(
     startDestination: String = Destinations.SPLASH_ROUTE,
     navController: NavHostController = rememberNavController(),
     signUpViewModel: SignUpViewModel,
-
+    loginViewModel: LoginViewModel,
     homeViewModel: HomeViewModel,
     settingViewModel: SettingViewModel,
 ) {
@@ -62,12 +64,44 @@ fun AppNavHost(
 
         composable(route = Destinations.LOGIN_ROUTE) {
             LoginScreen(
-                onLogin = { navController.navigate(Destinations.HOME_ROUTE) },
-                navigateToSignUp = { navController.navigate(Destinations.SIGNUP_ROUTE) },)
+                onLogin = {
+                    val checked = loginViewModel.onLoginCheck();
+                    if (checked) {
+                        val result = loginViewModel.onLoginPressed()
+                        if (result) {
+                            navController.navigate(Destinations.HOME_ROUTE)
+                        } else {
+                            Toast.makeText(
+                                MainActivity.appContext,
+                                "用户名或密码错误",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } else {
+                        Toast.makeText(
+                            MainActivity.appContext,
+                            "用户名不存在，请先注册",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                },
+                navigateToSignUp = { navController.navigate(Destinations.SIGNUP_ROUTE) },
+                loginViewModel = loginViewModel
+            )
         }
 
         composable(route = Destinations.SIGNUP_ROUTE) {
-            SignUpScreen(onSignUp = { navController.popBackStack() })
+            SignUpScreen(
+                onSignUp = {
+                    val result = signUpViewModel.onSignUpPressed();
+                    if (result) {
+                        navController.popBackStack()
+                    } else {
+                        Toast.makeText(MainActivity.appContext, "注册未成功", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }, signUpViewModel = signUpViewModel
+            )
         }
 
         composable(route = Destinations.HOME_ROUTE) {
@@ -82,15 +116,11 @@ fun AppNavHost(
                     musicTitle = musicList[musicIndex].title
                 ) { settingViewModel.onStart() }
             }
-            HomeScreen(
-                navigateToSetting = {
-                    navController.navigate(Destinations.SETTING_ROUTE)
-                },
-                homeViewModel = homeViewModel,
-                navigateToHistory = {
-                    navController.navigate(Destinations.HISTORY_ROUTE)
-                }
-            )
+            HomeScreen(navigateToSetting = {
+                navController.navigate(Destinations.SETTING_ROUTE)
+            }, homeViewModel = homeViewModel, navigateToHistory = {
+                navController.navigate(Destinations.HISTORY_ROUTE)
+            })
         }
         composable(route = Destinations.SETTING_ROUTE) {
             SettingScreen(backToHome = { navController.popBackStack() },

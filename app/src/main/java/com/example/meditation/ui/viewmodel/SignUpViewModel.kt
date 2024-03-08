@@ -3,8 +3,7 @@ package com.example.meditation.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.meditation.data.dao.MessageDao
-import com.example.meditation.ui.utils.checkBeforeSignUp
+import com.example.meditation.ui.utils.checkUserExist
 import com.example.meditation.ui.utils.insertUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,7 +26,7 @@ class SignUpViewModel():ViewModel(){
     fun onSignUpPressed():Boolean{
         var result=false
         viewModelScope.launch {
-            result= checkBeforeSignUp(_username.value)
+            result= checkUserExist(_username.value)
             if(!result){
                 insertUser(_username.value,_password.value)
             }
