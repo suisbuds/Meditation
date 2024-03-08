@@ -86,4 +86,6 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.3"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
+    //aliyun
+    implementation ("mysql:mysql-connector-java:5.1.47")
 }
