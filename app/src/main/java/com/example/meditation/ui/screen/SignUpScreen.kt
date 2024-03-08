@@ -43,7 +43,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.meditation.R
+import com.example.meditation.ui.common.AgreementCheck
 import com.example.meditation.ui.common.CustomInputBox
+import com.example.meditation.ui.common.JumpButton
+import com.example.meditation.ui.common.WelcomeText
 import com.example.meditation.ui.theme.MeditationTheme
 import com.example.meditation.ui.theme.NunitoFontFamily
 import com.example.meditation.ui.theme.icon_color_brown
@@ -52,7 +55,7 @@ import com.example.meditation.ui.theme.login_screen_color
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SignUpScreen(modifier: Modifier = Modifier,onSignUp: () -> Unit={}) {
+fun SignUpScreen(modifier: Modifier = Modifier, onSignUp: () -> Unit) {
     Surface(modifier = modifier.fillMaxSize()) {
         Scaffold(containerColor = Color.Transparent) {
             Box(modifier = modifier.fillMaxSize()) {
@@ -62,7 +65,7 @@ fun SignUpScreen(modifier: Modifier = Modifier,onSignUp: () -> Unit={}) {
                     contentScale = ContentScale.FillBounds,
                     modifier = modifier.fillMaxSize()
                 )
-                SignUpWrapper(onSignUp=onSignUp)
+                SignUpWrapper(onSignUp = onSignUp)
             }
         }
     }
@@ -75,7 +78,7 @@ fun SignUpWrapper(
     paddingTop: Dp = 120.dp,
     onSignUp: () -> Unit
 ) {
-    var hasChecked by remember {
+    var checked by remember {
         mutableStateOf(false)
     }
     Column(
@@ -84,16 +87,7 @@ fun SignUpWrapper(
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(
-            text = "欢迎注册",
-            modifier
-                .align(Alignment.Start)
-                .padding(start = 50.dp),
-            fontFamily = NunitoFontFamily,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 26.sp,
-            color = icon_dark_color_brown
-        )
+        WelcomeText(text = "欢迎注册")
         Spacer(modifier = modifier.height(32.dp))
         CustomInputBox(
             imageId = R.drawable.person_icon,
@@ -107,70 +101,13 @@ fun SignUpWrapper(
             textHint = "请输入密码"
         )
         Spacer(modifier = modifier.height(32.dp))
-        Button(
-            onClick = { onSignUp() },
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(start = 40.dp, end = 40.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = icon_color_brown)
-        ) {
-            Text(
-                text = "注册",
-                color = Color.White,
-                fontSize = 18.sp,
-                fontFamily = NunitoFontFamily,
-                fontWeight = FontWeight.Medium
-            )
-        }
+        JumpButton(text = "注册", onClick = {onSignUp()})
         Spacer(modifier = modifier.weight(1f))
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(bottom = 60.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Box(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(15.dp)
-                    .background(icon_color_brown)
-                    .padding(1.dp)
-                    .clip(CircleShape)
-                    .background(login_screen_color)
-                    .toggleable(value = hasChecked, role = Role.Checkbox, onValueChange = {hasChecked=!hasChecked}),
-                contentAlignment = Alignment.Center
-            ) {
-                if (hasChecked) {
-                    Icon(
-                        imageVector = Icons.Default.Check,
-                        contentDescription = "",
-                        tint = icon_color_brown
-                    )
-                }
-            }
-            Spacer(modifier = modifier.width(4.dp))
-            Text(
-                text = "点击阅读并同意《用户使用协议》和隐私协议",
-                fontSize = 12.sp,
-                color = icon_dark_color_brown,
-                fontFamily = NunitoFontFamily,
-                fontWeight = FontWeight.Medium,
-                modifier = modifier
-            )
+        AgreementCheck(checked = checked) {
+            checked = !checked
         }
 
     }
 }
 
 
-@Preview
-@Composable
-fun PreviewSignUpScreen() {
-    Surface {
-        MeditationTheme {
-            SignUpScreen()
-        }
-
-    }
-}
