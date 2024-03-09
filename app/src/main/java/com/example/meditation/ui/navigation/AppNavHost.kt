@@ -1,6 +1,7 @@
 package com.example.meditation.ui.navigation
 
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.annotation.RequiresApi
@@ -26,6 +27,12 @@ import com.example.meditation.ui.viewmodel.HomeViewModel
 import com.example.meditation.ui.viewmodel.LoginViewModel
 import com.example.meditation.ui.viewmodel.SettingViewModel
 import com.example.meditation.ui.viewmodel.SignUpViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.properties.Delegates
 
 object Destinations {
     const val SPLASH_ROUTE = "splash"
@@ -63,26 +70,24 @@ fun AppNavHost(
         }
 
         composable(route = Destinations.LOGIN_ROUTE) {
+            val result by loginViewModel.result.collectAsState()
             LoginScreen(
                 onLogin = {
-                    val checked = loginViewModel.onLoginCheck();
-                    if (checked) {
-                        val result = loginViewModel.onLoginPressed()
+                    CoroutineScope(Dispatchers.Main).launch {
+                        withContext(Dispatchers.IO) {
+                            loginViewModel.onLoginPressed()
+                            Log.d("DEBUG", "login navHost $result")
+                        }
                         if (result) {
                             navController.navigate(Destinations.HOME_ROUTE)
+                            loginViewModel.cleanSignUpState()
                         } else {
                             Toast.makeText(
                                 MainActivity.appContext,
-                                "用户名或密码错误",
+                                "用户名不存在或密码错误",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
-                    } else {
-                        Toast.makeText(
-                            MainActivity.appContext,
-                            "用户名不存在，请先注册",
-                            Toast.LENGTH_SHORT
-                        ).show()
                     }
                 },
                 navigateToSignUp = { navController.navigate(Destinations.SIGNUP_ROUTE) },
@@ -91,14 +96,24 @@ fun AppNavHost(
         }
 
         composable(route = Destinations.SIGNUP_ROUTE) {
+            val result by signUpViewModel.result.collectAsState()
             SignUpScreen(
                 onSignUp = {
-                    val result = signUpViewModel.onSignUpPressed();
-                    if (result) {
-                        navController.popBackStack()
-                    } else {
-                        Toast.makeText(MainActivity.appContext, "注册未成功", Toast.LENGTH_SHORT)
-                            .show()
+                    CoroutineScope(Dispatchers.Main).launch {
+                        withContext(Dispatchers.IO) {
+                            signUpViewModel.onSignUpPressed()
+                        }
+                        Log.d("DEBUG", "result value in navHost $result")
+                        if (result) {
+                            navController.popBackStack()
+                            signUpViewModel.cleanSignUpState()
+                        } else {
+                            Toast.makeText(
+                                MainActivity.appContext,
+                                "注册未成功",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }, signUpViewModel = signUpViewModel
             )
@@ -136,6 +151,8 @@ fun AppNavHost(
                 homeViewModel = homeViewModel,
             )
         }
+
+        fun test() {}
     }
 }
 

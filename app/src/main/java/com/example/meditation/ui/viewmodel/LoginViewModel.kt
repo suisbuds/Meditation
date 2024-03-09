@@ -1,5 +1,6 @@
 package com.example.meditation.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -15,6 +16,9 @@ class LoginViewModel : ViewModel() {
     val username = _username.asStateFlow()
     private val _password = MutableStateFlow("")
     val password = _password.asStateFlow()
+
+    private val _result = MutableStateFlow(false)
+    val result = _result.asStateFlow()
     fun onUsernameChanged(newValue: String) {
         _username.value = newValue
     }
@@ -23,22 +27,23 @@ class LoginViewModel : ViewModel() {
         _password.value = newValue
     }
 
-    fun onLoginCheck(): Boolean {
-        var userExist = false
-        viewModelScope.launch {
-            userExist = checkUserExist(_username.value)
+    suspend fun onLoginPressed() {
+        _result.value = checkUserExist(_username.value)
+        Log.d("DEBUG", "login viewModel after check ${_result.value}")
+        if(_result.value){
+            _result.value= searchUser(_username.value,_password.value)
+            Log.d("DEBUG", "login viewModel after search ${_result.value}")
         }
-        return userExist
     }
 
-    fun onLoginPressed(): Boolean {
-        var loginResult = false
-        viewModelScope.launch {
-            loginResult = searchUser(_username.value, _password.value)
-        }
-        return loginResult
-    }
 
+    fun cleanSignUpState() {
+        viewModelScope.launch {
+            _result.value = false
+            _password.value = ""
+            _username.value = ""
+        }
+    }
 
 }
 
