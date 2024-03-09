@@ -80,7 +80,6 @@ fun AppNavHost(
                         }
                         if (result) {
                             navController.navigate(Destinations.HOME_ROUTE)
-                            loginViewModel.cleanSignUpState()
                         } else {
                             Toast.makeText(
                                 MainActivity.appContext,
@@ -88,6 +87,7 @@ fun AppNavHost(
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
+                        loginViewModel.cleanSignUpState()
                     }
                 },
                 navigateToSignUp = { navController.navigate(Destinations.SIGNUP_ROUTE) },
@@ -106,14 +106,14 @@ fun AppNavHost(
                         Log.d("DEBUG", "result value in navHost $result")
                         if (result) {
                             navController.popBackStack()
-                            signUpViewModel.cleanSignUpState()
                         } else {
                             Toast.makeText(
                                 MainActivity.appContext,
-                                "注册未成功",
+                                "用户名已存在",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
+                        signUpViewModel.cleanSignUpState()
                     }
                 }, signUpViewModel = signUpViewModel
             )
