@@ -71,6 +71,7 @@ fun AppNavHost(
 
         composable(route = Destinations.LOGIN_ROUTE) {
             val result by loginViewModel.result.collectAsState()
+            signUpViewModel.cleanSignUpState()
             LoginScreen(
                 onLogin = {
                     CoroutineScope(Dispatchers.Main).launch {
@@ -87,7 +88,6 @@ fun AppNavHost(
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
-                        loginViewModel.cleanSignUpState()
                     }
                 },
                 navigateToSignUp = { navController.navigate(Destinations.SIGNUP_ROUTE) },
@@ -113,7 +113,6 @@ fun AppNavHost(
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
-                        signUpViewModel.cleanSignUpState()
                     }
                 }, signUpViewModel = signUpViewModel
             )
@@ -131,6 +130,7 @@ fun AppNavHost(
                     musicTitle = musicList[musicIndex].title
                 ) { settingViewModel.onStart() }
             }
+            loginViewModel.cleanSignUpState()
             HomeScreen(navigateToSetting = {
                 navController.navigate(Destinations.SETTING_ROUTE)
             }, homeViewModel = homeViewModel, navigateToHistory = {
@@ -151,8 +151,6 @@ fun AppNavHost(
                 homeViewModel = homeViewModel,
             )
         }
-
-        fun test() {}
     }
 }
 

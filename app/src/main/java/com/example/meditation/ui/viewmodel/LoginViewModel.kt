@@ -28,12 +28,8 @@ class LoginViewModel : ViewModel() {
     }
 
     suspend fun onLoginPressed() {
-        _result.value = checkUserExist(_username.value)
-        Log.d("DEBUG", "login viewModel after check ${_result.value}")
-        if(_result.value){
-            _result.value= searchUser(_username.value,_password.value)
-            Log.d("DEBUG", "login viewModel after search ${_result.value}")
-        }
+        _result.value= searchUser(_username.value,_password.value)
+        Log.d("DEBUG", "login viewModel after search ${_result.value}")
     }
 
 

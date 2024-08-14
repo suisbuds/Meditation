@@ -35,7 +35,6 @@ class SignUpViewModel() : ViewModel() {
         _result.value = checkUserExist(_username.value)
         if (!_result.value) {
             insertUser(_username.value, _password.value)
-//            _result.value = checkUserExist(_username.value)
             _result.value = true
             Log.d("DEBUG", "result value in sign viewModel ${_result.value}")
         } else {
